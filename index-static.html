@@ -9,408 +9,196 @@
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #fff; color: #000; -webkit-font-smoothing: antialiased; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #fff;
-      color: #000;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ── Animations ─────────────────────────────── */
+    /* Animations */
     @keyframes fade-rise {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     .fade-rise   { animation: fade-rise 0.8s ease-out both; }
-    .fade-rise-2 { animation: fade-rise 0.8s ease-out 0.2s both; }
-    .fade-rise-3 { animation: fade-rise 0.8s ease-out 0.4s both; }
+    .fade-rise-2 { animation: fade-rise 0.8s ease-out 0.25s both; }
 
-    /* ── Hero wrapper ───────────────────────────── */
-    #hero-wrap {
-      position: relative;
-      min-height: 100vh;
-      overflow: hidden;
-      background: #fff;
-    }
-
-    /* ── Hero background image ──────────────────── */
-    #video-wrap {
-      position: absolute;
-      top: 200px; right: 0; bottom: 0; left: 0;
-      z-index: 0;
-    }
+    /* ── Hero ──────────────────────────────────── */
+    #hero-wrap { position: relative; min-height: 100vh; overflow: hidden; background: #fff; }
+    #video-wrap { position: absolute; top: 180px; right: 0; bottom: 0; left: 0; z-index: 0; }
     #bg-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      object-position: center 60%;
-      display: block;
-      opacity: 0;
-      transition: opacity 0.8s ease;
+      width: 100%; height: 100%; object-fit: cover; object-position: center 55%;
+      display: block; opacity: 0; transition: opacity 1s ease;
     }
     #bg-img.loaded { opacity: 1; }
     #video-grad {
-      position: absolute;
-      inset: 0;
+      position: absolute; inset: 0; pointer-events: none;
       background: linear-gradient(to bottom,
-        #fff 0%,
-        rgba(255,255,255,0.55) 30%,
-        rgba(255,255,255,0.15) 55%,
-        rgba(255,255,255,0.7) 80%,
-        #fff 100%
-      );
-      pointer-events: none;
+        #fff 0%, rgba(255,255,255,0.5) 28%,
+        rgba(255,255,255,0.08) 52%,
+        rgba(255,255,255,0.65) 78%, #fff 100%);
     }
 
-    /* ── Navbar ─────────────────────────────────── */
-    nav {
-      position: relative;
-      z-index: 10;
-      padding: 24px 32px;
-    }
-    .nav-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .logo {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.875rem;
-      letter-spacing: -0.025em;
-      color: #000;
-      text-decoration: none;
-    }
-    .logo sup { font-size: 0.65em; }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-    .nav-links a {
-      font-size: 0.875rem;
-      text-decoration: none;
-      color: #6f6f6f;
-      transition: color 0.2s;
-    }
-    .nav-links a.active { color: #000; }
-    .nav-links a:hover  { color: #000; }
-    .btn {
-      border: none;
-      cursor: pointer;
-      font-family: 'Inter', sans-serif;
-      transition: transform 0.2s;
-    }
+    /* ── Nav ───────────────────────────────────── */
+    nav { position: relative; z-index: 10; padding: 28px 40px; }
+    .nav-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Instrument Serif', serif; font-size: 1.9rem; letter-spacing: -0.03em; color: #000; text-decoration: none; }
+    .logo sup { font-size: 0.6em; vertical-align: super; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.8rem; text-decoration: none; color: #6f6f6f; transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: #000; }
+    .btn { border: none; cursor: pointer; font-family: 'Inter', sans-serif; transition: transform 0.2s; }
     .btn:hover { transform: scale(1.03); }
-    .btn-dark {
-      background: #000;
-      color: #fff;
-      border-radius: 9999px;
-      padding: 10px 24px;
-      font-size: 0.875rem;
-    }
-    .btn-xl {
-      padding: 20px 56px;
-      font-size: 1rem;
-      border-radius: 9999px;
-    }
-    .btn-outline {
-      background: transparent;
-      color: #000;
-      border: 1px solid #000;
-      border-radius: 9999px;
-      padding: 20px 56px;
-      font-size: 1rem;
-    }
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-    }
+    .btn-dark { background: #000; color: #fff; border-radius: 9999px; padding: 11px 26px; font-size: 0.8rem; }
+    .btn-hero { padding: 18px 52px; font-size: 0.9rem; letter-spacing: 0.02em; border-radius: 9999px; }
+    @media (max-width: 768px) { .nav-links { display: none; } }
 
-    /* ── Hero section ───────────────────────────── */
+    /* ── Hero content ──────────────────────────── */
     #inicio {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: calc(8rem - 75px) 24px 160px;
-    }
-    .hero-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #6f6f6f;
-      margin-bottom: 24px;
+      position: relative; z-index: 10;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: calc(9rem - 80px) 24px 180px;
     }
     .hero-title {
       font-family: 'Instrument Serif', serif;
-      font-size: clamp(2.5rem, 8vw, 5.5rem);
-      font-weight: 400;
-      line-height: 0.95;
-      letter-spacing: -2.46px;
-      color: #000;
-      max-width: 900px;
-      margin-bottom: 32px;
+      font-size: clamp(2.8rem, 9vw, 6.2rem);
+      font-weight: 400; line-height: 0.93; letter-spacing: -3px;
+      color: #000; max-width: 860px; margin-bottom: 48px;
     }
     .hero-title em { color: #6f6f6f; font-style: italic; }
-    .hero-desc {
-      font-size: clamp(1rem, 2vw, 1.125rem);
-      color: #6f6f6f;
-      max-width: 640px;
-      line-height: 1.7;
-      margin-bottom: 48px;
-    }
-    .hero-btns {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+    .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
 
-    /* ── Section base ───────────────────────────── */
-    section { padding: 128px 32px; }
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #6f6f6f;
-      margin-bottom: 16px;
-    }
-    .section-title {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 400;
-      line-height: 1;
-      letter-spacing: -1.5px;
-      color: #000;
-      margin-bottom: 80px;
-    }
-    .section-title em { color: #6f6f6f; font-style: italic; }
+    /* ── Shared section ────────────────────────── */
+    .section-wrap { padding: 120px 40px; border-top: 1px solid #e8e8e8; }
     .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-kicker { font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: #aaa; margin-bottom: 20px; display: block; }
+    .section-heading { font-family: 'Instrument Serif', serif; font-size: clamp(2.2rem, 5.5vw, 4rem); font-weight: 400; line-height: 0.97; letter-spacing: -2px; color: #000; }
+    .section-heading em { color: #6f6f6f; font-style: italic; }
 
-    /* ── Services grid ──────────────────────────── */
-    #servicios { background: #fff; }
-    .services-header { text-align: center; }
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 24px;
-    }
-    .service-card {
-      padding: 32px;
-      border: 1px solid #e8e8e8;
-      border-radius: 16px;
-      transition: border-color 0.3s;
-      cursor: default;
-    }
-    .service-card:hover { border-color: #000; }
-    .service-icon { font-size: 2rem; display: block; margin-bottom: 20px; }
-    .service-title {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.125rem;
-      font-weight: 400;
-      color: #000;
-      margin-bottom: 12px;
-    }
-    .service-desc { font-size: 0.875rem; color: #6f6f6f; line-height: 1.6; }
-
-    /* ── About ──────────────────────────────────── */
-    #nosotros { background: #f8f8f7; }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 48px; } }
-    .about-title {
-      font-family: 'Instrument Serif', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 400;
-      line-height: 1.05;
-      letter-spacing: -1.5px;
-      color: #000;
-      margin-bottom: 24px;
-    }
-    .about-title em { color: #6f6f6f; font-style: italic; }
-    .about-text { font-size: 1rem; color: #6f6f6f; line-height: 1.7; margin-bottom: 16px; }
-    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .stat-card {
-      padding: 32px;
-      background: #fff;
-      border: 1px solid #e8e8e8;
-      border-radius: 16px;
-    }
-    .stat-num {
-      font-family: 'Instrument Serif', serif;
-      font-size: 2.5rem;
-      color: #000;
-      display: block;
-      margin-bottom: 8px;
-    }
-    .stat-label { font-size: 0.875rem; color: #6f6f6f; }
-
-    /* ── Contact ────────────────────────────────── */
-    #contacto { background: #fff; }
-    .contact-inner { max-width: 700px; margin: 0 auto; text-align: center; }
-    .contact-desc { font-size: 1rem; color: #6f6f6f; line-height: 1.7; margin-bottom: 48px; }
-    form { display: flex; flex-direction: column; gap: 16px; text-align: left; }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
-    input, select, textarea {
-      padding: 16px 20px;
-      border: 1px solid #e8e8e8;
-      border-radius: 12px;
-      font-family: 'Inter', sans-serif;
-      font-size: 1rem;
-      color: #000;
-      outline: none;
-      transition: border-color 0.2s;
-      background: #fff;
-      width: 100%;
-    }
-    input::placeholder, textarea::placeholder { color: #aaa; }
-    select { color: #6f6f6f; appearance: none; }
-    input:focus, select:focus, textarea:focus { border-color: #000; }
-    textarea { resize: none; }
-    .contact-info {
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      flex-wrap: wrap;
-      margin-top: 64px;
-      padding-top: 64px;
+    /* ── Servicios ─────────────────────────────── */
+    #servicios .section-heading { margin-bottom: 64px; }
+    .services-grid { display: grid; grid-template-columns: repeat(4,1fr); }
+    @media (max-width: 900px) { .services-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 500px)  { .services-grid { grid-template-columns: 1fr; } }
+    .service-item {
+      padding: 36px 32px 36px 0;
       border-top: 1px solid #e8e8e8;
+      border-right: 1px solid #e8e8e8;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .info-label {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #6f6f6f;
-      margin-bottom: 4px;
+    .service-item:nth-child(4n) { border-right: none; }
+    .service-item:nth-child(n+5) { border-top: none; }
+    .service-item:hover { background: #fafafa; }
+    @media (max-width: 900px) {
+      .service-item:nth-child(2n) { border-right: none; }
+      .service-item:nth-child(4n) { border-right: 1px solid #e8e8e8; }
+      .service-item:nth-child(2n):nth-child(4n) { border-right: none; }
+      .service-item:nth-child(n+3) { border-top: none; }
     }
-    .info-value { font-size: 0.875rem; color: #000; }
+    .service-num { font-size: 0.68rem; letter-spacing: 0.15em; color: #ccc; display: block; margin-bottom: 28px; }
+    .service-name { font-family: 'Instrument Serif', serif; font-size: 1.3rem; font-weight: 400; color: #000; line-height: 1.15; margin-bottom: 14px; }
+    .service-desc { font-size: 0.82rem; color: #6f6f6f; line-height: 1.65; }
+    .service-cta { font-size: 0.72rem; color: #aaa; margin-top: 18px; letter-spacing: 0.05em; }
 
-    /* ── WhatsApp flotante ──────────────────────── */
-    #whatsapp-btn {
-      position: fixed;
-      bottom: 32px;
-      right: 32px;
-      z-index: 999;
-      width: 60px;
-      height: 60px;
-      background: #25D366;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
-      text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
-      animation: wa-pulse 2.5s ease-in-out infinite;
+    /* ── Nosotros ──────────────────────────────── */
+    #nosotros .about-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; margin-bottom: 80px; }
+    @media (max-width: 768px) { #nosotros .about-layout { grid-template-columns: 1fr; gap: 48px; } }
+    #nosotros .section-heading { margin-bottom: 28px; }
+    .about-text { font-size: 0.95rem; color: #6f6f6f; line-height: 1.75; }
+    .about-text + .about-text { margin-top: 14px; }
+    .stats-row { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid #e8e8e8; padding-top: 64px; }
+    @media (max-width: 640px) { .stats-row { grid-template-columns: repeat(2,1fr); gap: 40px; } }
+    .stat-item { padding-right: 40px; }
+    .stat-num { font-family: 'Instrument Serif', serif; font-size: clamp(3rem, 6vw, 5rem); font-weight: 400; line-height: 1; letter-spacing: -2px; color: #000; display: block; margin-bottom: 10px; }
+    .stat-label { font-size: 0.78rem; color: #aaa; letter-spacing: 0.05em; }
+
+    /* ── Cobertura ─────────────────────────────── */
+    #cobertura .section-heading { margin-bottom: 0; }
+    .map-wrap { margin-top: 56px; border-radius: 16px; overflow: hidden; height: 480px; border: 1px solid #e8e8e8; }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+    .map-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+    .map-tag { font-size: 0.75rem; color: #6f6f6f; border: 1px solid #e8e8e8; border-radius: 9999px; padding: 5px 14px; }
+
+    /* ── Contacto ──────────────────────────────── */
+    .contact-layout { display: grid; grid-template-columns: 1fr 1.4fr; gap: 100px; align-items: start; }
+    @media (max-width: 768px) { .contact-layout { grid-template-columns: 1fr; gap: 56px; } }
+    #contacto .section-heading { margin-bottom: 20px; }
+    .contact-sub { font-size: 0.9rem; color: #6f6f6f; line-height: 1.7; margin-bottom: 48px; margin-top: 20px; }
+    .contact-details { display: flex; flex-direction: column; gap: 28px; }
+    .detail-label { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #aaa; margin-bottom: 4px; }
+    .detail-value { font-size: 0.9rem; color: #000; }
+    form { display: flex; flex-direction: column; }
+    .field { border-bottom: 1px solid #e8e8e8; padding: 20px 0; transition: border-color 0.2s; }
+    .field:focus-within { border-color: #000; }
+    .field label { display: block; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: #aaa; margin-bottom: 6px; }
+    .field input, .field select, .field textarea { width: 100%; border: none; outline: none; font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #000; background: transparent; }
+    .field input::placeholder, .field textarea::placeholder { color: #ccc; }
+    .field select { color: #6f6f6f; appearance: none; cursor: pointer; }
+    .field textarea { resize: none; }
+    .btn-submit { margin-top: 36px; background: #000; color: #fff; border: none; border-radius: 9999px; padding: 16px 48px; font-size: 0.85rem; font-family: 'Inter', sans-serif; cursor: pointer; transition: transform 0.2s; letter-spacing: 0.02em; align-self: flex-start; }
+    .btn-submit:hover { transform: scale(1.03); }
+
+    /* ── Modal ─────────────────────────────────── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.55);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
     }
-    #whatsapp-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
-      animation: none;
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: #fff; border-radius: 20px;
+      padding: 48px 48px 40px;
+      max-width: 960px; width: 100%; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      transform: translateY(24px); transition: transform 0.3s;
     }
-    #whatsapp-btn svg { width: 32px; height: 32px; fill: #fff; }
-    .wa-tooltip {
-      position: absolute;
-      right: 72px;
-      background: #000;
-      color: #fff;
-      font-size: 0.8rem;
-      padding: 6px 14px;
-      border-radius: 8px;
-      white-space: nowrap;
-      opacity: 0;
-      pointer-events: none;
+    .modal-overlay.open .modal-box { transform: translateY(0); }
+    .modal-close {
+      position: absolute; top: 20px; right: 24px;
+      background: none; border: none; font-size: 1.6rem;
+      cursor: pointer; color: #000; line-height: 1; padding: 4px 8px;
       transition: opacity 0.2s;
     }
-    .wa-tooltip::after {
-      content: '';
-      position: absolute;
-      left: 100%;
-      top: 50%;
-      transform: translateY(-50%);
-      border: 6px solid transparent;
-      border-left-color: #000;
+    .modal-close:hover { opacity: 0.4; }
+    .modal-kicker { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: #aaa; margin-bottom: 12px; display: block; }
+    .modal-title { font-family: 'Instrument Serif', serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 400; letter-spacing: -1px; color: #000; margin-bottom: 36px; }
+    .modal-photos { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+    @media (max-width: 600px) { .modal-photos { grid-template-columns: 1fr; } .modal-box { padding: 32px 24px; } }
+    .modal-photos img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 10px; display: block; background: #f0f0f0; }
+
+    /* ── WhatsApp ──────────────────────────────── */
+    #whatsapp-btn {
+      position: fixed; bottom: 32px; right: 32px; z-index: 998;
+      width: 58px; height: 58px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+      text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+      animation: wa-pulse 3s ease-in-out infinite;
     }
+    #whatsapp-btn:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,0.55); animation: none; }
+    #whatsapp-btn svg { width: 30px; height: 30px; fill: #fff; }
+    .wa-tooltip { position: absolute; right: 68px; background: #000; color: #fff; font-size: 0.75rem; padding: 6px 14px; border-radius: 8px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .wa-tooltip::after { content: ''; position: absolute; left: 100%; top: 50%; transform: translateY(-50%); border: 5px solid transparent; border-left-color: #000; }
     #whatsapp-btn:hover .wa-tooltip { opacity: 1; }
-    @keyframes wa-pulse {
-      0%, 100% { transform: scale(1); }
-      50%       { transform: scale(1.07); }
-    }
+    @keyframes wa-pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
 
-    /* ── Mapa de cobertura ──────────────────────── */
-    #cobertura { background: #f8f8f7; }
-    .map-header { text-align: center; }
-    .map-wrap {
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid #e8e8e8;
-      height: 460px;
-    }
-    .map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
-    .map-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
-      margin-top: 32px;
-    }
-    .map-tag {
-      font-size: 0.8rem;
-      color: #6f6f6f;
-      border: 1px solid #e8e8e8;
-      border-radius: 9999px;
-      padding: 6px 16px;
-      font-family: 'Inter', sans-serif;
-    }
-
-    /* ── Footer ─────────────────────────────────── */
-    footer {
-      background: #000;
-      color: #fff;
-      padding: 40px 32px;
-    }
-    .footer-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    .footer-logo {
-      font-family: 'Instrument Serif', serif;
-      font-size: 1.5rem;
-      letter-spacing: -0.02em;
-    }
-    .footer-copy { font-size: 0.8rem; color: #6f6f6f; }
+    /* ── Footer ────────────────────────────────── */
+    footer { background: #000; color: #fff; padding: 44px 40px; }
+    .footer-inner { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-family: 'Instrument Serif', serif; font-size: 1.6rem; letter-spacing: -0.02em; }
+    .footer-copy { font-size: 0.75rem; color: #555; }
   </style>
 </head>
 <body>
 
-  <!-- HERO WRAPPER -->
+  <!-- ══ HERO ═══════════════════════════════════════ -->
   <div id="hero-wrap">
-
-    <!-- Hero background image -->
     <div id="video-wrap">
-      <img
-        id="bg-img"
+      <img id="bg-img"
         src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1800&q=80"
-        alt="Casa reformada por Multiservicios Provenza"
-      />
+        alt="Casa reformada por Multiservicios Provenza" />
       <div id="video-grad"></div>
     </div>
-
-    <!-- Navbar -->
     <nav>
       <div class="nav-inner">
         <a href="#" class="logo">Provenza<sup>®</sup></a>
@@ -420,191 +208,187 @@
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="#contacto">Contacto</a></li>
         </ul>
-        <button class="btn btn-dark" onclick="scrollTo('contacto')">Solicitar Presupuesto</button>
+        <button class="btn btn-dark" onclick="goTo('contacto')">Solicitar Presupuesto</button>
       </div>
     </nav>
-
-    <!-- Hero -->
     <section id="inicio" style="border:none;">
       <h1 class="hero-title fade-rise">
-        Reformamos tu hogar,<br>
-        <em>elevamos</em> tu <em>vida.</em>
+        Reformamos tu hogar,<br><em>elevamos</em> tu <em>vida.</em>
       </h1>
       <div class="hero-btns fade-rise-2">
-        <button class="btn btn-dark btn-xl" onclick="scrollTo('contacto')">Pedir Presupuesto</button>
+        <button class="btn btn-dark btn-hero" onclick="goTo('contacto')">Pedir Presupuesto</button>
       </div>
     </section>
+  </div>
 
-  </div><!-- /hero-wrap -->
 
-
-  <!-- SERVICIOS -->
-  <section id="servicios">
+  <!-- ══ SERVICIOS ══════════════════════════════════ -->
+  <section id="servicios" class="section-wrap">
     <div class="section-inner">
-      <div class="services-header">
-        <p class="section-label">Lo que hacemos</p>
-        <h2 class="section-title">Servicios <em>a tu medida</em></h2>
-      </div>
+      <span class="section-kicker">Lo que hacemos</span>
+      <h2 class="section-heading" style="margin-bottom:64px;">Servicios <em>a tu medida</em></h2>
       <div class="services-grid">
-        <div class="service-card">
-          <span class="service-icon">🔨</span>
-          <h3 class="service-title">Reformas Integrales</h3>
+
+        <div class="service-item" onclick="openModal('Reformas Integrales')">
+          <span class="service-num">01</span>
+          <h3 class="service-name">Reformas Integrales</h3>
           <p class="service-desc">Transformamos tu espacio de arriba a abajo con precisión y calidad.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
-        <div class="service-card">
-          <span class="service-icon">⚡</span>
-          <h3 class="service-title">Instalaciones Eléctricas</h3>
+
+        <div class="service-item" onclick="openModal('Instalaciones Eléctricas')">
+          <span class="service-num">02</span>
+          <h3 class="service-name">Instalaciones Eléctricas</h3>
           <p class="service-desc">Electricidad residencial e industrial certificada y segura.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
-        <div class="service-card">
-          <span class="service-icon">🔧</span>
-          <h3 class="service-title">Fontanería</h3>
+
+        <div class="service-item" onclick="openModal('Fontanería')">
+          <span class="service-num">03</span>
+          <h3 class="service-name">Fontanería</h3>
           <p class="service-desc">Reparaciones, instalaciones y mantenimiento de tuberías.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
-        <div class="service-card">
-          <span class="service-icon">🪟</span>
-          <h3 class="service-title">Carpintería</h3>
+
+        <div class="service-item" onclick="openModal('Carpintería')">
+          <span class="service-num">04</span>
+          <h3 class="service-name">Carpintería</h3>
           <p class="service-desc">Puertas, ventanas, armarios y acabados en madera a medida.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
-        <div class="service-card">
-          <span class="service-icon">🎨</span>
-          <h3 class="service-title">Pintura</h3>
+
+        <div class="service-item" onclick="openModal('Pintura')">
+          <span class="service-num">05</span>
+          <h3 class="service-name">Pintura</h3>
           <p class="service-desc">Interiores y exteriores con acabados profesionales duraderos.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
-        <div class="service-card">
-          <span class="service-icon">🧱</span>
-          <h3 class="service-title">Albañilería</h3>
+
+        <div class="service-item" onclick="openModal('Albañilería')">
+          <span class="service-num">06</span>
+          <h3 class="service-name">Albañilería</h3>
           <p class="service-desc">Tabiques, enlucidos, solados y todo tipo de obra civil.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
-        <div class="service-card">
-          <span class="service-icon">❄️</span>
-          <h3 class="service-title">Climatización</h3>
+
+        <div class="service-item" onclick="openModal('Climatización')">
+          <span class="service-num">07</span>
+          <h3 class="service-name">Climatización</h3>
           <p class="service-desc">Instalación y mantenimiento de aire acondicionado y calefacción.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
-        <div class="service-card">
-          <span class="service-icon">🚿</span>
-          <h3 class="service-title">Baños &amp; Cocinas</h3>
+
+        <div class="service-item" onclick="openModal('Baños y Cocinas')">
+          <span class="service-num">08</span>
+          <h3 class="service-name">Baños &amp; Cocinas</h3>
           <p class="service-desc">Renovación completa con diseño moderno y materiales premium.</p>
+          <p class="service-cta">Ver proyectos →</p>
         </div>
+
       </div>
     </div>
   </section>
 
 
-  <!-- NOSOTROS -->
-  <section id="nosotros">
+  <!-- ══ NOSOTROS ════════════════════════════════════ -->
+  <section id="nosotros" class="section-wrap">
     <div class="section-inner">
-      <div class="about-grid">
+      <div class="about-layout">
         <div>
-          <p class="section-label">Quiénes somos</p>
-          <h2 class="about-title">Más de 15 años <em>transformando espacios.</em></h2>
-          <p class="about-text">En Multiservicios Provenza llevamos más de 15 años ofreciendo soluciones integrales para el hogar y la empresa. Nuestro equipo de profesionales cualificados garantiza resultados de calidad en cada proyecto.</p>
+          <span class="section-kicker">Quiénes somos</span>
+          <h2 class="section-heading">Más de 15 años <em>transformando espacios.</em></h2>
+        </div>
+        <div>
+          <p class="about-text">En Multiservicios Provenza llevamos más de 15 años ofreciendo soluciones integrales para el hogar y la empresa en el Gran Bilbao. Nuestro equipo garantiza resultados de calidad en cada proyecto.</p>
           <p class="about-text">Trabajamos con los mejores materiales y las técnicas más avanzadas para asegurar que cada reforma supere tus expectativas.</p>
         </div>
-        <div class="stats-grid">
-          <div class="stat-card"><span class="stat-num">+500</span><span class="stat-label">Proyectos completados</span></div>
-          <div class="stat-card"><span class="stat-num">15+</span><span class="stat-label">Años de experiencia</span></div>
-          <div class="stat-card"><span class="stat-num">100%</span><span class="stat-label">Clientes satisfechos</span></div>
-          <div class="stat-card"><span class="stat-num">24h</span><span class="stat-label">Respuesta garantizada</span></div>
-        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item"><span class="stat-num">+500</span><span class="stat-label">Proyectos completados</span></div>
+        <div class="stat-item"><span class="stat-num">15+</span><span class="stat-label">Años de experiencia</span></div>
+        <div class="stat-item"><span class="stat-num">100%</span><span class="stat-label">Clientes satisfechos</span></div>
+        <div class="stat-item"><span class="stat-num">24h</span><span class="stat-label">Respuesta garantizada</span></div>
       </div>
     </div>
   </section>
 
 
-  <!-- COBERTURA -->
-  <section id="cobertura">
+  <!-- ══ COBERTURA ═══════════════════════════════════ -->
+  <section id="cobertura" class="section-wrap">
     <div class="section-inner">
-      <div class="map-header">
-        <p class="section-label">Dónde trabajamos</p>
-        <h2 class="section-title" style="margin-bottom:48px;">Zona de <em>cobertura</em></h2>
-      </div>
+      <span class="section-kicker">Dónde trabajamos</span>
+      <h2 class="section-heading">Zona de <em>cobertura</em></h2>
       <div class="map-wrap">
-        <iframe
-          src="https://maps.google.com/maps?q=Gran+Bilbao,+Bizkaia&t=&z=11&ie=UTF8&iwloc=&output=embed"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Zona de cobertura Multiservicios Provenza">
-        </iframe>
+        <iframe src="https://maps.google.com/maps?q=Gran+Bilbao,+Bizkaia&t=&z=11&ie=UTF8&iwloc=&output=embed"
+          allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="Zona de cobertura Multiservicios Provenza"></iframe>
       </div>
       <div class="map-tags">
-        <span class="map-tag">📍 Bilbao</span>
-        <span class="map-tag">📍 Barakaldo</span>
-        <span class="map-tag">📍 Getxo</span>
-        <span class="map-tag">📍 Basauri</span>
-        <span class="map-tag">📍 Leioa</span>
-        <span class="map-tag">📍 Santurtzi</span>
-        <span class="map-tag">📍 Portugalete</span>
-        <span class="map-tag">📍 Sestao</span>
-        <span class="map-tag">📍 Galdakao</span>
-        <span class="map-tag">📍 Erandio</span>
-        <span class="map-tag">📍 Durango</span>
-        <span class="map-tag">📍 Amorebieta</span>
+        <span class="map-tag">Bilbao</span><span class="map-tag">Barakaldo</span>
+        <span class="map-tag">Getxo</span><span class="map-tag">Basauri</span>
+        <span class="map-tag">Leioa</span><span class="map-tag">Santurtzi</span>
+        <span class="map-tag">Portugalete</span><span class="map-tag">Sestao</span>
+        <span class="map-tag">Galdakao</span><span class="map-tag">Erandio</span>
+        <span class="map-tag">Durango</span><span class="map-tag">Amorebieta</span>
       </div>
     </div>
   </section>
 
 
-  <!-- CONTACTO -->
-  <section id="contacto">
+  <!-- ══ CONTACTO ════════════════════════════════════ -->
+  <section id="contacto" class="section-wrap">
     <div class="section-inner">
-      <div class="contact-inner">
-        <p class="section-label">Contacto</p>
-        <h2 class="section-title" style="margin-bottom:16px;">Cuéntanos tu <em>proyecto</em></h2>
-        <p class="contact-desc">Solicita tu presupuesto sin compromiso. Te respondemos en menos de 24 horas.</p>
-
-        <form onsubmit="return false;">
-          <div class="form-row">
-            <input type="text" placeholder="Nombre" />
-            <input type="tel" placeholder="Teléfono" />
-          </div>
-          <input type="email" placeholder="Correo electrónico" />
-          <select>
-            <option value="">Tipo de servicio</option>
-            <option>Reformas Integrales</option>
-            <option>Instalaciones Eléctricas</option>
-            <option>Fontanería</option>
-            <option>Carpintería</option>
-            <option>Pintura</option>
-            <option>Albañilería</option>
-            <option>Climatización</option>
-            <option>Baños &amp; Cocinas</option>
-          </select>
-          <textarea rows="5" placeholder="Describe tu proyecto..."></textarea>
-          <button class="btn btn-dark btn-xl" type="submit" style="align-self:center; margin-top:8px;">
-            Enviar Solicitud
-          </button>
-        </form>
-
-        <div class="contact-info">
-          <div>
-            <p class="info-label">Teléfono</p>
-            <p class="info-value">+34 612 345 678</p>
-          </div>
-          <div>
-            <p class="info-label">Email</p>
-            <p class="info-value">info@multiservicios-provenza.es</p>
-          </div>
-          <div>
-            <p class="info-label">Horario</p>
-            <p class="info-value">Lun–Vie 8:00–19:00</p>
+      <div class="contact-layout">
+        <div>
+          <span class="section-kicker">Contacto</span>
+          <h2 class="section-heading">Cuéntanos tu <em>proyecto</em></h2>
+          <p class="contact-sub">Sin compromiso. Te respondemos en menos de 24 horas.</p>
+          <div class="contact-details">
+            <div><p class="detail-label">Teléfono</p><p class="detail-value">+34 612 345 678</p></div>
+            <div><p class="detail-label">Email</p><p class="detail-value">info@multiservicios-provenza.es</p></div>
+            <div><p class="detail-label">Horario</p><p class="detail-value">Lun–Vie 8:00–19:00</p></div>
           </div>
         </div>
+        <form onsubmit="return false;">
+          <div class="field"><label>Nombre</label><input type="text" placeholder="Tu nombre completo" /></div>
+          <div class="field"><label>Teléfono</label><input type="tel" placeholder="+34 600 000 000" /></div>
+          <div class="field"><label>Email</label><input type="email" placeholder="tu@email.com" /></div>
+          <div class="field">
+            <label>Servicio</label>
+            <select>
+              <option value="">Selecciona un servicio</option>
+              <option>Reformas Integrales</option><option>Instalaciones Eléctricas</option>
+              <option>Fontanería</option><option>Carpintería</option>
+              <option>Pintura</option><option>Albañilería</option>
+              <option>Climatización</option><option>Baños &amp; Cocinas</option>
+            </select>
+          </div>
+          <div class="field"><label>Mensaje</label><textarea rows="4" placeholder="Describe brevemente tu proyecto..."></textarea></div>
+          <button class="btn-submit" type="submit">Enviar solicitud</button>
+        </form>
       </div>
     </div>
   </section>
 
 
-  <!-- WHATSAPP FLOTANTE -->
-  <a id="whatsapp-btn" href="https://wa.me/34612345678?text=Hola%2C%20me%20gustar%C3%ADa%20solicitar%20un%20presupuesto" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <!-- ══ MODAL ═══════════════════════════════════════ -->
+  <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <span class="modal-kicker" id="modal-kicker">Nuestros proyectos</span>
+      <h3 class="modal-title" id="modal-title"></h3>
+      <div class="modal-photos" id="modal-photos"></div>
+    </div>
+  </div>
+
+
+  <!-- WhatsApp -->
+  <a id="whatsapp-btn" href="https://wa.me/34612345678?text=Hola%2C%20me%20gustar%C3%ADa%20solicitar%20un%20presupuesto" target="_blank" rel="noopener" aria-label="WhatsApp">
     <span class="wa-tooltip">Escríbenos</span>
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
   </a>
 
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer>
     <div class="footer-inner">
       <span class="footer-logo">Provenza<sup>®</sup></span>
@@ -614,18 +398,83 @@
 
 
   <script>
-    // Smooth scroll helper
-    function scrollTo(id) {
+    // ── Smooth scroll ────────────────────────────────
+    function goTo(id) {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // Fade-in hero image once loaded
+    // ── Hero image fade-in ───────────────────────────
     const bgImg = document.getElementById('bg-img');
-    if (bgImg.complete) {
-      bgImg.classList.add('loaded');
-    } else {
-      bgImg.addEventListener('load', () => bgImg.classList.add('loaded'));
+    if (bgImg.complete) bgImg.classList.add('loaded');
+    else bgImg.addEventListener('load', () => bgImg.classList.add('loaded'));
+
+    // ── Service photos data ──────────────────────────
+    const W = '?auto=format&fit=crop&w=700&q=80';
+    const U = 'https://images.unsplash.com/photo-';
+
+    const servicePhotos = {
+      'Reformas Integrales': [
+        U + '1484154218962-a197022b5858' + W,
+        U + '1600585154340-be6161a56a0c' + W,
+        U + '1556909114-f6e7ad7d3136' + W,
+      ],
+      'Instalaciones Eléctricas': [
+        U + '1621905251189-08b45d6a269e' + W,
+        U + '1558618666-fcd25c85cd64' + W,
+        U + '1504328345606-18bbc8c9d7d1' + W,
+      ],
+      'Fontanería': [
+        U + '1585771724684-38269d6639fd' + W,
+        U + '1504208434309-cb69f4fe52b0' + W,
+        U + '1607472586893-edb57bdc0e39' + W,
+      ],
+      'Carpintería': [
+        U + '1416879595882-3373a0480b5b' + W,
+        U + '1588200908342-23b585c03e26' + W,
+        U + '1565793979-f40b2a9b0e13' + W,
+      ],
+      'Pintura': [
+        U + '1562259949-e8e7689d7828' + W,
+        U + '1589939705384-5185137a7f0f' + W,
+        U + '1598300056393-4aae19c91d67' + W,
+      ],
+      'Albañilería': [
+        U + '1504307651254-35680f356dfd' + W,
+        U + '1590587407081-eb3d5c474b0e' + W,
+        U + '1543674892-7d64d45df18b' + W,
+      ],
+      'Climatización': [
+        U + '1621905252507-b35492cc74b4' + W,
+        U + '1631545806609-42b4bc47c7cb' + W,
+        U + '1558618047-3c8c76ca7d13' + W,
+      ],
+      'Baños y Cocinas': [
+        U + '1552321554-5fefe8c9ef14' + W,
+        U + '1600566753190-17f0baa2a6c3' + W,
+        U + '1556909114-f6e7ad7d3136' + W,
+      ],
+    };
+
+    // ── Modal ────────────────────────────────────────
+    function openModal(name) {
+      const photos = servicePhotos[name] || [];
+      document.getElementById('modal-title').textContent = name;
+      document.getElementById('modal-photos').innerHTML =
+        photos.map(src => `<img src="${src}" alt="${name}" loading="lazy" />`).join('');
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
   </script>
 
 </body>
