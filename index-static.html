@@ -5,13 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Multiservicios Provenza — Reformas integrales, electricidad, fontanería, carpintería, pintura y más en el Gran Bilbao. Presupuesto sin compromiso en 24h." />
   <title>Multiservicios Provenza — Reformas Gran Bilbao</title>
+  <script>
+    // Mark JS as active (enables reveal animations + custom cursor) BEFORE paint.
+    document.documentElement.classList.add('js');
+    if (window.matchMedia && window.matchMedia('(pointer:fine)').matches) {
+      document.documentElement.classList.add('cursor-on');
+    }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,300..600;1,14..32,300..600&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;-webkit-font-smoothing:antialiased;cursor:none;overflow-x:hidden}
+    body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    .js.cursor-on body,.js.cursor-on a,.js.cursor-on button,.js.cursor-on .svc-row,.js.cursor-on .proj-card{cursor:none}
+    #cursor{display:none}
+    .js.cursor-on #cursor{display:block}
     img{display:block;max-width:100%}
     a{color:inherit;text-decoration:none}
     button{font-family:inherit;cursor:pointer}
@@ -52,10 +62,11 @@
     .mmenu-foot{margin-top:56px;text-align:center;color:#444;font-size:.82rem;line-height:2}
 
     /* HERO */
-    .hero{position:relative;height:100svh;min-height:640px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 88px;overflow:hidden}
-    .hero-bg{position:absolute;inset:0;z-index:0}
-    #himg{width:100%;height:110%;object-fit:cover;object-position:center 40%;will-change:transform;opacity:0;transition:opacity 1.2s ease}
-    #himg.ld{opacity:1}
+    .hero{position:relative;height:100svh;min-height:640px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 48px 88px;overflow:hidden;background:#141414}
+    .hero-bg{position:absolute;inset:0;z-index:0;background:#141414}
+    #himg{width:100%;height:110%;object-fit:cover;object-position:center 40%;will-change:transform;transition:opacity 1.2s ease}
+    .js #himg{opacity:0}
+    .js #himg.ld{opacity:1}
     .hero-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.8) 0%,rgba(0,0,0,.38) 42%,rgba(0,0,0,.12) 70%,rgba(0,0,0,.22) 100%)}
     .hero-cnt{position:relative;z-index:1;max-width:1440px;width:100%;margin:0 auto}
     .hero-kicker{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:22px}
@@ -87,8 +98,8 @@
     .st em{color:#6b6b6b;font-style:italic}
 
     /* REVEAL */
-    .rv{opacity:0;transform:translateY(28px);transition:opacity .72s ease,transform .72s ease}
-    .rv.vs{opacity:1;transform:none}
+    .js .rv{opacity:0;transform:translateY(28px);transition:opacity .72s ease,transform .72s ease}
+    .js .rv.vs{opacity:1;transform:none}
     .rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.32s}.rd4{transition-delay:.44s}
 
     /* SERVICES */
@@ -266,7 +277,7 @@
       <a href="#nosotros">Nosotros</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <button class="btn-nav" onclick="scrollTo('contacto')">Presupuesto</button>
+    <button class="btn-nav" onclick="goTo('contacto')">Presupuesto</button>
     <button class="menu-tog" id="mtog" aria-label="Menú"><span></span><span></span></button>
   </div>
 </header>
@@ -293,8 +304,8 @@
     <p class="hero-kicker">Gran Bilbao · Fundada 2009</p>
     <h1 class="hero-h1">Reformamos espacios,<br><em>construimos hogares.</em></h1>
     <div class="hero-acts">
-      <button class="btn-wh" onclick="scrollTo('contacto')">Solicitar Presupuesto</button>
-      <button class="btn-gh" onclick="scrollTo('servicios')">Ver Servicios</button>
+      <button class="btn-wh" onclick="goTo('contacto')">Solicitar Presupuesto</button>
+      <button class="btn-gh" onclick="goTo('servicios')">Ver Servicios</button>
     </div>
   </div>
   <div class="scroll-ind"><div class="scroll-line"><div class="scroll-line-in"></div></div></div>
@@ -575,7 +586,7 @@
     </div>
     <div class="modal-footer">
       <p class="modal-note">Presupuesto gratuito · Sin compromiso</p>
-      <button class="modal-cta" onclick="closeModal();scrollTo('contacto')">Pedir Presupuesto</button>
+      <button class="modal-cta" onclick="closeModal();goTo('contacto')">Pedir Presupuesto</button>
     </div>
   </div>
 </div>
@@ -613,19 +624,22 @@
   function cm() { mm.classList.remove('open'); mtog.classList.remove('open'); document.body.style.overflow = ''; }
 
   // SMOOTH SCROLL
-  function scrollTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
+  function goTo(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' }); }
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', e => {
       e.preventDefault();
-      scrollTo(a.getAttribute('href').slice(1));
+      goTo(a.getAttribute('href').slice(1));
       cm();
     });
   });
 
   // HERO IMAGE + PARALLAX
   const hi = document.getElementById('himg');
-  hi.addEventListener('load', () => hi.classList.add('ld'));
-  if (hi.complete) hi.classList.add('ld');
+  const showHero = () => hi.classList.add('ld');
+  hi.addEventListener('load', showHero);
+  hi.addEventListener('error', showHero);     // broken image: dark bg keeps text readable
+  if (hi.complete) showHero();
+  setTimeout(showHero, 2500);                  // failsafe: never leave it hidden
   window.addEventListener('scroll', () => {
     const y = window.scrollY;
     if (y < window.innerHeight) hi.style.transform = `translateY(${y * 0.28}px)`;
@@ -663,10 +677,22 @@
   }
 
   // SCROLL REVEAL
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('vs'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.rv').forEach(el => ro.observe(el));
+  const rvEls = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('vs'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+    rvEls.forEach(el => ro.observe(el));
+    // Failsafe: if anything is still hidden after load, reveal it.
+    window.addEventListener('load', () => setTimeout(() => {
+      rvEls.forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight) el.classList.add('vs');
+      });
+    }, 400));
+  } else {
+    rvEls.forEach(el => el.classList.add('vs'));   // old browsers: just show everything
+  }
 
   // STATS COUNTER
   const co = new IntersectionObserver(entries => {
