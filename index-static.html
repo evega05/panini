@@ -473,72 +473,74 @@
     else bgImg.addEventListener('load', () => bgImg.classList.add('loaded'));
 
     // ── Service data ─────────────────────────────────
-    const W = '?auto=format&fit=crop&w=900&q=85';
-    const U = 'https://images.unsplash.com/photo-';
+    // Función para generar URL de búsqueda por keyword (siempre relevante)
+    function kw(word) {
+      return 'https://source.unsplash.com/featured/900x600/?' + encodeURIComponent(word);
+    }
 
     const services = {
       'Reformas Integrales': {
         desc: 'Transformamos viviendas y locales de principio a fin. Coordinamos todos los gremios para entregarte un espacio completamente renovado.',
         photos: [
-          U + '1484154218962-a197022b5858' + W,
-          U + '1600585154340-be6161a56a0c' + W,
-          U + '1618221195710-dd6b41faaea6' + W,
+          kw('home renovation interior'),
+          kw('living room remodel modern'),
+          kw('house renovation before after'),
         ],
       },
       'Instalaciones Eléctricas': {
         desc: 'Instalaciones nuevas, renovaciones de cuadros eléctricos y domótica. Trabajamos bajo normativa vigente con total seguridad.',
         photos: [
-          U + '1621905251189-08b45d6a269e' + W,
-          U + '1558618666-fcd25c85cd64' + W,
-          U + '1504328345606-18bbc8c9d7d1' + W,
+          kw('electrician wiring installation'),
+          kw('electrical panel circuit breaker'),
+          kw('electrical cables work'),
         ],
       },
       'Fontanería': {
         desc: 'Reparación de averías, instalación de sanitarios y tuberías. Actuamos con rapidez para minimizar daños en tu hogar.',
         photos: [
-          U + '1585771724684-38269d6639fd' + W,
-          U + '1504208434309-cb69f4fe52b0' + W,
-          U + '1581092160562-40aa08e78837' + W,
+          kw('plumber plumbing pipes repair'),
+          kw('faucet tap water bathroom'),
+          kw('plumbing installation tubes'),
         ],
       },
       'Carpintería': {
         desc: 'Fabricación e instalación de armarios, puertas, tarimas y elementos a medida. Madera natural y materiales de primera calidad.',
         photos: [
-          U + '1416879595882-3373a0480b5b' + W,
-          U + '1588200908342-23b585c03e26' + W,
-          U + '1541123437800-1bb1317badc2' + W,
+          kw('carpentry woodworking workshop'),
+          kw('carpenter wood furniture craft'),
+          kw('wooden cabinet door wardrobe'),
         ],
       },
       'Pintura': {
         desc: 'Pintura interior y exterior con acabados lisos, texturizados o decorativos. Preparación de superficies incluida en todos los trabajos.',
         photos: [
-          U + '1562259949-e8e7689d7828' + W,
-          U + '1589939705384-5185137a7f0f' + W,
-          U + '1598300056393-4aae19c91d67' + W,
+          kw('painter painting wall interior'),
+          kw('house painting roller brush'),
+          kw('painted room white wall clean'),
         ],
       },
       'Albañilería': {
         desc: 'Obra civil de todo tipo: tabiques, falsos techos, solados y alicatados. Acabados impecables en cada detalle.',
         photos: [
-          U + '1504307651254-35680f356dfd' + W,
-          U + '1590587407081-eb3d5c474b0e' + W,
-          U + '1513694457893-ee39fe168b4c' + W,
+          kw('bricklayer masonry construction wall'),
+          kw('concrete cement construction worker'),
+          kw('tiling floor tile installation'),
         ],
       },
       'Climatización': {
         desc: 'Instalación y mantenimiento de sistemas de aire acondicionado, calefacción y ventilación. Eficiencia energética garantizada.',
         photos: [
-          U + '1621905252507-b35492cc74b4' + W,
-          U + '1631545806609-42b4bc47c7cb' + W,
-          U + '1524397057410-1e775ed476f3' + W,
+          kw('air conditioning unit installation'),
+          kw('hvac heating cooling system'),
+          kw('air conditioner technician repair'),
         ],
       },
       'Baños y Cocinas': {
         desc: 'Renovación completa de baños y cocinas: alicatado, sanitarios, mobiliario y fontanería. Diseño moderno con materiales premium.',
         photos: [
-          U + '1552321554-5fefe8c9ef14' + W,
-          U + '1600566753190-17f0baa2a6c3' + W,
-          U + '1556909114-f6e7ad7d3136' + W,
+          kw('modern bathroom renovation design'),
+          kw('kitchen renovation modern interior'),
+          kw('bathroom tile shower luxury'),
         ],
       },
     };
