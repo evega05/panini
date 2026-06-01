@@ -285,6 +285,84 @@
     }
     .info-value { font-size: 0.875rem; color: #000; }
 
+    /* ── WhatsApp flotante ──────────────────────── */
+    #whatsapp-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 999;
+      width: 60px;
+      height: 60px;
+      background: #25D366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.45);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: wa-pulse 2.5s ease-in-out infinite;
+    }
+    #whatsapp-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(37,211,102,0.6);
+      animation: none;
+    }
+    #whatsapp-btn svg { width: 32px; height: 32px; fill: #fff; }
+    .wa-tooltip {
+      position: absolute;
+      right: 72px;
+      background: #000;
+      color: #fff;
+      font-size: 0.8rem;
+      padding: 6px 14px;
+      border-radius: 8px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .wa-tooltip::after {
+      content: '';
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 6px solid transparent;
+      border-left-color: #000;
+    }
+    #whatsapp-btn:hover .wa-tooltip { opacity: 1; }
+    @keyframes wa-pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.07); }
+    }
+
+    /* ── Mapa de cobertura ──────────────────────── */
+    #cobertura { background: #f8f8f7; }
+    .map-header { text-align: center; }
+    .map-wrap {
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid #e8e8e8;
+      height: 460px;
+    }
+    .map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+    .map-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .map-tag {
+      font-size: 0.8rem;
+      color: #6f6f6f;
+      border: 1px solid #e8e8e8;
+      border-radius: 9999px;
+      padding: 6px 16px;
+      font-family: 'Inter', sans-serif;
+    }
+
     /* ── Footer ─────────────────────────────────── */
     footer {
       background: #000;
@@ -427,6 +505,36 @@
   </section>
 
 
+  <!-- COBERTURA -->
+  <section id="cobertura">
+    <div class="section-inner">
+      <div class="map-header">
+        <p class="section-label">Dónde trabajamos</p>
+        <h2 class="section-title" style="margin-bottom:48px;">Zona de <em>cobertura</em></h2>
+      </div>
+      <div class="map-wrap">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387144.0757538631!2d-3.9305479!3d40.4167754!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422997800a3c81%3A0xc436dec1618c2269!2sMadrid%2C%20Espa%C3%B1a!5e0!3m2!1ses!2ses!4v1700000000000!5m2!1ses!2ses"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Zona de cobertura Multiservicios Provenza">
+        </iframe>
+      </div>
+      <div class="map-tags">
+        <span class="map-tag">📍 Madrid Centro</span>
+        <span class="map-tag">📍 Alcobendas</span>
+        <span class="map-tag">📍 Pozuelo de Alarcón</span>
+        <span class="map-tag">📍 Las Rozas</span>
+        <span class="map-tag">📍 Majadahonda</span>
+        <span class="map-tag">📍 Boadilla del Monte</span>
+        <span class="map-tag">📍 Getafe</span>
+        <span class="map-tag">📍 Leganés</span>
+      </div>
+    </div>
+  </section>
+
+
   <!-- CONTACTO -->
   <section id="contacto">
     <div class="section-inner">
@@ -476,6 +584,14 @@
     </div>
   </section>
 
+
+  <!-- WHATSAPP FLOTANTE -->
+  <a id="whatsapp-btn" href="https://wa.me/34612345678?text=Hola%2C%20me%20gustar%C3%ADa%20solicitar%20un%20presupuesto" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+    <span class="wa-tooltip">Escríbenos</span>
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
 
   <!-- FOOTER -->
   <footer>
