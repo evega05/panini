@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multiservicios Provenza</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #fff;
+      color: #000;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Animations ─────────────────────────────── */
+    @keyframes fade-rise {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-rise   { animation: fade-rise 0.8s ease-out both; }
+    .fade-rise-2 { animation: fade-rise 0.8s ease-out 0.2s both; }
+    .fade-rise-3 { animation: fade-rise 0.8s ease-out 0.4s both; }
+
+    /* ── Hero wrapper ───────────────────────────── */
+    #hero-wrap {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    /* ── Video background ───────────────────────── */
+    #video-wrap {
+      position: absolute;
+      top: 300px; right: 0; bottom: 0; left: 0;
+      z-index: 0;
+    }
+    #bg-video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0;
+    }
+    #video-grad {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, #fff 0%, transparent 40%, transparent 60%, #fff 100%);
+      pointer-events: none;
+    }
+
+    /* ── Navbar ─────────────────────────────────── */
+    nav {
+      position: relative;
+      z-index: 10;
+      padding: 24px 32px;
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.875rem;
+      letter-spacing: -0.025em;
+      color: #000;
+      text-decoration: none;
+    }
+    .logo sup { font-size: 0.65em; }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.875rem;
+      text-decoration: none;
+      color: #6f6f6f;
+      transition: color 0.2s;
+    }
+    .nav-links a.active { color: #000; }
+    .nav-links a:hover  { color: #000; }
+    .btn {
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: transform 0.2s;
+    }
+    .btn:hover { transform: scale(1.03); }
+    .btn-dark {
+      background: #000;
+      color: #fff;
+      border-radius: 9999px;
+      padding: 10px 24px;
+      font-size: 0.875rem;
+    }
+    .btn-xl {
+      padding: 20px 56px;
+      font-size: 1rem;
+      border-radius: 9999px;
+    }
+    .btn-outline {
+      background: transparent;
+      color: #000;
+      border: 1px solid #000;
+      border-radius: 9999px;
+      padding: 20px 56px;
+      font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── Hero section ───────────────────────────── */
+    #inicio {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: calc(8rem - 75px) 24px 160px;
+    }
+    .hero-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #6f6f6f;
+      margin-bottom: 24px;
+    }
+    .hero-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      font-weight: 400;
+      line-height: 0.95;
+      letter-spacing: -2.46px;
+      color: #000;
+      max-width: 900px;
+      margin-bottom: 32px;
+    }
+    .hero-title em { color: #6f6f6f; font-style: italic; }
+    .hero-desc {
+      font-size: clamp(1rem, 2vw, 1.125rem);
+      color: #6f6f6f;
+      max-width: 640px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ── Section base ───────────────────────────── */
+    section { padding: 128px 32px; }
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #6f6f6f;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: -1.5px;
+      color: #000;
+      margin-bottom: 80px;
+    }
+    .section-title em { color: #6f6f6f; font-style: italic; }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+
+    /* ── Services grid ──────────────────────────── */
+    #servicios { background: #fff; }
+    .services-header { text-align: center; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+    }
+    .service-card {
+      padding: 32px;
+      border: 1px solid #e8e8e8;
+      border-radius: 16px;
+      transition: border-color 0.3s;
+      cursor: default;
+    }
+    .service-card:hover { border-color: #000; }
+    .service-icon { font-size: 2rem; display: block; margin-bottom: 20px; }
+    .service-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.125rem;
+      font-weight: 400;
+      color: #000;
+      margin-bottom: 12px;
+    }
+    .service-desc { font-size: 0.875rem; color: #6f6f6f; line-height: 1.6; }
+
+    /* ── About ──────────────────────────────────── */
+    #nosotros { background: #f8f8f7; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 48px; } }
+    .about-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      color: #000;
+      margin-bottom: 24px;
+    }
+    .about-title em { color: #6f6f6f; font-style: italic; }
+    .about-text { font-size: 1rem; color: #6f6f6f; line-height: 1.7; margin-bottom: 16px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .stat-card {
+      padding: 32px;
+      background: #fff;
+      border: 1px solid #e8e8e8;
+      border-radius: 16px;
+    }
+    .stat-num {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.5rem;
+      color: #000;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .stat-label { font-size: 0.875rem; color: #6f6f6f; }
+
+    /* ── Contact ────────────────────────────────── */
+    #contacto { background: #fff; }
+    .contact-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+    .contact-desc { font-size: 1rem; color: #6f6f6f; line-height: 1.7; margin-bottom: 48px; }
+    form { display: flex; flex-direction: column; gap: 16px; text-align: left; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    input, select, textarea {
+      padding: 16px 20px;
+      border: 1px solid #e8e8e8;
+      border-radius: 12px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1rem;
+      color: #000;
+      outline: none;
+      transition: border-color 0.2s;
+      background: #fff;
+      width: 100%;
+    }
+    input::placeholder, textarea::placeholder { color: #aaa; }
+    select { color: #6f6f6f; appearance: none; }
+    input:focus, select:focus, textarea:focus { border-color: #000; }
+    textarea { resize: none; }
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      margin-top: 64px;
+      padding-top: 64px;
+      border-top: 1px solid #e8e8e8;
+    }
+    .info-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #6f6f6f;
+      margin-bottom: 4px;
+    }
+    .info-value { font-size: 0.875rem; color: #000; }
+
+    /* ── Footer ─────────────────────────────────── */
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 40px 32px;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+    .footer-copy { font-size: 0.8rem; color: #6f6f6f; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO WRAPPER -->
+  <div id="hero-wrap">
+
+    <!-- Video background -->
+    <div id="video-wrap">
+      <video id="bg-video" src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_083109_283f3553-e28f-428b-a723-d639c617eb2b.mp4"
+        autoplay muted playsinline></video>
+      <div id="video-grad"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav>
+      <div class="nav-inner">
+        <a href="#" class="logo">Provenza<sup>®</sup></a>
+        <ul class="nav-links">
+          <li><a href="#inicio" class="active">Inicio</a></li>
+          <li><a href="#servicios">Servicios</a></li>
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+        <button class="btn btn-dark" onclick="scrollTo('contacto')">Solicitar Presupuesto</button>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="inicio" style="border:none;">
+      <p class="hero-label fade-rise">Multiservicios Provenza</p>
+      <h1 class="hero-title fade-rise">
+        Reformamos tu hogar,<br>
+        <em>elevamos</em> tu <em>vida.</em>
+      </h1>
+      <p class="hero-desc fade-rise-2">
+        Especialistas en reformas integrales, instalaciones y todo tipo de servicios para el hogar y la empresa. Calidad, rapidez y garantía en cada trabajo.
+      </p>
+      <div class="hero-btns fade-rise-3">
+        <button class="btn btn-dark btn-xl" onclick="scrollTo('contacto')">Pedir Presupuesto</button>
+        <button class="btn btn-outline" onclick="scrollTo('servicios')">Ver Servicios</button>
+      </div>
+    </section>
+
+  </div><!-- /hero-wrap -->
+
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="section-inner">
+      <div class="services-header">
+        <p class="section-label">Lo que hacemos</p>
+        <h2 class="section-title">Servicios <em>a tu medida</em></h2>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <span class="service-icon">🔨</span>
+          <h3 class="service-title">Reformas Integrales</h3>
+          <p class="service-desc">Transformamos tu espacio de arriba a abajo con precisión y calidad.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">⚡</span>
+          <h3 class="service-title">Instalaciones Eléctricas</h3>
+          <p class="service-desc">Electricidad residencial e industrial certificada y segura.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🔧</span>
+          <h3 class="service-title">Fontanería</h3>
+          <p class="service-desc">Reparaciones, instalaciones y mantenimiento de tuberías.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🪟</span>
+          <h3 class="service-title">Carpintería</h3>
+          <p class="service-desc">Puertas, ventanas, armarios y acabados en madera a medida.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🎨</span>
+          <h3 class="service-title">Pintura</h3>
+          <p class="service-desc">Interiores y exteriores con acabados profesionales duraderos.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🧱</span>
+          <h3 class="service-title">Albañilería</h3>
+          <p class="service-desc">Tabiques, enlucidos, solados y todo tipo de obra civil.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">❄️</span>
+          <h3 class="service-title">Climatización</h3>
+          <p class="service-desc">Instalación y mantenimiento de aire acondicionado y calefacción.</p>
+        </div>
+        <div class="service-card">
+          <span class="service-icon">🚿</span>
+          <h3 class="service-title">Baños &amp; Cocinas</h3>
+          <p class="service-desc">Renovación completa con diseño moderno y materiales premium.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div>
+          <p class="section-label">Quiénes somos</p>
+          <h2 class="about-title">Más de 15 años <em>transformando espacios.</em></h2>
+          <p class="about-text">En Multiservicios Provenza llevamos más de 15 años ofreciendo soluciones integrales para el hogar y la empresa. Nuestro equipo de profesionales cualificados garantiza resultados de calidad en cada proyecto.</p>
+          <p class="about-text">Trabajamos con los mejores materiales y las técnicas más avanzadas para asegurar que cada reforma supere tus expectativas.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><span class="stat-num">+500</span><span class="stat-label">Proyectos completados</span></div>
+          <div class="stat-card"><span class="stat-num">15+</span><span class="stat-label">Años de experiencia</span></div>
+          <div class="stat-card"><span class="stat-num">100%</span><span class="stat-label">Clientes satisfechos</span></div>
+          <div class="stat-card"><span class="stat-num">24h</span><span class="stat-label">Respuesta garantizada</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="section-inner">
+      <div class="contact-inner">
+        <p class="section-label">Contacto</p>
+        <h2 class="section-title" style="margin-bottom:16px;">Cuéntanos tu <em>proyecto</em></h2>
+        <p class="contact-desc">Solicita tu presupuesto sin compromiso. Te respondemos en menos de 24 horas.</p>
+
+        <form onsubmit="return false;">
+          <div class="form-row">
+            <input type="text" placeholder="Nombre" />
+            <input type="tel" placeholder="Teléfono" />
+          </div>
+          <input type="email" placeholder="Correo electrónico" />
+          <select>
+            <option value="">Tipo de servicio</option>
+            <option>Reformas Integrales</option>
+            <option>Instalaciones Eléctricas</option>
+            <option>Fontanería</option>
+            <option>Carpintería</option>
+            <option>Pintura</option>
+            <option>Albañilería</option>
+            <option>Climatización</option>
+            <option>Baños &amp; Cocinas</option>
+          </select>
+          <textarea rows="5" placeholder="Describe tu proyecto..."></textarea>
+          <button class="btn btn-dark btn-xl" type="submit" style="align-self:center; margin-top:8px;">
+            Enviar Solicitud
+          </button>
+        </form>
+
+        <div class="contact-info">
+          <div>
+            <p class="info-label">Teléfono</p>
+            <p class="info-value">+34 612 345 678</p>
+          </div>
+          <div>
+            <p class="info-label">Email</p>
+            <p class="info-value">info@multiservicios-provenza.es</p>
+          </div>
+          <div>
+            <p class="info-label">Horario</p>
+            <p class="info-value">Lun–Vie 8:00–19:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-logo">Provenza<sup>®</sup></span>
+      <p class="footer-copy">© 2025 Multiservicios Provenza. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    // Smooth scroll helper
+    function scrollTo(id) {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Video fade-in / fade-out loop
+    const video = document.getElementById('bg-video');
+    const FADE = 0.5;
+
+    function tick() {
+      if (video.duration && !video.paused && !video.ended) {
+        const t = video.currentTime, d = video.duration;
+        if (t < FADE)         video.style.opacity = t / FADE;
+        else if (d - t < FADE) video.style.opacity = Math.max(0, (d - t) / FADE);
+        else                   video.style.opacity = 1;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    video.addEventListener('ended', () => {
+      video.style.opacity = 0;
+      setTimeout(() => { video.currentTime = 0; video.play(); }, 100);
+    });
+
+    requestAnimationFrame(tick);
+    video.play().catch(() => {});
+  </script>
+
+</body>
+</html>
