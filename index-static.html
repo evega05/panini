@@ -250,23 +250,6 @@ img{display:block;max-width:100%}
     .modal-cta{background:#0a0a0a;color:#fff;border:none;border-radius:9999px;padding:12px 28px;font-size:.78rem;font-family:'Inter',sans-serif;transition:transform .2s;letter-spacing:.05em}
     .modal-cta:hover{transform:scale(1.04)}
 
-    /* BEFORE/AFTER SLIDER */
-    .ab-sec{padding:120px 0;background:#f5f4f2}
-    .ab-hdr{margin-bottom:64px}
-    .ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px}
-    .ab-card{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 20px 60px rgba(0,0,0,.12)}
-    .ab-after{position:absolute;inset:0}
-    .ab-after img{width:100%;height:100%;object-fit:cover;display:block}
-    .ab-before{position:absolute;inset:0;overflow:hidden}
-    .ab-before img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
-    .ab-divider{position:absolute;top:0;bottom:0;width:3px;background:#fff;box-shadow:0 0 12px rgba(0,0,0,.4);transform:translateX(-50%);pointer-events:none;z-index:3}
-    .ab-handle{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:44px;height:44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.25);color:#0a0a0a;font-size:.75rem;font-weight:600;letter-spacing:-.02em;user-select:none;white-space:nowrap}
-    .ab-range{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;z-index:5;-webkit-appearance:none;appearance:none}
-    .ab-range::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:100vh;background:transparent;cursor:ew-resize}
-    .ab-label{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.65);backdrop-filter:blur(8px);color:#fff;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 18px;border-radius:9999px;white-space:nowrap;z-index:4;pointer-events:none}
-    .ab-tag{position:absolute;top:14px;padding:5px 14px;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;border-radius:9999px;background:rgba(0,0,0,.55);color:#fff;z-index:4;pointer-events:none;backdrop-filter:blur(6px)}
-    .ab-tag.before{left:14px}.ab-tag.after{right:14px}
-
     /* PROGRESS BARS */
     .prog-sec{padding:100px 0;background:#0a0a0a}
     .prog-hdr{margin-bottom:64px}
@@ -356,7 +339,6 @@ img{display:block;max-width:100%}
       .con-in{grid-template-columns:1fr}
       .proc-steps{grid-template-columns:1fr 1fr;gap:48px}
       .proc-steps::before{display:none}
-      .ab-grid{grid-template-columns:1fr}
     }
     @media(max-width:768px){
       #hdr,#hdr.sc{padding:20px 24px}
@@ -373,7 +355,7 @@ img{display:block;max-width:100%}
       .proc-steps{grid-template-columns:1fr}
       .abt-imgs{display:none}
       .cf-row{grid-template-columns:1fr}
-      .con-sec,.cov-sec,.abt-sec,.tst-sec,.proc-sec,.stat-sec,.faq-sec,.ab-sec,.prog-sec{padding:80px 0}
+      .con-sec,.cov-sec,.abt-sec,.tst-sec,.proc-sec,.stat-sec,.faq-sec,.prog-sec{padding:80px 0}
       .ft{padding:40px 24px}
       .scroll-ind{display:none}
       .map-wrap iframe{height:320px}
@@ -557,45 +539,6 @@ img{display:block;max-width:100%}
 </section>
 
 <!-- ANTES/DESPUÉS -->
-<section class="ab-sec">
-  <div class="si">
-    <div class="ab-hdr">
-      <p class="sk rv">Comparativa</p>
-      <h2 class="st rv rd1">Antes &amp; <em>Después</em></h2>
-    </div>
-    <div class="ab-grid">
-      <!-- Slider 1: Baño -->
-      <div class="ab-card" id="ab1">
-        <div class="ab-after">
-          <img src="https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=900&q=85" alt="Después reforma de baño" />
-        </div>
-        <div class="ab-before" id="ab1-before">
-          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=85" alt="Antes reforma de baño" />
-        </div>
-        <div class="ab-divider" id="ab1-div"></div>
-        <span class="ab-tag before">Antes</span>
-        <span class="ab-tag after">Después</span>
-        <input type="range" class="ab-range" id="ab1-rng" min="0" max="100" value="50" aria-label="Comparar antes y después" />
-        <div class="ab-label">Reforma de Baño · Bilbao</div>
-      </div>
-      <!-- Slider 2: Cocina -->
-      <div class="ab-card" id="ab2">
-        <div class="ab-after">
-          <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=900&q=85" alt="Después reforma de cocina" />
-        </div>
-        <div class="ab-before" id="ab2-before">
-          <img src="https://images.unsplash.com/photo-1590587407081-eb3d5c474b0e?auto=format&fit=crop&w=900&q=85" alt="Antes reforma de cocina" />
-        </div>
-        <div class="ab-divider" id="ab2-div"></div>
-        <span class="ab-tag before">Antes</span>
-        <span class="ab-tag after">Después</span>
-        <input type="range" class="ab-range" id="ab2-rng" min="0" max="100" value="50" aria-label="Comparar antes y después" />
-        <div class="ab-label">Reforma de Cocina · Getxo</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- STATS -->
 <section class="stat-sec">
   <div class="stat-grid">
@@ -647,7 +590,7 @@ img{display:block;max-width:100%}
     <div class="tst-hdr">
       <p class="sk rv">Clientes satisfechos</p>
       <h2 class="st rv rd1">Lo que dicen<br><em>de nosotros</em></h2>
-      <a href="https://g.page/r/" target="_blank" rel="noopener" class="grev-badge rv rd2">
+      <a href="https://g.page/r/" target="_blank" rel="noopener" class="grev-badge">
         <span class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
         <span class="grev-stars">★★★★★</span>
         <span class="grev-text">4.9 · 47 reseñas en Google</span>
@@ -655,7 +598,7 @@ img{display:block;max-width:100%}
     </div>
     <div class="tst-grid">
       <!-- Video testimonial card -->
-      <div class="tst-video rv" onclick="window.open('https://wa.me/34624118284?text=Hola%2C%20he%20visto%20vuestro%20v%C3%ADdeo%20testimonial%20y%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n','_blank')">
+      <div class="tst-video" onclick="window.open('https://wa.me/34624118284?text=Hola%2C%20he%20visto%20vuestro%20v%C3%ADdeo%20testimonial%20y%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n','_blank')">
         <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85" alt="Testimonio en vídeo de José Martínez" />
         <div class="tst-video-ov"></div>
         <div class="tst-play"><div class="tst-play-tri"></div></div>
@@ -1086,33 +1029,6 @@ img{display:block;max-width:100%}
   function hov(e) { if (e.target === document.getElementById('modal')) closeModal(); }
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-  // BEFORE/AFTER SLIDER (Feature 2)
-  function initSlider(cardId, beforeId, divId, rangeId) {
-    var range = document.getElementById(rangeId);
-    var before = document.getElementById(beforeId);
-    var div = document.getElementById(divId);
-    if (!range || !before || !div) return;
-    function update(v) {
-      before.style.width = v + '%';
-      div.style.left = v + '%';
-    }
-    update(range.value);
-    range.addEventListener('input', function() { update(this.value); });
-    // Touch support
-    var card = document.getElementById(cardId);
-    if (card) {
-      card.addEventListener('touchmove', function(e) {
-        var rect = card.getBoundingClientRect();
-        var x = e.touches[0].clientX - rect.left;
-        var pct = Math.max(0, Math.min(100, (x / rect.width) * 100));
-        range.value = pct;
-        update(pct);
-      }, { passive: true });
-    }
-  }
-  initSlider('ab1','ab1-before','ab1-div','ab1-rng');
-  initSlider('ab2','ab2-before','ab2-div','ab2-rng');
 
   // PROGRESS BARS (Feature 21)
   (function() {
