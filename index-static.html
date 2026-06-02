@@ -67,8 +67,6 @@ img{display:block;max-width:100%}
     .hero-acts{display:flex;gap:14px;flex-wrap:wrap}
     .btn-wh{background:#fff;color:#0a0a0a;border:none;border-radius:9999px;padding:18px 48px;font-size:.84rem;letter-spacing:.05em;text-transform:uppercase;transition:transform .25s,background .25s}
     .btn-wh:hover{transform:scale(1.04);background:#f0f0f0}
-    .btn-gh{background:transparent;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.32);border-radius:9999px;padding:18px 48px;font-size:.84rem;letter-spacing:.05em;text-transform:uppercase;transition:all .25s}
-    .btn-gh:hover{border-color:#fff;color:#fff}
     .scroll-ind{position:absolute;bottom:52px;right:52px;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px}
     .scroll-line{width:1.5px;height:60px;background:rgba(255,255,255,.18);overflow:hidden}
     .scroll-line-in{width:100%;height:100%;background:#fff;animation:sdrop 1.9s ease-in-out infinite}
@@ -318,9 +316,6 @@ img{display:block;max-width:100%}
     .con-sec .tel-link:hover{color:#4ade80}
 
     /* FEATURE 2 — Trust badges */
-    .trust-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
-    .trust-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:7px 14px;font-size:.72rem;color:#fff;white-space:nowrap}
-    .trust-badge svg{flex-shrink:0}
 
     /* FEATURE 3 — License number (ft-copy already styled, just extra line) */
     .ft-license{font-size:.68rem;color:#2a2a2a;margin-top:4px;display:block}
@@ -379,23 +374,6 @@ img{display:block;max-width:100%}
     @media(max-width:480px){.survey-widget{display:none}}
 
     /* FEATURE 19 — Stories */
-    .stories-sec{background:#fff;padding:28px 0;border-bottom:1px solid #f0f0f0}
-    .stories-inner{max-width:1440px;margin:0 auto;padding:0 48px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    .stories-inner::-webkit-scrollbar{display:none}
-    .stories-inner{scrollbar-width:none}
-    .stories-track{display:flex;gap:20px;width:max-content}
-    .story-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;flex-shrink:0}
-    .story-ring{width:68px;height:68px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#0a0a0a,#6b6b6b);flex-shrink:0}
-    .story-thumb{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:2px solid #fff}
-    .story-label{font-size:.65rem;color:#6b6b6b;font-family:'Inter',sans-serif;text-align:center;white-space:nowrap}
-    #story-viewer{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
-    #story-viewer.open{opacity:1;pointer-events:all}
-    .sv-close{position:fixed;top:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
-    .sv-close:hover{background:rgba(255,255,255,.28)}
-    .sv-img-wrap{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:12px}
-    .sv-img{max-width:90vw;max-height:80vh;object-fit:contain;border-radius:12px;display:block}
-    .sv-label{color:rgba(255,255,255,.8);font-size:.9rem;font-family:'Inter',sans-serif;letter-spacing:.06em}
-    @media(max-width:768px){.stories-inner{padding:0 20px}}
 
 
     /* RESPONSIVE */
@@ -436,7 +414,7 @@ img{display:block;max-width:100%}
       .hero{padding:0 20px 64px}
       .hero-h1{font-size:clamp(2.4rem,11vw,3.2rem);line-height:1.02;margin-bottom:36px}
       .hero-acts{flex-direction:column;gap:10px}
-      .btn-wh,.btn-gh{width:100%;text-align:center;padding:16px 20px;font-size:.8rem}
+      .btn-wh{width:100%;text-align:center;padding:16px 20px;font-size:.8rem}
       /* Sections */
       .si{padding:0 20px}
       .st{font-size:clamp(1.8rem,8vw,2.6rem)}
@@ -518,10 +496,6 @@ img{display:block;max-width:100%}
       <span class="htick">100% Clientes satisfechos</span>
     </div>
     <h1 class="hero-h1">Reformamos espacios,<br><em>construimos hogares.</em></h1>
-    <div class="hero-acts">
-      <button class="btn-wh" onclick="goTo('contacto')">Solicitar Presupuesto</button>
-      <button class="btn-gh" onclick="goTo('servicios')">Ver Servicios</button>
-    </div>
   </div>
   <div class="scroll-ind"><div class="scroll-line"><div class="scroll-line-in"></div></div></div>
 </section>
@@ -577,38 +551,6 @@ img{display:block;max-width:100%}
       <span class="brand-name">Rexnord</span><span class="brand-sep">·</span>
       <span class="brand-name">Hansgrohe</span><span class="brand-sep">·</span>
       <span class="brand-name">Geberit</span><span class="brand-sep">·</span>
-    </div>
-  </div>
-</div>
-
-<!-- FEATURE 19 — Instagram-style stories -->
-<div class="stories-sec">
-  <div class="stories-inner">
-    <div class="stories-track">
-      <div class="story-item" onclick="openStory(0)">
-        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=120&q=80" alt="Bilbao 2024" /></div>
-        <span class="story-label">Bilbao · 2024</span>
-      </div>
-      <div class="story-item" onclick="openStory(1)">
-        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=120&q=80" alt="Getxo 2024" /></div>
-        <span class="story-label">Getxo · 2024</span>
-      </div>
-      <div class="story-item" onclick="openStory(2)">
-        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=120&q=80" alt="Barakaldo 2023" /></div>
-        <span class="story-label">Barakaldo · 2023</span>
-      </div>
-      <div class="story-item" onclick="openStory(3)">
-        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=120&q=80" alt="Leioa 2024" /></div>
-        <span class="story-label">Leioa · 2024</span>
-      </div>
-      <div class="story-item" onclick="openStory(4)">
-        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=120&q=80" alt="Basauri 2023" /></div>
-        <span class="story-label">Basauri · 2023</span>
-      </div>
-      <div class="story-item" onclick="openStory(5)">
-        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=120&q=80" alt="Sestao 2024" /></div>
-        <span class="story-label">Sestao · 2024</span>
-      </div>
     </div>
   </div>
 </div>
@@ -877,20 +819,6 @@ img{display:block;max-width:100%}
         <div><p class="cd-lbl">Email</p><p class="cd-val">inforeformasmiribilla@gmail.com</p></div>
         <div><p class="cd-lbl">Horario</p><p class="cd-val">Lun – Vie &nbsp; 8:00 – 19:00</p><div class="horario-status" id="horario-status"><span class="horario-dot" id="horario-dot"></span><span class="horario-status-txt" id="horario-txt"></span></div></div>
       </div>
-      <div class="trust-badges rv">
-        <span class="trust-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/></svg>
-          Seguro RC 600.000€
-        </span>
-        <span class="trust-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-          Garantía 2 años
-        </span>
-        <span class="trust-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Desde 2009
-        </span>
-      </div>
     </div>
     <div class="rv rd2">
       <div class="apt-tabs">
@@ -973,15 +901,6 @@ img{display:block;max-width:100%}
     </div>
   </div>
   <button class="survey-dismiss" id="survey-dismiss" onclick="dismissSurvey()" aria-label="Cerrar encuesta">✕</button>
-</div>
-
-<!-- FEATURE 19 — Story viewer -->
-<div id="story-viewer" onclick="closeStoryClick(event)">
-  <button class="sv-close" onclick="closeStory()" aria-label="Cerrar">✕</button>
-  <div class="sv-img-wrap">
-    <img class="sv-img" id="sv-img" src="" alt="" />
-    <p class="sv-label" id="sv-label"></p>
-  </div>
 </div>
 
 <!-- CHAT WIDGET -->
@@ -1365,7 +1284,6 @@ img{display:block;max-width:100%}
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       closeExitPopup();
-      closeStory();
     }
   });
 
@@ -1423,34 +1341,6 @@ img{display:block;max-width:100%}
     if (w) w.style.display = 'none';
   }
 
-  // FEATURE 19 — Stories
-  var STORIES = [
-    { id: 'photo-1484154218962-a197022b5858', label: 'Bilbao · 2024' },
-    { id: 'photo-1618221195710-dd6b41faaea6', label: 'Getxo · 2024' },
-    { id: 'photo-1560448204-e02f11c3d0e2', label: 'Barakaldo · 2023' },
-    { id: 'photo-1621905251189-08b45d6a269e', label: 'Leioa · 2024' },
-    { id: 'photo-1558618666-fcd25c85cd64', label: 'Basauri · 2023' },
-    { id: 'photo-1504328345606-18bbc8c9d7d1', label: 'Sestao · 2024' }
-  ];
-  function openStory(i) {
-    var s = STORIES[i];
-    var viewer = document.getElementById('story-viewer');
-    var img = document.getElementById('sv-img');
-    var lbl = document.getElementById('sv-label');
-    img.src = 'https://images.unsplash.com/' + s.id + '?auto=format&fit=crop&w=800&q=85';
-    img.alt = s.label;
-    lbl.textContent = s.label;
-    viewer.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeStory() {
-    var viewer = document.getElementById('story-viewer');
-    if (viewer) viewer.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function closeStoryClick(e) {
-    if (e.target === document.getElementById('story-viewer')) closeStory();
-  }
 </script>
 </body>
 </html>
