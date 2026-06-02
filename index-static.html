@@ -949,6 +949,41 @@ img{display:block;max-width:100%}
   </div>
 </footer>
 
+<!-- FEATURE 8 — Exit intent popup -->
+<div id="exit-popup" onclick="exitOverlayClick(event)">
+  <div class="exit-box">
+    <button class="exit-close" onclick="closeExitPopup()" aria-label="Cerrar">✕</button>
+    <p class="exit-kicker">Antes de irte</p>
+    <h2 class="exit-title">¿Te vas sin presupuesto?</h2>
+    <p class="exit-sub">Es gratis, sin compromiso y te respondemos hoy mismo.</p>
+    <button class="exit-btn" onclick="window.open('https://wa.me/34624118284?text=Hola%2C%20me%20gustar%C3%ADa%20recibir%20un%20presupuesto%20gratuito','_blank')">Te llamamos ahora</button>
+    <p class="exit-small">O escríbenos al +34 624 118 284</p>
+  </div>
+</div>
+
+<!-- FEATURE 17 — Mini survey widget -->
+<div class="survey-widget" id="survey-widget">
+  <button class="survey-tab" id="survey-tab-btn" onclick="toggleSurvey()">¿Qué reforma necesitas? →</button>
+  <div class="survey-expanded" id="survey-expanded">
+    <div class="survey-grid">
+      <button class="survey-opt" onclick="selectSurvey('Baños &amp; Cocinas')">🛁 Baño</button>
+      <button class="survey-opt" onclick="selectSurvey('Baños &amp; Cocinas')">🍳 Cocina</button>
+      <button class="survey-opt" onclick="selectSurvey('Reformas Integrales')">🏠 Piso completo</button>
+      <button class="survey-opt" onclick="selectSurvey('')">🔧 Otra reforma</button>
+    </div>
+  </div>
+  <button class="survey-dismiss" id="survey-dismiss" onclick="dismissSurvey()" aria-label="Cerrar encuesta">✕</button>
+</div>
+
+<!-- FEATURE 19 — Story viewer -->
+<div id="story-viewer" onclick="closeStoryClick(event)">
+  <button class="sv-close" onclick="closeStory()" aria-label="Cerrar">✕</button>
+  <div class="sv-img-wrap">
+    <img class="sv-img" id="sv-img" src="" alt="" />
+    <p class="sv-label" id="sv-label"></p>
+  </div>
+</div>
+
 <!-- CHAT WIDGET -->
 <div class="chat-panel" id="chat-panel">
   <div class="chat-head">
@@ -1312,6 +1347,109 @@ img{display:block;max-width:100%}
     var msg = 'Hola, me llamo ' + name + ' y quisiera reservar una visita el ' + date + ' en el horario ' + time + '.';
     window.open('https://wa.me/34624118284?text=' + encodeURIComponent(msg), '_blank');
     return false;
+  }
+
+  // FEATURE 8 — Exit intent popup
+  function closeExitPopup() {
+    document.getElementById('exit-popup').classList.remove('open');
+  }
+  function exitOverlayClick(e) {
+    if (e.target === document.getElementById('exit-popup')) closeExitPopup();
+  }
+  document.addEventListener('mouseleave', function(e) {
+    if (e.clientY < 10 && !sessionStorage.getItem('exitShown')) {
+      document.getElementById('exit-popup').classList.add('open');
+      sessionStorage.setItem('exitShown', '1');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      closeExitPopup();
+      closeStory();
+    }
+  });
+
+  // FEATURE 14 — Hero ticker
+  (function() {
+    var ticks = document.querySelectorAll('.htick');
+    if (!ticks.length) return;
+    var cur = 0;
+    setInterval(function() {
+      ticks[cur].classList.remove('active');
+      cur = (cur + 1) % ticks.length;
+      ticks[cur].classList.add('active');
+    }, 3000);
+  })();
+
+  // FEATURE 17 — Mini survey widget
+  (function() {
+    if (sessionStorage.getItem('surveyDone')) {
+      var w = document.getElementById('survey-widget');
+      if (w) w.style.display = 'none';
+    }
+  })();
+  function toggleSurvey() {
+    var exp = document.getElementById('survey-expanded');
+    var dismiss = document.getElementById('survey-dismiss');
+    var tabBtn = document.getElementById('survey-tab-btn');
+    if (exp.classList.contains('show')) {
+      exp.classList.remove('show');
+      if (dismiss) dismiss.style.display = '';
+    } else {
+      exp.classList.add('show');
+      if (dismiss) dismiss.style.display = 'flex';
+      if (tabBtn) tabBtn.style.display = 'none';
+    }
+  }
+  function selectSurvey(value) {
+    // Pre-select option in contact form
+    var sel = document.querySelector('#tab-consulta select.fi');
+    if (sel && value) {
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].text.trim() === value.replace('&amp;', '&') || sel.options[i].value === value) {
+          sel.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    sessionStorage.setItem('surveyDone', '1');
+    var w = document.getElementById('survey-widget');
+    if (w) w.style.display = 'none';
+    document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+  }
+  function dismissSurvey() {
+    sessionStorage.setItem('surveyDone', '1');
+    var w = document.getElementById('survey-widget');
+    if (w) w.style.display = 'none';
+  }
+
+  // FEATURE 19 — Stories
+  var STORIES = [
+    { id: 'photo-1484154218962-a197022b5858', label: 'Bilbao · 2024' },
+    { id: 'photo-1618221195710-dd6b41faaea6', label: 'Getxo · 2024' },
+    { id: 'photo-1560448204-e02f11c3d0e2', label: 'Barakaldo · 2023' },
+    { id: 'photo-1621905251189-08b45d6a269e', label: 'Leioa · 2024' },
+    { id: 'photo-1558618666-fcd25c85cd64', label: 'Basauri · 2023' },
+    { id: 'photo-1504328345606-18bbc8c9d7d1', label: 'Sestao · 2024' }
+  ];
+  function openStory(i) {
+    var s = STORIES[i];
+    var viewer = document.getElementById('story-viewer');
+    var img = document.getElementById('sv-img');
+    var lbl = document.getElementById('sv-label');
+    img.src = 'https://images.unsplash.com/' + s.id + '?auto=format&fit=crop&w=800&q=85';
+    img.alt = s.label;
+    lbl.textContent = s.label;
+    viewer.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeStory() {
+    var viewer = document.getElementById('story-viewer');
+    if (viewer) viewer.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeStoryClick(e) {
+    if (e.target === document.getElementById('story-viewer')) closeStory();
   }
 </script>
 </body>
