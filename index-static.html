@@ -447,7 +447,7 @@ img{display:block;max-width:100%}
   <a href="#nosotros" onclick="cm()">Nosotros</a>
   <a href="#contacto" onclick="cm()">Contacto</a>
   <div class="mmenu-foot">
-    <p>+34 624 118 284</p>
+    <p><a href="tel:+34624118284" class="tel-link">+34 624 118 284</a></p>
     <p>inforeformasmiribilla@gmail.com</p>
   </div>
 </div>
@@ -647,8 +647,23 @@ img{display:block;max-width:100%}
     <div class="tst-hdr">
       <p class="sk rv">Clientes satisfechos</p>
       <h2 class="st rv rd1">Lo que dicen<br><em>de nosotros</em></h2>
+      <a href="https://g.page/r/" target="_blank" rel="noopener" class="grev-badge rv rd2">
+        <span class="g-logo"><span>G</span><span>o</span><span>o</span><span>g</span><span>l</span><span>e</span></span>
+        <span class="grev-stars">★★★★★</span>
+        <span class="grev-text">4.9 · 47 reseñas en Google</span>
+      </a>
     </div>
     <div class="tst-grid">
+      <!-- Video testimonial card -->
+      <div class="tst-video rv" onclick="window.open('https://wa.me/34624118284?text=Hola%2C%20he%20visto%20vuestro%20v%C3%ADdeo%20testimonial%20y%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n','_blank')">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85" alt="Testimonio en vídeo de José Martínez" />
+        <div class="tst-video-ov"></div>
+        <div class="tst-play"><div class="tst-play-tri"></div></div>
+        <div class="tst-video-info">
+          <p class="tst-video-name">José Martínez</p>
+          <p class="tst-video-loc">Basauri</p>
+        </div>
+      </div>
       <div class="tst-card rv">
         <div class="stars">★★★★★</div>
         <p class="quote">"La reforma integral de nuestro piso fue impecable. El equipo llegó puntual cada día y el resultado superó todas nuestras expectativas. Totalmente recomendable."</p>
@@ -757,27 +772,48 @@ img{display:block;max-width:100%}
       <h2 class="st rv rd1">Cuéntanos tu<br><em>proyecto</em></h2>
       <p class="rv rd2">Solicita tu presupuesto sin compromiso. Te respondemos en menos de 24 horas con una propuesta detallada y a medida.</p>
       <div class="con-dets rv rd3">
-        <div><p class="cd-lbl">Teléfono</p><p class="cd-val">+34 624 118 284</p></div>
+        <div><p class="cd-lbl">Teléfono</p><p class="cd-val"><a href="tel:+34624118284" class="tel-link">+34 624 118 284</a></p></div>
         <div><p class="cd-lbl">Email</p><p class="cd-val">inforeformasmiribilla@gmail.com</p></div>
-        <div><p class="cd-lbl">Horario</p><p class="cd-val">Lun – Vie &nbsp; 8:00 – 19:00</p></div>
+        <div><p class="cd-lbl">Horario</p><p class="cd-val">Lun – Vie &nbsp; 8:00 – 19:00</p><div class="horario-status" id="horario-status"><span class="horario-dot" id="horario-dot"></span><span class="horario-status-txt" id="horario-txt"></span></div></div>
       </div>
     </div>
-    <form class="cf rv rd2" onsubmit="e=>e.preventDefault()">
-      <div class="cf-row">
-        <input class="fi" type="text" placeholder="Nombre" required />
-        <input class="fi" type="tel" placeholder="Teléfono" />
+    <div class="rv rd2">
+      <div class="apt-tabs">
+        <button class="apt-tab active" onclick="switchTab('consulta',this)">Consulta rápida</button>
+        <button class="apt-tab" onclick="switchTab('visita',this)">Reservar visita</button>
       </div>
-      <input class="fi" type="email" placeholder="Correo electrónico" required />
-      <select class="fi">
-        <option value="">Tipo de servicio</option>
-        <option>Reformas Integrales</option><option>Instalaciones Eléctricas</option>
-        <option>Fontanería</option><option>Carpintería</option>
-        <option>Pintura</option><option>Albañilería</option>
-        <option>Climatización</option><option>Baños &amp; Cocinas</option>
-      </select>
-      <textarea class="fi" placeholder="Describe tu proyecto..." rows="5"></textarea>
-      <button type="submit" class="cf-btn">Enviar Solicitud</button>
-    </form>
+      <form id="tab-consulta" class="cf apt-form active" onsubmit="return false">
+        <div class="cf-row">
+          <input class="fi" type="text" placeholder="Nombre" required />
+          <input class="fi" type="tel" placeholder="Teléfono" />
+        </div>
+        <input class="fi" type="email" placeholder="Correo electrónico" required />
+        <select class="fi">
+          <option value="">Tipo de servicio</option>
+          <option>Reformas Integrales</option><option>Instalaciones Eléctricas</option>
+          <option>Fontanería</option><option>Carpintería</option>
+          <option>Pintura</option><option>Albañilería</option>
+          <option>Climatización</option><option>Baños &amp; Cocinas</option>
+        </select>
+        <textarea class="fi" placeholder="Describe tu proyecto..." rows="5"></textarea>
+        <button type="submit" class="cf-btn">Enviar Solicitud</button>
+      </form>
+      <form id="tab-visita" class="cf apt-form" onsubmit="return submitVisita(event)">
+        <input class="fi" id="apt-date" type="date" required />
+        <select class="fi" id="apt-time">
+          <option value="">Selecciona un horario</option>
+          <option>Mañana 9:00-10:00</option>
+          <option>Mañana 10:00-11:00</option>
+          <option>Mañana 11:00-12:00</option>
+          <option>Tarde 16:00-17:00</option>
+          <option>Tarde 17:00-18:00</option>
+          <option>Tarde 18:00-19:00</option>
+        </select>
+        <input class="fi" id="apt-name" type="text" placeholder="Nombre" required />
+        <input class="fi" id="apt-phone" type="tel" placeholder="Teléfono" required />
+        <button type="submit" class="cf-btn">Confirmar visita</button>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -794,6 +830,29 @@ img{display:block;max-width:100%}
     <p class="ft-copy">© <span id="yr"></span> Multiservicios Provenza. Todos los derechos reservados.</p>
   </div>
 </footer>
+
+<!-- CHAT WIDGET -->
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-head">
+    <div class="chat-av">P</div>
+    <div class="chat-head-info">
+      <p class="chat-agent-name">Equipo Provenza</p>
+      <p class="chat-status">● En línea</p>
+    </div>
+  </div>
+  <div class="chat-msgs" id="chat-msgs">
+    <div class="chat-bubble">¡Hola! 👋 ¿En qué podemos ayudarte hoy?</div>
+  </div>
+  <div class="chat-qr" id="chat-qr">
+    <button class="chat-qr-btn" onclick="chatAction('presupuesto')">Quiero un presupuesto</button>
+    <button class="chat-qr-btn" onclick="chatAction('duracion')">¿Cuánto tarda una reforma?</button>
+    <button class="chat-qr-btn" onclick="chatAction('whatsapp')">Hablar por WhatsApp</button>
+  </div>
+</div>
+<button class="chat-btn" id="chat-btn" aria-label="Abrir chat" onclick="toggleChat()">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+  <span class="chat-badge" id="chat-badge">1</span>
+</button>
 
 <!-- WHATSAPP -->
 <a class="wa" href="https://wa.me/34624118284" target="_blank" rel="noopener" aria-label="WhatsApp">
@@ -1027,6 +1086,142 @@ img{display:block;max-width:100%}
   function hov(e) { if (e.target === document.getElementById('modal')) closeModal(); }
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // BEFORE/AFTER SLIDER (Feature 2)
+  function initSlider(cardId, beforeId, divId, rangeId) {
+    var range = document.getElementById(rangeId);
+    var before = document.getElementById(beforeId);
+    var div = document.getElementById(divId);
+    if (!range || !before || !div) return;
+    function update(v) {
+      before.style.width = v + '%';
+      div.style.left = v + '%';
+    }
+    update(range.value);
+    range.addEventListener('input', function() { update(this.value); });
+    // Touch support
+    var card = document.getElementById(cardId);
+    if (card) {
+      card.addEventListener('touchmove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.touches[0].clientX - rect.left;
+        var pct = Math.max(0, Math.min(100, (x / rect.width) * 100));
+        range.value = pct;
+        update(pct);
+      }, { passive: true });
+    }
+  }
+  initSlider('ab1','ab1-before','ab1-div','ab1-rng');
+  initSlider('ab2','ab2-before','ab2-div','ab2-rng');
+
+  // PROGRESS BARS (Feature 21)
+  (function() {
+    var fills = document.querySelectorAll('.prog-fill');
+    if (!fills.length) return;
+    if ('IntersectionObserver' in window) {
+      var po = new IntersectionObserver(function(entries) {
+        entries.forEach(function(en) {
+          if (en.isIntersecting) {
+            en.target.style.width = (en.target.dataset.w || 0) + '%';
+            po.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      fills.forEach(function(el) { po.observe(el); });
+    } else {
+      fills.forEach(function(el) { el.style.width = (el.dataset.w || 0) + '%'; });
+    }
+  })();
+
+  // LIVE HOURS (Feature 23)
+  function updateHorario() {
+    var dot = document.getElementById('horario-dot');
+    var txt = document.getElementById('horario-txt');
+    if (!dot || !txt) return;
+    var now = new Date();
+    var day = now.getDay(); // 0=Sun,1=Mon,...,5=Fri,6=Sat
+    var h = now.getHours(), m = now.getMinutes();
+    var mins = h * 60 + m;
+    var open = day >= 1 && day <= 5 && mins >= 8*60 && mins < 19*60;
+    dot.className = 'horario-dot ' + (open ? 'open' : 'closed');
+    txt.textContent = open ? '● Abierto ahora' : '● Cerrado ahora';
+    txt.style.color = open ? '#22c55e' : '#ef4444';
+    dot.style.display = 'none'; // using text dot above
+  }
+  updateHorario();
+  setInterval(updateHorario, 60000);
+
+  // CHAT WIDGET (Feature 9)
+  var chatOpen = false;
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chat-panel').classList.toggle('open', chatOpen);
+    if (chatOpen) {
+      var badge = document.getElementById('chat-badge');
+      if (badge) badge.style.display = 'none';
+    }
+  }
+  function chatAction(type) {
+    var msgs = document.getElementById('chat-msgs');
+    var qr = document.getElementById('chat-qr');
+    if (type === 'presupuesto') {
+      var userBubble = document.createElement('div');
+      userBubble.className = 'chat-bubble user';
+      userBubble.textContent = 'Quiero un presupuesto';
+      msgs.appendChild(userBubble);
+      if (qr) qr.style.display = 'none';
+      setTimeout(function() {
+        msgs.scrollTop = msgs.scrollHeight;
+        document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    } else if (type === 'duracion') {
+      var userBubble2 = document.createElement('div');
+      userBubble2.className = 'chat-bubble user';
+      userBubble2.textContent = '¿Cuánto tarda una reforma?';
+      msgs.appendChild(userBubble2);
+      setTimeout(function() {
+        var ans = document.createElement('div');
+        ans.className = 'chat-bubble answer';
+        ans.textContent = 'Depende del alcance: una habitación entre 1-2 semanas, una reforma completa entre 4-10 semanas. ¡Te damos un calendario detallado desde el primer día!';
+        msgs.appendChild(ans);
+        msgs.scrollTop = msgs.scrollHeight;
+      }, 600);
+    } else if (type === 'whatsapp') {
+      window.open('https://wa.me/34624118284', '_blank');
+    }
+  }
+
+  // APPOINTMENT BOOKING (Feature 17)
+  // Set min date for date picker to today
+  (function() {
+    var dateInput = document.getElementById('apt-date');
+    if (dateInput) {
+      var today = new Date();
+      var yyyy = today.getFullYear();
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var dd = String(today.getDate()).padStart(2, '0');
+      dateInput.min = yyyy + '-' + mm + '-' + dd;
+    }
+  })();
+
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.apt-tab').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.apt-form').forEach(function(f) { f.classList.remove('active'); });
+    btn.classList.add('active');
+    var form = document.getElementById('tab-' + tab);
+    if (form) form.classList.add('active');
+  }
+
+  function submitVisita(e) {
+    e.preventDefault();
+    var date = document.getElementById('apt-date').value;
+    var time = document.getElementById('apt-time').value;
+    var name = document.getElementById('apt-name').value;
+    if (!date || !time || !name) return false;
+    var msg = 'Hola, me llamo ' + name + ' y quisiera reservar una visita el ' + date + ' en el horario ' + time + '.';
+    window.open('https://wa.me/34624118284?text=' + encodeURIComponent(msg), '_blank');
+    return false;
+  }
 </script>
 </body>
 </html>
