@@ -135,7 +135,7 @@ img{display:block;max-width:100%}
     /* TESTIMONIALS */
     .tst-sec{padding:120px 0;background:#fff}
     .tst-hdr{margin-bottom:72px}
-    .tst-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+    .tst-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
     .tst-card{padding:40px;border:1px solid #e8e6e2;border-radius:20px;transition:border-color .3s,transform .3s}
     .tst-card:hover{border-color:#0a0a0a;transform:translateY(-4px)}
     .stars{font-size:.85rem;letter-spacing:3px;margin-bottom:20px;color:#0a0a0a}
@@ -317,17 +317,6 @@ img{display:block;max-width:100%}
     .tel-link:hover{color:#22c55e}
     .con-sec .tel-link:hover{color:#4ade80}
 
-    /* VIDEO TESTIMONIAL */
-    .tst-video{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:1/1;cursor:pointer}
-    .tst-video img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
-    .tst-video:hover img{transform:scale(1.04)}
-    .tst-video-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.25) 50%,rgba(0,0,0,.15) 100%)}
-    .tst-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) translateY(-16px);width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;transition:transform .3s,background .2s}
-    .tst-video:hover .tst-play{transform:translate(-50%,-50%) translateY(-16px) scale(1.08);background:#fff}
-    .tst-play-tri{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:18px solid #0a0a0a;margin-left:3px}
-    .tst-video-info{position:absolute;bottom:20px;left:20px}
-    .tst-video-name{font-family:'Instrument Serif',serif;font-size:1.15rem;color:#fff;letter-spacing:-.02em}
-    .tst-video-loc{font-size:.75rem;color:rgba(255,255,255,.65);margin-top:2px}
 
     /* RESPONSIVE */
     @media(max-width:1100px){
@@ -597,16 +586,6 @@ img{display:block;max-width:100%}
       </a>
     </div>
     <div class="tst-grid">
-      <!-- Video testimonial card -->
-      <div class="tst-video" onclick="window.open('https://wa.me/34624118284?text=Hola%2C%20he%20visto%20vuestro%20v%C3%ADdeo%20testimonial%20y%20me%20gustar%C3%ADa%20m%C3%A1s%20informaci%C3%B3n','_blank')">
-        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85" alt="Testimonio en vídeo de José Martínez" />
-        <div class="tst-video-ov"></div>
-        <div class="tst-play"><div class="tst-play-tri"></div></div>
-        <div class="tst-video-info">
-          <p class="tst-video-name">José Martínez</p>
-          <p class="tst-video-loc">Basauri</p>
-        </div>
-      </div>
       <div class="tst-card rv">
         <div class="stars">★★★★★</div>
         <p class="quote">"La reforma integral de nuestro piso fue impecable. El equipo llegó puntual cada día y el resultado superó todas nuestras expectativas. Totalmente recomendable."</p>
