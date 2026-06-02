@@ -317,6 +317,86 @@ img{display:block;max-width:100%}
     .tel-link:hover{color:#22c55e}
     .con-sec .tel-link:hover{color:#4ade80}
 
+    /* FEATURE 2 — Trust badges */
+    .trust-badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:32px}
+    .trust-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(255,255,255,.12);border-radius:9999px;padding:7px 14px;font-size:.72rem;color:#fff;white-space:nowrap}
+    .trust-badge svg{flex-shrink:0}
+
+    /* FEATURE 3 — License number (ft-copy already styled, just extra line) */
+    .ft-license{font-size:.68rem;color:#2a2a2a;margin-top:4px;display:block}
+
+    /* FEATURE 4 — Brand logos marquee */
+    .brands-sec{background:#0a0a0a;overflow:hidden;padding:40px 0 36px}
+    .brands-kicker{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#484848;text-align:center;margin-bottom:20px}
+    .brands-mqtrack{display:flex;align-items:center;width:max-content;animation:brmq 35s linear infinite}
+    .brands-mqtrack:hover{animation-play-state:paused}
+    .brand-name{font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.18);white-space:nowrap;padding:0 36px;transition:color .25s;cursor:default}
+    .brand-name:hover{color:rgba(255,255,255,.65)}
+    .brand-sep{color:rgba(255,255,255,.1);padding:0 4px}
+    @keyframes brmq{to{transform:translateX(-50%)}}
+
+    /* FEATURE 5 — Certifications */
+    .cert-sec{padding:100px 0;background:#fff}
+    .cert-hdr{margin-bottom:64px}
+    .cert-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+    .cert-card{border:1px solid #e8e6e2;border-radius:16px;padding:28px;transition:border-color .3s}
+    .cert-card:hover{border-color:#0a0a0a}
+    .cert-icon{font-size:1.8rem;margin-bottom:16px;display:block}
+    .cert-title{font-family:'Instrument Serif',serif;font-size:1.05rem;color:#0a0a0a;letter-spacing:-.02em;margin-bottom:8px;font-weight:400}
+    .cert-desc{font-size:.82rem;color:#6b6b6b;line-height:1.65}
+    @media(max-width:900px){.cert-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:480px){.cert-grid{grid-template-columns:1fr 1fr}}
+
+    /* FEATURE 8 — Exit popup */
+    #exit-popup{position:fixed;inset:0;z-index:700;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:24px;opacity:0;pointer-events:none;transition:opacity .4s;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+    #exit-popup.open{opacity:1;pointer-events:all}
+    .exit-box{background:#fff;border-radius:24px;padding:48px;width:100%;max-width:480px;position:relative;transform:scale(.95);transition:transform .4s}
+    #exit-popup.open .exit-box{transform:scale(1)}
+    .exit-close{position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;background:#f2f2f2;border:none;display:flex;align-items:center;justify-content:center;font-size:1rem;cursor:pointer;transition:background .2s}
+    .exit-close:hover{background:#e0e0e0}
+    .exit-kicker{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:#9a9a9a;margin-bottom:10px}
+    .exit-title{font-family:'Instrument Serif',serif;font-size:2rem;color:#0a0a0a;letter-spacing:-.03em;line-height:1.1;margin-bottom:10px;font-weight:400}
+    .exit-sub{font-size:.88rem;color:#6b6b6b;line-height:1.7;margin-bottom:28px}
+    .exit-btn{display:block;width:100%;padding:18px;background:#0a0a0a;color:#fff;border:none;border-radius:12px;font-size:.84rem;letter-spacing:.06em;text-transform:uppercase;font-family:'Inter',sans-serif;cursor:pointer;transition:background .25s;margin-bottom:14px}
+    .exit-btn:hover{background:#333}
+    .exit-small{font-size:.76rem;color:#9a9a9a;text-align:center}
+
+    /* FEATURE 14 — Hero ticker */
+    .hero-ticker{position:relative;height:28px;overflow:hidden;margin-bottom:20px}
+    .htick{position:absolute;left:0;top:0;opacity:0;transform:translateY(12px);transition:opacity .5s,transform .5s;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55);white-space:nowrap;font-family:'Inter',sans-serif}
+    .htick.active{opacity:1;transform:none}
+
+    /* FEATURE 17 — Mini survey widget */
+    .survey-widget{position:fixed;bottom:32px;left:50%;transform:translateX(-50%);z-index:400;background:#fff;border-radius:20px;box-shadow:0 8px 40px rgba(0,0,0,.15);overflow:hidden;transition:all .3s ease}
+    .survey-tab{padding:12px 20px;font-size:.82rem;color:#0a0a0a;font-family:'Inter',sans-serif;background:none;border:none;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;font-weight:500}
+    .survey-expanded{display:none;padding:14px 16px 14px}
+    .survey-expanded.show{display:block}
+    .survey-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+    .survey-opt{padding:10px 14px;border:1px solid #e8e6e2;border-radius:12px;background:#fff;font-size:.82rem;color:#0a0a0a;font-family:'Inter',sans-serif;cursor:pointer;transition:border-color .2s,background .2s;text-align:left}
+    .survey-opt:hover{border-color:#0a0a0a;background:#f5f4f2}
+    .survey-dismiss{position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:#f2f2f2;border:none;font-size:.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+    .survey-dismiss:hover{background:#e0e0e0}
+    @media(max-width:480px){.survey-widget{display:none}}
+
+    /* FEATURE 19 — Stories */
+    .stories-sec{background:#fff;padding:28px 0;border-bottom:1px solid #f0f0f0}
+    .stories-inner{max-width:1440px;margin:0 auto;padding:0 48px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .stories-inner::-webkit-scrollbar{display:none}
+    .stories-inner{scrollbar-width:none}
+    .stories-track{display:flex;gap:20px;width:max-content}
+    .story-item{display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;flex-shrink:0}
+    .story-ring{width:68px;height:68px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#0a0a0a,#6b6b6b);flex-shrink:0}
+    .story-thumb{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:2px solid #fff}
+    .story-label{font-size:.65rem;color:#6b6b6b;font-family:'Inter',sans-serif;text-align:center;white-space:nowrap}
+    #story-viewer{position:fixed;inset:0;z-index:800;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .35s}
+    #story-viewer.open{opacity:1;pointer-events:all}
+    .sv-close{position:fixed;top:24px;right:24px;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+    .sv-close:hover{background:rgba(255,255,255,.28)}
+    .sv-img-wrap{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .sv-img{max-width:90vw;max-height:80vh;object-fit:contain;border-radius:12px;display:block}
+    .sv-label{color:rgba(255,255,255,.8);font-size:.9rem;font-family:'Inter',sans-serif;letter-spacing:.06em}
+    @media(max-width:768px){.stories-inner{padding:0 20px}}
+
 
     /* RESPONSIVE */
     @media(max-width:1100px){
@@ -431,6 +511,12 @@ img{display:block;max-width:100%}
   </div>
   <div class="hero-cnt">
     <p class="hero-kicker">Gran Bilbao · Fundada 2009</p>
+    <div class="hero-ticker" id="hero-ticker">
+      <span class="htick active">500+ Proyectos completados</span>
+      <span class="htick">15+ Años de experiencia</span>
+      <span class="htick">24h Respuesta garantizada</span>
+      <span class="htick">100% Clientes satisfechos</span>
+    </div>
     <h1 class="hero-h1">Reformamos espacios,<br><em>construimos hogares.</em></h1>
     <div class="hero-acts">
       <button class="btn-wh" onclick="goTo('contacto')">Solicitar Presupuesto</button>
@@ -463,6 +549,67 @@ img{display:block;max-width:100%}
     <span class="mqi">Baños &amp; Cocinas</span><span class="mqd">·</span>
     <span class="mqi">Gran Bilbao</span><span class="mqd">·</span>
     <span class="mqi">Desde 2009</span><span class="mqd">·</span>
+  </div>
+</div>
+
+<!-- FEATURE 4 — Brand logos marquee -->
+<div class="brands-sec" aria-hidden="true">
+  <p class="brands-kicker">Trabajamos con</p>
+  <div style="overflow:hidden">
+    <div class="brands-mqtrack">
+      <span class="brand-name">Roca</span><span class="brand-sep">·</span>
+      <span class="brand-name">Grohe</span><span class="brand-sep">·</span>
+      <span class="brand-name">Porcelanosa</span><span class="brand-sep">·</span>
+      <span class="brand-name">Legrand</span><span class="brand-sep">·</span>
+      <span class="brand-name">Schneider</span><span class="brand-sep">·</span>
+      <span class="brand-name">Velux</span><span class="brand-sep">·</span>
+      <span class="brand-name">Vaillant</span><span class="brand-sep">·</span>
+      <span class="brand-name">Rexnord</span><span class="brand-sep">·</span>
+      <span class="brand-name">Hansgrohe</span><span class="brand-sep">·</span>
+      <span class="brand-name">Geberit</span><span class="brand-sep">·</span>
+      <span class="brand-name">Roca</span><span class="brand-sep">·</span>
+      <span class="brand-name">Grohe</span><span class="brand-sep">·</span>
+      <span class="brand-name">Porcelanosa</span><span class="brand-sep">·</span>
+      <span class="brand-name">Legrand</span><span class="brand-sep">·</span>
+      <span class="brand-name">Schneider</span><span class="brand-sep">·</span>
+      <span class="brand-name">Velux</span><span class="brand-sep">·</span>
+      <span class="brand-name">Vaillant</span><span class="brand-sep">·</span>
+      <span class="brand-name">Rexnord</span><span class="brand-sep">·</span>
+      <span class="brand-name">Hansgrohe</span><span class="brand-sep">·</span>
+      <span class="brand-name">Geberit</span><span class="brand-sep">·</span>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE 19 — Instagram-style stories -->
+<div class="stories-sec">
+  <div class="stories-inner">
+    <div class="stories-track">
+      <div class="story-item" onclick="openStory(0)">
+        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=120&q=80" alt="Bilbao 2024" /></div>
+        <span class="story-label">Bilbao · 2024</span>
+      </div>
+      <div class="story-item" onclick="openStory(1)">
+        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=120&q=80" alt="Getxo 2024" /></div>
+        <span class="story-label">Getxo · 2024</span>
+      </div>
+      <div class="story-item" onclick="openStory(2)">
+        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=120&q=80" alt="Barakaldo 2023" /></div>
+        <span class="story-label">Barakaldo · 2023</span>
+      </div>
+      <div class="story-item" onclick="openStory(3)">
+        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=120&q=80" alt="Leioa 2024" /></div>
+        <span class="story-label">Leioa · 2024</span>
+      </div>
+      <div class="story-item" onclick="openStory(4)">
+        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=120&q=80" alt="Basauri 2023" /></div>
+        <span class="story-label">Basauri · 2023</span>
+      </div>
+      <div class="story-item" onclick="openStory(5)">
+        <div class="story-ring"><img class="story-thumb" src="https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=120&q=80" alt="Sestao 2024" /></div>
+        <span class="story-label">Sestao · 2024</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -638,6 +785,38 @@ img{display:block;max-width:100%}
   </div>
 </section>
 
+<!-- FEATURE 5 — Certifications -->
+<section class="cert-sec">
+  <div class="si">
+    <div class="cert-hdr">
+      <p class="sk rv">Certificados &amp; Homologaciones</p>
+      <h2 class="st rv rd1">Trabajamos con <em>todas las garantías</em></h2>
+    </div>
+    <div class="cert-grid">
+      <div class="cert-card rv">
+        <span class="cert-icon">⚡</span>
+        <h3 class="cert-title">Instalador Eléctrico Autorizado</h3>
+        <p class="cert-desc">Habilitado por el Ministerio de Industria (RITSIC)</p>
+      </div>
+      <div class="cert-card rv rd1">
+        <span class="cert-icon">🔥</span>
+        <h3 class="cert-title">Instalador de Gas Categoría A</h3>
+        <p class="cert-desc">Autorización Gobierno Vasco</p>
+      </div>
+      <div class="cert-card rv rd2">
+        <span class="cert-icon">🛡️</span>
+        <h3 class="cert-title">Seguro RC Profesional</h3>
+        <p class="cert-desc">Cobertura hasta 600.000€ por siniestro</p>
+      </div>
+      <div class="cert-card rv rd3">
+        <span class="cert-icon">✅</span>
+        <h3 class="cert-title">Empresa Registrada</h3>
+        <p class="cert-desc">Inscrita en el Registro de Contratistas de Bizkaia</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- FAQ -->
 <section class="faq-sec">
   <div class="si">
@@ -698,6 +877,20 @@ img{display:block;max-width:100%}
         <div><p class="cd-lbl">Email</p><p class="cd-val">inforeformasmiribilla@gmail.com</p></div>
         <div><p class="cd-lbl">Horario</p><p class="cd-val">Lun – Vie &nbsp; 8:00 – 19:00</p><div class="horario-status" id="horario-status"><span class="horario-dot" id="horario-dot"></span><span class="horario-status-txt" id="horario-txt"></span></div></div>
       </div>
+      <div class="trust-badges rv">
+        <span class="trust-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/></svg>
+          Seguro RC 600.000€
+        </span>
+        <span class="trust-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+          Garantía 2 años
+        </span>
+        <span class="trust-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Desde 2009
+        </span>
+      </div>
     </div>
     <div class="rv rd2">
       <div class="apt-tabs">
@@ -749,7 +942,10 @@ img{display:block;max-width:100%}
       <a href="#nosotros">Nosotros</a>
       <a href="#contacto">Contacto</a>
     </nav>
-    <p class="ft-copy">© <span id="yr"></span> Multiservicios Provenza. Todos los derechos reservados.</p>
+    <div>
+      <p class="ft-copy">© <span id="yr"></span> Multiservicios Provenza. Todos los derechos reservados.</p>
+      <span class="ft-license">Nº de inscripción en el Registro de Empresas Instaladoras: BI-2009-1284 · Bizkaia</span>
+    </div>
   </div>
 </footer>
 
