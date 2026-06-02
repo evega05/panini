@@ -251,8 +251,78 @@ img{display:block;max-width:100%}
     .modal-cta:hover{transform:scale(1.04)}
 
     /* RESPONSIVE */
-    @media(max-width:1100px){.svc-lay{grid-template-columns:1fr}.svc-img-panel{display:none}.stat-grid{grid-template-columns:repeat(2,1fr)}.tst-grid{grid-template-columns:1fr 1fr}.abt-in{grid-template-columns:1fr}.con-in{grid-template-columns:1fr}.proc-steps{grid-template-columns:1fr 1fr;gap:48px}.proc-steps::before{display:none}}
-    @media(max-width:768px){#hdr,#hdr.sc{padding:20px 24px}.nav-links,.btn-nav{display:none}.menu-tog{display:flex}.hero{padding:0 24px 72px}.si{padding:0 24px}.svc-sec{padding:80px 0 60px}.proj-sec{padding:80px 0 0}.proj-track{padding:0 24px 60px}.stat-grid{grid-template-columns:1fr 1fr;padding:0 24px}.tst-grid{grid-template-columns:1fr}.proc-steps{grid-template-columns:1fr}.abt-imgs{display:none}.cf-row{grid-template-columns:1fr}.con-sec,.cov-sec,.abt-sec,.tst-sec,.proc-sec,.stat-sec,.faq-sec{padding:80px 0}.ft{padding:40px 24px}.scroll-ind{display:none}}
+    @media(max-width:1100px){
+      .svc-lay{grid-template-columns:1fr}
+      .svc-img-panel{display:none}
+      .stat-grid{grid-template-columns:repeat(2,1fr)}
+      .tst-grid{grid-template-columns:1fr 1fr}
+      .abt-in{grid-template-columns:1fr}
+      .con-in{grid-template-columns:1fr}
+      .proc-steps{grid-template-columns:1fr 1fr;gap:48px}
+      .proc-steps::before{display:none}
+    }
+    @media(max-width:768px){
+      #hdr,#hdr.sc{padding:20px 24px}
+      .nav-links,.btn-nav{display:none}
+      .menu-tog{display:flex}
+      .hero{padding:0 24px 72px}
+      .si{padding:0 24px}
+      .svc-sec{padding:80px 0 60px}
+      .proj-sec{padding:80px 0 0}
+      .proj-track{padding:0 24px 60px}
+      .stat-grid{grid-template-columns:1fr 1fr;padding:0 24px}
+      .tst-grid{grid-template-columns:1fr}
+      .tst-card{padding:28px}
+      .proc-steps{grid-template-columns:1fr}
+      .abt-imgs{display:none}
+      .cf-row{grid-template-columns:1fr}
+      .con-sec,.cov-sec,.abt-sec,.tst-sec,.proc-sec,.stat-sec,.faq-sec{padding:80px 0}
+      .ft{padding:40px 24px}
+      .scroll-ind{display:none}
+      .map-wrap iframe{height:320px}
+      .ft-in{flex-direction:column;align-items:flex-start;gap:20px}
+      .ft-nav{flex-wrap:wrap;gap:20px}
+    }
+    @media(max-width:480px){
+      /* Hero */
+      .hero{padding:0 20px 64px}
+      .hero-h1{font-size:clamp(2.4rem,11vw,3.2rem);line-height:1.02;margin-bottom:36px}
+      .hero-acts{flex-direction:column;gap:10px}
+      .btn-wh,.btn-gh{width:100%;text-align:center;padding:16px 20px;font-size:.8rem}
+      /* Sections */
+      .si{padding:0 20px}
+      .st{font-size:clamp(1.8rem,8vw,2.6rem)}
+      /* Stats */
+      .stat-blk{padding:28px 8px}
+      .stat-num{font-size:clamp(2.4rem,13vw,3.5rem)}
+      /* Testimonials */
+      .tst-card{padding:22px}
+      .quote{font-size:.95rem}
+      /* Coverage */
+      .map-wrap iframe{height:260px}
+      .zone{padding:6px 16px;font-size:.72rem}
+      /* Contact */
+      .cd-val{word-break:break-all;font-size:.82rem}
+      .fi{padding:14px 16px}
+      /* Footer */
+      .ft-in{flex-direction:column;align-items:flex-start;gap:18px}
+      .ft-nav{flex-wrap:wrap;gap:16px}
+      .ft-copy{font-size:.68rem}
+      /* Modal: bottom sheet on phones */
+      .modal-overlay{padding:0;align-items:flex-end}
+      .modal-box{border-radius:22px 22px 0 0;max-height:92vh;max-width:100%}
+      .modal-header{padding:20px 20px 0}
+      .modal-title{font-size:1.5rem}
+      .modal-body{padding:14px 20px 0}
+      .modal-photos{grid-template-columns:1fr;grid-template-rows:200px 160px 160px;gap:6px}
+      .modal-photos img:first-child,.photo-skeleton:first-child{grid-row:auto}
+      .modal-footer{padding:14px 20px;flex-direction:column;gap:10px;align-items:stretch;margin-top:14px}
+      .modal-cta{text-align:center;padding:14px}
+      .modal-note{text-align:center}
+      /* Scroll-top btn: avoid overlap with WhatsApp */
+      #stb{bottom:104px;right:20px}
+      .wa{bottom:24px;right:20px;width:52px;height:52px}
+    }
   </style>
 </head>
 <body>
