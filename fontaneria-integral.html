@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Fontanería Integral — Fontaneros en Bilbao. Urgencias 24h, presupuesto gratuito, respuesta en 30 minutos en todo el Gran Bilbao.">
+<title>Fontanería Integral | Fontaneros en Bilbao · 24h · 670 641 530</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --blue:#1a56db;
+  --blue-dark:#1342b0;
+  --blue-light:#e8f0fe;
+  --white:#ffffff;
+  --gray-1:#f8f9fb;
+  --gray-2:#e9ecf1;
+  --gray-3:#9ba3af;
+  --ink:#111827;
+  --ink-2:#374151;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);overflow-x:hidden}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(0,0,0,0.07);
+}
+
+.nav-logo{
+  font-family:'Instrument Serif',serif;
+  font-size:1.25rem;color:var(--ink);
+  letter-spacing:-0.01em;text-decoration:none;
+}
+.nav-logo b{color:var(--blue);font-weight:400;}
+
+.nav-menu{display:flex;align-items:center;gap:1.75rem;list-style:none;}
+.nav-menu a{color:var(--ink-2);text-decoration:none;font-size:0.875rem;font-weight:400;transition:color 0.2s;}
+.nav-menu a:hover{color:var(--blue);}
+
+.nav-btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--blue);color:white !important;
+  padding:0.55rem 1.25rem;border-radius:8px;
+  font-size:0.875rem !important;font-weight:500 !important;
+  transition:background 0.2s,transform 0.15s;
+}
+.nav-btn:hover{background:var(--blue-dark) !important;transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  min-height:100vh;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  padding-top:68px;
+  overflow:hidden;
+}
+
+.hero-left{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:4rem 3rem 8rem 3rem;
+  position:relative;
+  z-index:2;
+  background:white;
+}
+
+.hero-right{
+  position:relative;
+  overflow:hidden;
+}
+
+/* Gradiente profesional en lugar de foto Pixabay */
+.hero-photo{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(160deg, #0a1628 0%, #0e2156 50%, #1a56db 100%);
+}
+
+/* Patrón de puntos sutil para textura */
+.hero-photo::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,0.07) 1px, transparent 0);
+  background-size:36px 36px;
+}
+
+/* Icono decorativo de fontanería en el hero */
+.hero-photo-deco{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
+.hero-photo-deco svg{
+  width:340px;height:340px;
+  opacity:0.08;
+  fill:white;
+}
+
+.hero-photo-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to right,
+    rgba(255,255,255,1) 0%,
+    rgba(255,255,255,0) 15%
+  );
+  z-index:2;
+}
+
+/* Badge */
+.hero-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--blue-light);
+  border:1px solid rgba(26,86,219,0.2);
+  border-radius:100px;
+  padding:0.35rem 0.9rem;
+  font-size:0.78rem;font-weight:500;
+  color:var(--blue);
+  margin-bottom:1.75rem;
+  width:fit-content;
+  opacity:0;animation:up 0.6s ease forwards 0.1s;
+}
+
+.badge-dot{
+  width:6px;height:6px;
+  background:#22c55e;border-radius:50%;
+  animation:blink 2s infinite;flex-shrink:0;
+}
+
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* H1 */
+.hero-h1{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(2.8rem,4vw,4.2rem);
+  line-height:1.05;
+  letter-spacing:-0.025em;
+  color:var(--ink);
+  margin-bottom:1.25rem;
+  opacity:0;animation:up 0.7s ease forwards 0.22s;
+}
+
+.hero-h1 em{font-style:italic;color:var(--blue);}
+
+/* Sub */
+.hero-sub{
+  font-size:1rem;font-weight:300;line-height:1.75;
+  color:var(--ink-2);
+  max-width:440px;
+  margin-bottom:2rem;
+  opacity:0;animation:up 0.7s ease forwards 0.34s;
+}
+
+/* Reseñas inline */
+.hero-reviews{
+  display:flex;align-items:center;gap:0.75rem;
+  margin-bottom:2.5rem;
+  opacity:0;animation:up 0.7s ease forwards 0.44s;
+}
+
+.stars{display:flex;gap:2px;}
+.stars svg{width:16px;height:16px;fill:#f59e0b;}
+
+.reviews-text{font-size:0.82rem;color:var(--ink-2);}
+.reviews-text strong{color:var(--ink);font-weight:500;}
+
+/* CTAs */
+.hero-ctas{
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;
+  margin-bottom:2.5rem;
+  opacity:0;animation:up 0.7s ease forwards 0.54s;
+}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:var(--blue);color:white;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.95rem;font-weight:500;
+  padding:0.85rem 1.75rem;border-radius:10px;
+  text-decoration:none;
+  transition:background 0.2s,transform 0.15s,box-shadow 0.2s;
+  box-shadow:0 4px 16px rgba(26,86,219,0.3);
+}
+.btn-primary:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,86,219,0.4);}
+.btn-primary svg{width:17px;height:17px;flex-shrink:0;}
+
+.btn-wa{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:white;color:var(--ink-2);
+  font-family:'DM Sans',sans-serif;
+  font-size:0.9rem;font-weight:400;
+  padding:0.85rem 1.5rem;border-radius:10px;
+  text-decoration:none;
+  border:1px solid var(--gray-2);
+  transition:border-color 0.2s,background 0.2s,transform 0.15s;
+}
+.btn-wa:hover{border-color:rgba(0,0,0,0.15);background:var(--gray-1);transform:translateY(-1px);}
+.btn-wa svg{width:17px;height:17px;fill:#25d366;flex-shrink:0;}
+
+/* Trust pills */
+.hero-pills{
+  display:flex;flex-wrap:wrap;gap:0.6rem;
+  opacity:0;animation:up 0.7s ease forwards 0.64s;
+}
+
+.pill{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  background:var(--gray-1);
+  border:1px solid var(--gray-2);
+  border-radius:100px;
+  padding:0.35rem 0.85rem;
+  font-size:0.78rem;font-weight:400;
+  color:var(--ink-2);
+}
+
+.pill svg{
+  width:13px;height:13px;
+  stroke:var(--blue);fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  flex-shrink:0;
+}
+
+/* ── STRIP INFERIOR ── */
+.hero-strip{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  z-index:10;
+  background:white;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--gray-2);
+  box-shadow:0 -4px 20px rgba(0,0,0,0.04);
+}
+
+.strip-item{
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;gap:0.75rem;
+  border-right:1px solid var(--gray-2);
+  transition:background 0.2s;
+}
+.strip-item:last-child{border-right:none;}
+.strip-item:hover{background:var(--gray-1);}
+
+.strip-icon{
+  width:36px;height:36px;
+  background:var(--blue-light);
+  border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.strip-icon svg{width:18px;height:18px;stroke:var(--blue);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+.strip-title{font-size:0.875rem;font-weight:500;color:var(--ink);line-height:1.2;}
+.strip-sub{font-size:0.75rem;color:var(--gray-3);}
+
+/* ── TICKER ── */
+.ticker{
+  position:fixed;bottom:1.5rem;left:50%;
+  transform:translateX(-50%);z-index:300;
+  background:var(--ink);color:white;
+  border-radius:100px;
+  padding:0.6rem 1.5rem;
+  font-size:0.8rem;
+  display:flex;align-items:center;gap:0.75rem;
+  white-space:nowrap;
+  opacity:0;animation:tickerUp 0.5s ease forwards 1s;
+  box-shadow:0 4px 20px rgba(0,0,0,0.2);
+}
+.ticker-dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:blink 1.5s infinite;flex-shrink:0;}
+.ticker a{color:#93c5fd;text-decoration:none;font-weight:500;}
+.ticker a:hover{color:white;}
+
+/* WA */
+.wa{
+  position:fixed;bottom:4.5rem;right:1.5rem;z-index:300;
+  width:52px;height:52px;background:#25d366;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;
+  box-shadow:0 4px 16px rgba(37,211,102,0.4);
+  transition:transform 0.2s;
+  opacity:0;animation:up 0.5s ease forwards 1.2s;
+}
+.wa:hover{transform:scale(1.08);}
+.wa svg{width:28px;height:28px;fill:white;}
+
+/* ── ANIMATIONS ── */
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tickerUp{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
+
+/* ── RESPONSIVE hero ── */
+@media(max-width:900px){
+  nav{padding:0 1rem;}
+  .nav-menu{display:none;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:2.5rem 1.5rem 7rem;}
+  .hero-right{height:280px;order:-1;}
+  .hero-photo-overlay{background:linear-gradient(to bottom,rgba(255,255,255,0) 0%,rgba(255,255,255,1) 90%);}
+  .hero-strip{grid-template-columns:1fr 1fr;}
+  .strip-item:nth-child(2){border-right:none;}
+  .strip-item:nth-child(3){border-top:1px solid var(--gray-2);}
+  .strip-item:nth-child(4){border-top:1px solid var(--gray-2);border-right:none;}
+}
+
+/* ══════════════════════════════════
+   SERVICIOS
+══════════════════════════════════ */
+.servicios{
+  padding:6rem 2.5rem;
+  max-width:1280px;
+  margin:0 auto;
+}
+
+.section-header{
+  text-align:center;
+  margin-bottom:4rem;
+}
+
+.section-tag{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:var(--blue-light);
+  border-radius:100px;
+  padding:0.3rem 0.9rem;
+  font-size:0.75rem;font-weight:500;
+  color:var(--blue);
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  margin-bottom:1rem;
+}
+
+.section-h2{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  line-height:1.1;
+  letter-spacing:-0.02em;
+  color:var(--ink);
+  margin-bottom:1rem;
+}
+
+.section-h2 em{font-style:italic;color:var(--blue);}
+
+.section-sub{
+  font-size:1rem;font-weight:300;line-height:1.7;
+  color:var(--ink-2);max-width:520px;margin:0 auto;
+}
+
+/* Grid */
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;
+}
+
+/* Card */
+.svc-card{
+  border-radius:16px;
+  overflow:hidden;
+  border:1px solid var(--gray-2);
+  background:white;
+  transition:transform 0.25s,box-shadow 0.25s,border-color 0.25s;
+  cursor:pointer;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+}
+
+.svc-card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(0,0,0,0.1);
+  border-color:rgba(26,86,219,0.2);
+}
+
+/* ── Foto de tarjeta: gradiente CSS + icono decorativo ── */
+.svc-photo{
+  height:200px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:filter 0.3s;
+}
+.svc-card:hover .svc-photo{filter:brightness(1.08);}
+
+/* Gradientes únicos por servicio */
+.svc-photo--averia    { background:linear-gradient(135deg,#0f2044 0%,#1a56db 100%); }
+.svc-photo--desatasco { background:linear-gradient(135deg,#064e3b 0%,#059669 100%); }
+.svc-photo--caldera   { background:linear-gradient(135deg,#7c2d12 0%,#ea580c 100%); }
+.svc-photo--instalacion{ background:linear-gradient(135deg,#1e3a5f 0%,#3b82f6 100%); }
+.svc-photo--reforma   { background:linear-gradient(135deg,#2d1b69 0%,#7c3aed 100%); }
+.svc-photo--fugas     { background:linear-gradient(135deg,#0c4a6e 0%,#0ea5e9 100%); }
+
+/* Patrón de fondo sutil */
+.svc-photo::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+  background-size:28px 28px;
+}
+
+/* Icono SVG decorativo centrado */
+.svc-photo-icon{
+  position:absolute;
+  bottom:-20px; right:-20px;
+  opacity:0.15;
+  pointer-events:none;
+  transition:opacity 0.3s,transform 0.3s;
+}
+.svc-card:hover .svc-photo-icon{ opacity:0.22; transform:scale(1.05); }
+.svc-photo-icon svg{
+  width:180px;height:180px;
+  fill:white;stroke:none;
+}
+
+/* Emoji centrado como elemento visual principal */
+.svc-photo-emoji{
+  font-size:3.5rem;
+  position:relative;
+  z-index:1;
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+  transition:transform 0.3s;
+}
+.svc-card:hover .svc-photo-emoji{ transform:scale(1.1) translateY(-3px); }
+
+.svc-badge{
+  position:absolute;top:1rem;left:1rem;
+  background:white;
+  border-radius:8px;
+  padding:0.3rem 0.7rem;
+  font-size:0.72rem;font-weight:500;
+  color:var(--blue);
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  z-index:2;
+}
+
+/* Cuerpo */
+.svc-body{
+  padding:1.5rem;
+  flex:1;
+  display:flex;flex-direction:column;
+}
+
+.svc-icon{font-size:1.5rem;margin-bottom:0.6rem;}
+
+.svc-name{
+  font-family:'Instrument Serif',serif;
+  font-size:1.2rem;
+  color:var(--ink);
+  margin-bottom:0.5rem;
+  line-height:1.2;
+}
+
+.svc-desc{
+  font-size:0.85rem;font-weight:300;
+  color:var(--ink-2);line-height:1.6;
+  margin-bottom:1.25rem;
+  flex:1;
+}
+
+.svc-price{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:1rem;
+  border-top:1px solid var(--gray-2);
+}
+
+.price-label{font-size:0.72rem;color:var(--gray-3);}
+.price-val{font-family:'Instrument Serif',serif;font-size:1.1rem;color:var(--ink);}
+
+.svc-cta{
+  display:inline-flex;align-items:center;gap:0.3rem;
+  font-size:0.78rem;font-weight:500;
+  color:var(--blue);
+  text-decoration:none;
+  transition:gap 0.2s;
+}
+
+.svc-card:hover .svc-cta{gap:0.6rem;}
+
+.svc-cta svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* CTA inferior */
+.services-cta{
+  text-align:center;
+  margin-top:3rem;
+}
+
+.btn-outline{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:white;color:var(--blue);
+  font-family:'DM Sans',sans-serif;
+  font-size:0.95rem;font-weight:500;
+  padding:0.85rem 2rem;border-radius:10px;
+  text-decoration:none;
+  border:1.5px solid var(--blue);
+  transition:background 0.2s,color 0.2s,transform 0.15s;
+}
+.btn-outline:hover{background:var(--blue);color:white;transform:translateY(-1px);}
+
+/* ══════════════════════════════════
+   CLUB DE MANTENIMIENTO
+══════════════════════════════════ */
+.club{
+  background:var(--gray-1);
+  padding:6rem 2.5rem;
+}
+
+.club-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+
+.club-left .section-sub{margin-bottom:2rem;}
+
+.club-features{
+  display:flex;flex-direction:column;gap:1rem;
+  margin-bottom:2.5rem;
+}
+
+.club-feature{
+  display:flex;align-items:flex-start;gap:0.9rem;
+  padding:1rem 1.25rem;
+  background:white;border:1px solid var(--gray-2);
+  border-radius:12px;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.club-feature:hover{border-color:rgba(26,86,219,0.2);box-shadow:0 4px 16px rgba(0,0,0,0.06);}
+
+.feature-icon{
+  width:36px;height:36px;
+  background:var(--blue-light);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.feature-icon svg{width:18px;height:18px;stroke:var(--blue);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+.feature-title{font-size:0.9rem;font-weight:500;color:var(--ink);margin-bottom:0.2rem;}
+.feature-desc{font-size:0.8rem;font-weight:300;color:var(--ink-2);line-height:1.5;}
+
+/* Card precio */
+.price-card{
+  background:white;border:1px solid var(--gray-2);
+  border-radius:20px;padding:2.5rem;
+  box-shadow:0 8px 32px rgba(0,0,0,0.06);
+  position:relative;overflow:hidden;
+}
+
+.price-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(to right,var(--blue),#60a5fa);
+}
+
+.price-tag{
+  display:inline-block;
+  background:var(--blue-light);color:var(--blue);
+  font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+  padding:0.3rem 0.8rem;border-radius:100px;
+  margin-bottom:1.5rem;
+}
+
+.price-num{
+  font-family:'Instrument Serif',serif;
+  font-size:4rem;color:var(--ink);line-height:1;
+  margin-bottom:0.25rem;
+}
+.price-num span{font-size:1.5rem;vertical-align:super;color:var(--blue);}
+.price-per{font-size:0.85rem;color:var(--gray-3);margin-bottom:1.75rem;}
+
+.price-divider{height:1px;background:var(--gray-2);margin-bottom:1.75rem;}
+
+.price-includes{
+  display:flex;flex-direction:column;gap:0.75rem;
+  margin-bottom:2rem;
+}
+
+.price-include{
+  display:flex;align-items:center;gap:0.6rem;
+  font-size:0.88rem;color:var(--ink-2);
+}
+.price-include svg{width:16px;height:16px;stroke:#22c55e;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+.price-note{
+  font-size:0.75rem;color:var(--gray-3);
+  text-align:center;margin-top:1rem;
+}
+
+/* ══════════════════════════════════
+   PROCESO
+══════════════════════════════════ */
+.proceso{
+  padding:6rem 2.5rem;
+  max-width:1280px;margin:0 auto;
+}
+
+.proceso-header{text-align:center;margin-bottom:4rem;}
+.proceso-header .section-sub{margin:0 auto;}
+
+.steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:2rem;position:relative;
+}
+
+.steps::before{
+  content:'';
+  position:absolute;
+  top:28px;left:calc(12.5% + 28px);right:calc(12.5% + 28px);
+  height:1px;background:var(--gray-2);
+  z-index:0;
+}
+
+.step{text-align:center;position:relative;z-index:1;}
+
+.step-num{
+  width:56px;height:56px;
+  background:white;border:2px solid var(--gray-2);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.25rem;
+  font-family:'Instrument Serif',serif;
+  font-size:1.2rem;color:var(--blue);
+  transition:border-color 0.2s,background 0.2s;
+}
+
+.step:hover .step-num{border-color:var(--blue);background:var(--blue-light);}
+
+.step-title{font-size:0.95rem;font-weight:500;color:var(--ink);margin-bottom:0.5rem;}
+.step-desc{font-size:0.82rem;font-weight:300;color:var(--ink-2);line-height:1.6;}
+
+.step-badge{
+  display:inline-block;
+  background:var(--blue-light);color:var(--blue);
+  font-size:0.68rem;font-weight:500;
+  padding:0.2rem 0.6rem;border-radius:100px;
+  margin-top:0.5rem;
+}
+
+/* ══════════════════════════════════
+   TESTIMONIOS
+══════════════════════════════════ */
+.testimonios{
+  background:var(--gray-1);
+  padding:6rem 2.5rem;
+}
+
+.testimonios-inner{max-width:1280px;margin:0 auto;}
+.testimonios-header{text-align:center;margin-bottom:4rem;}
+.testimonios-header .section-sub{margin:0 auto;}
+
+.reviews-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1.5rem;margin-bottom:3rem;
+}
+
+.review-card{
+  background:white;border:1px solid var(--gray-2);
+  border-radius:16px;padding:1.75rem;
+  transition:transform 0.2s,box-shadow 0.2s;
+}
+.review-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,0.08);}
+
+.review-stars{display:flex;gap:3px;margin-bottom:1rem;}
+.review-stars svg{width:16px;height:16px;fill:#f59e0b;}
+
+.review-text{
+  font-size:0.9rem;font-weight:300;line-height:1.7;
+  color:var(--ink-2);margin-bottom:1.25rem;
+  font-style:italic;
+}
+
+.review-author{
+  display:flex;align-items:center;gap:0.75rem;
+  padding-top:1rem;border-top:1px solid var(--gray-2);
+}
+
+.review-avatar{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--blue-light);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Instrument Serif',serif;
+  font-size:0.9rem;color:var(--blue);font-weight:400;
+  flex-shrink:0;
+}
+
+.review-name{font-size:0.88rem;font-weight:500;color:var(--ink);}
+.review-meta{font-size:0.75rem;color:var(--gray-3);}
+
+.reviews-cta{
+  text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:0.75rem;
+}
+
+.google-badge{
+  display:inline-flex;align-items:center;gap:0.75rem;
+  background:white;border:1px solid var(--gray-2);
+  border-radius:100px;padding:0.5rem 1.25rem;
+  font-size:0.82rem;color:var(--ink-2);
+}
+
+.google-badge svg{width:18px;height:18px;}
+
+/* ══════════════════════════════════
+   ZONAS
+══════════════════════════════════ */
+.zonas{
+  padding:6rem 2.5rem;
+  max-width:1280px;margin:0 auto;
+}
+
+.zonas-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:start;
+}
+
+.zonas-left .section-sub{margin-bottom:2rem;}
+
+.zonas-pills{
+  display:flex;flex-wrap:wrap;gap:0.6rem;margin-bottom:2rem;
+}
+
+.zona-pill{
+  background:var(--gray-1);border:1px solid var(--gray-2);
+  border-radius:100px;padding:0.4rem 1rem;
+  font-size:0.82rem;color:var(--ink-2);
+  transition:background 0.2s,border-color 0.2s,color 0.2s;
+  cursor:default;
+}
+.zona-pill:hover{background:var(--blue-light);border-color:rgba(26,86,219,0.2);color:var(--blue);}
+.zona-pill.destacada{background:var(--blue-light);border-color:rgba(26,86,219,0.2);color:var(--blue);font-weight:500;}
+
+.zonas-note{
+  display:flex;align-items:center;gap:0.6rem;
+  font-size:0.82rem;color:var(--ink-2);
+  padding:1rem 1.25rem;
+  background:var(--gray-1);border-radius:10px;
+  border:1px solid var(--gray-2);
+}
+.zonas-note svg{width:16px;height:16px;stroke:var(--blue);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+.zonas-right{
+  display:flex;flex-direction:column;gap:1rem;
+}
+
+.zona-stat{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.25rem 1.5rem;
+  background:var(--gray-1);border:1px solid var(--gray-2);
+  border-radius:12px;
+  transition:border-color 0.2s;
+}
+.zona-stat:hover{border-color:rgba(26,86,219,0.2);}
+
+.zona-stat-label{font-size:0.88rem;color:var(--ink-2);}
+.zona-stat-val{
+  font-family:'Instrument Serif',serif;
+  font-size:1.3rem;color:var(--blue);
+}
+
+/* ══════════════════════════════════
+   FAQ
+══════════════════════════════════ */
+.faq{
+  background:var(--gray-1);
+  padding:6rem 2.5rem;
+}
+
+.faq-inner{
+  max-width:800px;margin:0 auto;
+  text-align:center;
+}
+
+.faq-inner .section-sub{margin:0 auto 3rem;}
+
+.faq-list{text-align:left;display:flex;flex-direction:column;gap:0.75rem;}
+
+.faq-item{
+  background:white;border:1px solid var(--gray-2);
+  border-radius:12px;overflow:hidden;
+}
+
+.faq-q{
+  width:100%;background:none;border:none;cursor:pointer;
+  padding:1.25rem 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;text-align:left;
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;
+  color:var(--ink);transition:background 0.2s;
+}
+.faq-q:hover{background:var(--gray-1);}
+
+.faq-q svg{
+  width:18px;height:18px;stroke:var(--gray-3);fill:none;
+  stroke-width:2;stroke-linecap:round;stroke-linejoin:round;
+  flex-shrink:0;transition:transform 0.3s,stroke 0.2s;
+}
+
+.faq-item.open .faq-q svg{transform:rotate(45deg);stroke:var(--blue);}
+.faq-item.open .faq-q{color:var(--blue);}
+
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s ease;
+}
+
+.faq-a-inner{
+  padding:0 1.5rem 1.25rem;
+  font-size:0.88rem;font-weight:300;line-height:1.7;
+  color:var(--ink-2);
+  border-top:1px solid var(--gray-2);
+  padding-top:1rem;
+}
+
+/* ══════════════════════════════════
+   CITA ONLINE
+══════════════════════════════════ */
+.cita{
+  padding:6rem 2.5rem;
+  max-width:1280px;margin:0 auto;
+}
+
+.cita-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:5rem;align-items:center;
+}
+
+.cita-left .section-sub{margin-bottom:2rem;}
+
+.cita-puntos{display:flex;flex-direction:column;gap:0.75rem;}
+
+.cita-punto{
+  display:flex;align-items:center;gap:0.75rem;
+  font-size:0.88rem;color:var(--ink-2);
+}
+.cita-punto svg{width:16px;height:16px;stroke:#22c55e;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+.cita-form{
+  background:var(--gray-1);border:1px solid var(--gray-2);
+  border-radius:20px;padding:2.5rem;
+}
+
+.form-title{
+  font-family:'Instrument Serif',serif;
+  font-size:1.4rem;color:var(--ink);margin-bottom:0.4rem;
+}
+.form-sub{font-size:0.82rem;color:var(--gray-3);margin-bottom:1.75rem;}
+
+.form-group{margin-bottom:1rem;}
+
+.form-group label{
+  display:block;font-size:0.78rem;font-weight:500;
+  color:var(--ink-2);margin-bottom:0.4rem;letter-spacing:0.02em;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+  width:100%;
+  background:white;border:1px solid var(--gray-2);
+  border-radius:8px;padding:0.75rem 1rem;
+  font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--ink);
+  transition:border-color 0.2s,box-shadow 0.2s;
+  outline:none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(26,86,219,0.1);
+}
+
+.form-group textarea{resize:vertical;min-height:90px;}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+
+.btn-form{
+  width:100%;
+  display:flex;align-items:center;justify-content:center;gap:0.6rem;
+  background:var(--blue);color:white;
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;
+  padding:0.9rem;border-radius:10px;border:none;cursor:pointer;
+  margin-top:1.25rem;
+  transition:background 0.2s,transform 0.15s;
+  box-shadow:0 4px 16px rgba(26,86,219,0.3);
+}
+.btn-form:hover{background:var(--blue-dark);transform:translateY(-1px);}
+
+.form-nota{font-size:0.72rem;color:var(--gray-3);text-align:center;margin-top:0.75rem;}
+
+/* ══════════════════════════════════
+   CTA BANNER
+══════════════════════════════════ */
+.cta-banner{
+  background:var(--blue);
+  padding:5rem 2.5rem;
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+
+.cta-banner::before{
+  content:'';position:absolute;
+  top:-100px;right:-100px;
+  width:400px;height:400px;
+  background:rgba(255,255,255,0.05);
+  border-radius:50%;
+}
+
+.cta-banner::after{
+  content:'';position:absolute;
+  bottom:-80px;left:-80px;
+  width:300px;height:300px;
+  background:rgba(255,255,255,0.04);
+  border-radius:50%;
+}
+
+.cta-banner-content{position:relative;z-index:1;max-width:600px;margin:0 auto;}
+
+.cta-banner h2{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(2rem,4vw,3rem);
+  color:white;line-height:1.1;margin-bottom:1rem;
+}
+
+.cta-banner p{
+  font-size:1rem;font-weight:300;color:rgba(255,255,255,0.8);
+  line-height:1.7;margin-bottom:2.5rem;
+}
+
+.cta-banner-btns{
+  display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;
+}
+
+.btn-white{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:white;color:var(--blue);
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:500;
+  padding:0.85rem 1.75rem;border-radius:10px;text-decoration:none;
+  transition:opacity 0.2s,transform 0.15s;
+}
+.btn-white:hover{opacity:0.92;transform:translateY(-1px);}
+
+.btn-white-outline{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:transparent;color:white;
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;font-weight:400;
+  padding:0.85rem 1.75rem;border-radius:10px;text-decoration:none;
+  border:1px solid rgba(255,255,255,0.4);
+  transition:background 0.2s,transform 0.15s;
+}
+.btn-white-outline:hover{background:rgba(255,255,255,0.1);transform:translateY(-1px);}
+
+/* ══════════════════════════════════
+   FOOTER
+══════════════════════════════════ */
+footer{
+  background:var(--ink);color:white;
+  padding:4rem 2.5rem 2rem;
+}
+
+.footer-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3rem;margin-bottom:3rem;
+}
+
+.footer-logo{
+  font-family:'Instrument Serif',serif;
+  font-size:1.25rem;color:white;margin-bottom:0.75rem;
+}
+.footer-logo b{color:#60a5fa;font-weight:400;}
+.footer-desc{font-size:0.82rem;font-weight:300;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:1.25rem;max-width:280px;}
+
+.footer-contact{display:flex;flex-direction:column;gap:0.5rem;}
+.footer-contact a{
+  display:flex;align-items:center;gap:0.5rem;
+  color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.82rem;
+  transition:color 0.2s;
+}
+.footer-contact a:hover{color:#60a5fa;}
+.footer-contact svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+
+.footer-col h4{font-size:0.78rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:1rem;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.5rem;}
+.footer-col ul a{color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.82rem;transition:color 0.2s;}
+.footer-col ul a:hover{color:white;}
+
+.footer-bottom{
+  padding-top:2rem;border-top:1px solid rgba(255,255,255,0.08);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;
+}
+.footer-copy{font-size:0.75rem;color:rgba(255,255,255,0.35);}
+
+/* ── RESPONSIVE general ── */
+@media(max-width:900px){
+  .club-inner,.zonas-inner,.cita-inner{grid-template-columns:1fr;gap:3rem;}
+  .steps{grid-template-columns:1fr 1fr;gap:2rem;}
+  .steps::before{display:none;}
+  .reviews-grid{grid-template-columns:1fr;}
+  .footer-inner{grid-template-columns:1fr 1fr;gap:2rem;}
+  .club,.testimonios,.zonas,.faq,.cita,.proceso,.cta-banner{padding:4rem 1.25rem;}
+  .form-row{grid-template-columns:1fr;}
+  .servicios{padding:4rem 1.25rem;}
+  .services-grid{grid-template-columns:1fr 1fr;}
+}
+
+@media(max-width:600px){
+  .footer-inner{grid-template-columns:1fr;}
+  .steps{grid-template-columns:1fr;}
+  .services-grid{grid-template-columns:1fr;}
+}
+
+/* ── INTRO LOADER ── */
+#intro {
+  position:fixed;inset:0;z-index:9999;
+  background:white;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;
+  transition:opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#intro.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+
+.intro-logo{
+  font-family:'Instrument Serif',serif;font-size:2rem;color:var(--ink);
+  letter-spacing:-0.02em;opacity:0;transform:translateY(12px);
+  animation:introUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.2s;
+}
+.intro-logo b{color:var(--blue);font-weight:400;}
+
+.intro-sub{
+  font-size:0.78rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;color:var(--gray-3);
+  opacity:0;animation:introUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards;animation-delay:0.35s;
+}
+
+.intro-bar{
+  width:48px;height:2px;background:var(--gray-2);border-radius:2px;overflow:hidden;margin-top:0.5rem;
+  opacity:0;animation:introUp 0.5s ease forwards;animation-delay:0.5s;
+}
+.intro-bar-fill{
+  height:100%;width:0%;background:var(--blue);border-radius:2px;
+  animation:barFill 0.9s cubic-bezier(0.4,0,0.2,1) forwards;animation-delay:0.6s;
+}
+
+@keyframes introUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@keyframes barFill{from{width:0%}to{width:100%}}
+
+</style>
+</head>
+<body>
+
+<!-- INTRO LOADER -->
+<div id="intro">
+  <div class="intro-logo">Fontanería <b>Integral</b></div>
+  <div class="intro-sub">Gran Bilbao · Disponible 24h</div>
+  <div class="intro-bar"><div class="intro-bar-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Fontanería <b>Integral</b></a>
+  <ul class="nav-menu">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#club">Club 50€</a></li>
+    <li><a href="#tarifas">Tarifas</a></li>
+    <li><a href="#testimonios">Opiniones</a></li>
+    <li><a href="tel:+34670641530" class="nav-btn">📞 670 641 530</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-left">
+    <div class="hero-badge">
+      <span class="badge-dot"></span>
+      Disponible ahora · Gran Bilbao
+    </div>
+
+    <h1 class="hero-h1">
+      Los fontaneros<br>
+      de <em>confianza</em><br>
+      en Bilbao
+    </h1>
+
+    <p class="hero-sub">
+      Más de 500 familias y empresas confían en nosotros. Presupuesto cerrado antes de empezar, técnicos certificados y respuesta en menos de 30 minutos.
+    </p>
+
+    <div class="hero-reviews">
+      <div class="stars">
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <span class="reviews-text"><strong>4.9 · 7 reseñas</strong> en Google</span>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="tel:+34670641530" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14v2.92z"/>
+        </svg>
+        Llamar ahora · 670 641 530
+      </a>
+      <a href="https://wa.me/34670641530" class="btn-wa">
+        <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.999 0C5.373 0 0 5.373 0 12c0 2.117.554 4.107 1.523 5.832L.057 23.486a.5.5 0 00.613.612l5.701-1.456A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.626 0 11.999 0zm.001 21.818a9.799 9.799 0 01-5.015-1.378l-.36-.213-3.733.954.984-3.68-.233-.372A9.799 9.799 0 012.182 12c0-5.413 4.406-9.818 9.818-9.818 5.413 0 9.818 4.405 9.818 9.818 0 5.412-4.405 9.818-9.818 9.818z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+
+    <div class="hero-pills">
+      <span class="pill">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Presupuesto sin coste
+      </span>
+      <span class="pill">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Respuesta en 30 min
+      </span>
+      <span class="pill">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Sin coste desplazamiento
+      </span>
+      <span class="pill">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Precio cerrado
+      </span>
+    </div>
+  </div>
+
+  <!-- DERECHA — gradiente CSS sin dependencias externas -->
+  <div class="hero-right">
+    <div class="hero-photo">
+      <div class="hero-photo-deco">
+        <!-- Icono grande de tubería decorativo -->
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="44" width="80" height="12" rx="6"/>
+          <rect x="44" y="10" width="12" height="80" rx="6"/>
+          <circle cx="50" cy="50" r="10"/>
+          <rect x="5" y="44" width="15" height="12" rx="4"/>
+          <rect x="80" y="44" width="15" height="12" rx="4"/>
+          <rect x="44" y="5" width="12" height="15" rx="4"/>
+          <rect x="44" y="80" width="12" height="15" rx="4"/>
+        </svg>
+      </div>
+    </div>
+    <div class="hero-photo-overlay"></div>
+  </div>
+
+  <!-- STRIP INFERIOR -->
+  <div class="hero-strip">
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <div class="strip-title">Presupuesto gratuito</div>
+        <div class="strip-sub">Sin compromiso · Precio cerrado</div>
+      </div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div>
+        <div class="strip-title">24h · 365 días</div>
+        <div class="strip-sub">Festivos y fines de semana</div>
+      </div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div>
+        <div class="strip-title">Gran Bilbao completo</div>
+        <div class="strip-sub">Sin coste de desplazamiento</div>
+      </div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-icon">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div>
+        <div class="strip-title">Técnicos certificados</div>
+        <div class="strip-sub">Materiales de primera calidad</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="ticker-dot"></span>
+  Disponible ahora ·
+  <a href="tel:+34670641530">670 641 530</a>
+  &nbsp;·&nbsp;
+  <a href="https://wa.me/34670641530">WhatsApp</a>
+</div>
+
+<!-- WHATSAPP -->
+<a href="https://wa.me/34670641530" class="wa" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.999 0C5.373 0 0 5.373 0 12c0 2.117.554 4.107 1.523 5.832L.057 23.486a.5.5 0 00.613.612l5.701-1.456A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.626 0 11.999 0zm.001 21.818a9.799 9.799 0 01-5.015-1.378l-.36-.213-3.733.954.984-3.68-.233-.372A9.799 9.799 0 012.182 12c0-5.413 4.406-9.818 9.818-9.818 5.413 0 9.818 4.405 9.818 9.818 0 5.412-4.405 9.818-9.818 9.818z"/></svg>
+</a>
+
+
+<!-- ══ SERVICIOS ══ -->
+<section class="servicios" id="servicios">
+  <div class="section-header">
+    <div class="section-tag">Nuestros servicios</div>
+    <h2 class="section-h2">Todo lo que necesitas,<br><em>resuelto hoy</em></h2>
+    <p class="section-sub">Solucionamos cualquier problema de fontanería en el Gran Bilbao. Presupuesto gratuito antes de empezar.</p>
+  </div>
+
+  <div class="services-grid">
+
+    <!-- 1. Averías -->
+    <a href="tel:+34670641530" class="svc-card">
+      <div class="svc-photo svc-photo--averia">
+        <span class="svc-photo-emoji">🔧</span>
+        <div class="svc-photo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <span class="svc-badge">⚡ Urgencias 24h</span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">🔧</div>
+        <div class="svc-name">Averías y Reparaciones</div>
+        <p class="svc-desc">Fugas, griferías, cisternas y roturas resueltas con rapidez. Diagnóstico en domicilio sin coste.</p>
+        <div class="svc-price">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price-val">70 — 220€</div>
+          </div>
+          <span class="svc-cta">
+            Pedir presupuesto
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 2. Desatascos -->
+    <a href="tel:+34670641530" class="svc-card">
+      <div class="svc-photo svc-photo--desatasco">
+        <span class="svc-photo-emoji">🌀</span>
+        <div class="svc-photo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm0-6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+          </svg>
+        </div>
+        <span class="svc-badge">🚿 Maquinaria profesional</span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">🌀</div>
+        <div class="svc-name">Desatascos</div>
+        <p class="svc-desc">Tuberías, sumideros, fregaderos y bajantes con maquinaria de alta presión. Resultado garantizado.</p>
+        <div class="svc-price">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price-val">80 — 200€</div>
+          </div>
+          <span class="svc-cta">
+            Pedir presupuesto
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 3. Calderas -->
+    <a href="tel:+34670641530" class="svc-card">
+      <div class="svc-photo svc-photo--caldera">
+        <span class="svc-photo-emoji">🔥</span>
+        <div class="svc-photo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2c0 0-6 6.5-6 11a6 6 0 0012 0c0-4.5-6-11-6-11zM12 17a3 3 0 01-3-3c0-2 3-5.5 3-5.5s3 3.5 3 5.5a3 3 0 01-3 3z"/>
+          </svg>
+        </div>
+        <span class="svc-badge">🔥 Todas las marcas</span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">🔥</div>
+        <div class="svc-name">Calderas y Calefacción</div>
+        <p class="svc-desc">Instalación, reparación y mantenimiento de calderas de gas, gasoil y eléctricas. Revisiones anuales.</p>
+        <div class="svc-price">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price-val">60 — 500€</div>
+          </div>
+          <span class="svc-cta">
+            Pedir presupuesto
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 4. Instalaciones -->
+    <a href="tel:+34670641530" class="svc-card">
+      <div class="svc-photo svc-photo--instalacion">
+        <span class="svc-photo-emoji">🏗️</span>
+        <div class="svc-photo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <span class="svc-badge">🏗️ Proyecto incluido</span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">🏗️</div>
+        <div class="svc-name">Instalaciones Nuevas</div>
+        <p class="svc-desc">Montaje de baños, cocinas y sistemas de agua nuevos. Gestión completa de principio a fin.</p>
+        <div class="svc-price">
+          <div>
+            <div class="price-label">Presupuesto</div>
+            <div class="price-val">Gratuito</div>
+          </div>
+          <span class="svc-cta">
+            Solicitar visita
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 5. Reformas -->
+    <a href="tel:+34670641530" class="svc-card">
+      <div class="svc-photo svc-photo--reforma">
+        <span class="svc-photo-emoji">🛁</span>
+        <div class="svc-photo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6L6.5 3.5a1.5 1.5 0 00-1-.5A1.5 1.5 0 004 4.5v.5A1.5 1.5 0 005.5 6.5l3 3"/>
+            <path d="M5.82 17.11A3.99 3.99 0 014 14v-3h16v3a4 4 0 01-14.18 3.11z"/>
+            <path d="M11 5.72A3.99 3.99 0 0114 4v10"/>
+          </svg>
+        </div>
+        <span class="svc-badge">🛁 Acabados premium</span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">🛁</div>
+        <div class="svc-name">Reformas de Baño</div>
+        <p class="svc-desc">Reforma integral o parcial con gestión completa. Demolición, instalación y acabados en un solo contrato.</p>
+        <div class="svc-price">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price-val">600 — 8.000€</div>
+          </div>
+          <span class="svc-cta">
+            Solicitar visita
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- 6. Detección fugas -->
+    <a href="tel:+34670641530" class="svc-card">
+      <div class="svc-photo svc-photo--fugas">
+        <span class="svc-photo-emoji">🔍</span>
+        <div class="svc-photo-icon">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+        </div>
+        <span class="svc-badge">🔍 Sin obras innecesarias</span>
+      </div>
+      <div class="svc-body">
+        <div class="svc-icon">🔍</div>
+        <div class="svc-name">Detección de Fugas</div>
+        <p class="svc-desc">Localización precisa con tecnología no invasiva. Encontramos la fuga sin romper paredes innecesariamente.</p>
+        <div class="svc-price">
+          <div>
+            <div class="price-label">Desde</div>
+            <div class="price-val">150 — 300€</div>
+          </div>
+          <span class="svc-cta">
+            Pedir presupuesto
+            <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="services-cta">
+    <a href="tel:+34670641530" class="btn-outline">
+      ¿No ves tu problema? Llámanos y lo resolvemos · 670 641 530
+    </a>
+  </div>
+</section>
+
+
+<!-- ══ CLUB DE MANTENIMIENTO ══ -->
+<section class="club" id="club">
+  <div class="club-inner">
+    <div class="club-left">
+      <div class="section-tag">Club de mantenimiento</div>
+      <h2 class="section-h2">Cuida tu hogar<br><em>todo el año</em></h2>
+      <p class="section-sub">La forma más inteligente de prevenir averías y tener siempre un fontanero de confianza disponible.</p>
+
+      <div class="club-features">
+        <div class="club-feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">2 servicios / arreglos al año incluidos</div>
+            <div class="feature-desc">Dos reparaciones completas sin coste adicional. Ahorra desde el primer mes.</div>
+          </div>
+        </div>
+        <div class="club-feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">Revisión de caldera anual</div>
+            <div class="feature-desc">Limpieza completa, análisis de combustión y comprobación de seguridad.</div>
+          </div>
+        </div>
+        <div class="club-feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">Prioridad absoluta en urgencias</div>
+            <div class="feature-desc">Tu llamada va primero. Sin esperas, sin colas.</div>
+          </div>
+        </div>
+        <div class="club-feature">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div class="feature-text">
+            <div class="feature-title">10% de descuento en todas las reparaciones</div>
+            <div class="feature-desc">En cualquier trabajo no incluido en el plan.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="club-right">
+      <div class="price-card">
+        <div class="price-tag">⭐ Plan Estándar</div>
+        <div class="price-num"><span>€</span>50</div>
+        <div class="price-per">al mes · con permanencia</div>
+        <div class="price-divider"></div>
+        <div class="price-includes">
+          <div class="price-include">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            2 servicios / arreglos al año
+          </div>
+          <div class="price-include">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Revisión de caldera incluida
+          </div>
+          <div class="price-include">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Prioridad en urgencias
+          </div>
+          <div class="price-include">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            10% descuento reparaciones
+          </div>
+          <div class="price-include">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            Sin desplazamiento en Gran Bilbao
+          </div>
+        </div>
+        <a href="tel:+34670641530" class="btn-primary" style="width:100%;justify-content:center;">
+          Contratar ahora · 670 641 530
+        </a>
+        <p class="price-note">También por WhatsApp · Activación inmediata</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PROCESO ══ -->
+<section class="proceso" id="proceso">
+  <div class="proceso-header">
+    <div class="section-tag">Cómo trabajamos</div>
+    <h2 class="section-h2">Cuatro pasos,<br><em>problema resuelto</em></h2>
+    <p class="section-sub">Sin complicaciones. Desde que nos llamas hasta que dejamos tu casa limpia.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-title">Nos llama o escribe</div>
+      <p class="step-desc">Teléfono o WhatsApp, disponible 24 horas. Te respondemos al instante.</p>
+      <span class="step-badge">Respuesta inmediata</span>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-title">Diagnóstico en casa</div>
+      <p class="step-desc">El técnico acude a su domicilio y evalúa la avería sin compromiso.</p>
+      <span class="step-badge">Gratuito</span>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-title">Presupuesto cerrado</div>
+      <p class="step-desc">Precio fijo antes de empezar. Sin sorpresas ni costes ocultos al final.</p>
+      <span class="step-badge">Precio fijo</span>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-title">Trabajo de calidad</div>
+      <p class="step-desc">Ejecutamos con los mejores materiales y dejamos la zona limpia al acabar.</p>
+      <span class="step-badge">Garantizado</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIOS ══ -->
+<section class="testimonios" id="testimonios">
+  <div class="testimonios-inner">
+    <div class="testimonios-header">
+      <div class="section-tag">Opiniones reales</div>
+      <h2 class="section-h2">Lo que dicen<br><em>nuestros clientes</em></h2>
+      <p class="section-sub">Más de 500 familias y empresas del Gran Bilbao confían en nosotros.</p>
+    </div>
+
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">"Vinieron en menos de una hora con una fuga importante en la cocina. Profesionales, limpios y muy buen precio. Completamente recomendables."</p>
+        <div class="review-author">
+          <div class="review-avatar">CM</div>
+          <div>
+            <div class="review-name">Carlos M.</div>
+            <div class="review-meta">Bilbao · hace 2 semanas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">"Reformé el baño completo y quedé encantada. Cumplieron plazos y presupuesto al 100%. El resultado es precioso. Sin duda repetiré."</p>
+        <div class="review-author">
+          <div class="review-avatar">LP</div>
+          <div>
+            <div class="review-name">Laura P.</div>
+            <div class="review-meta">Getxo · hace 1 mes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="review-stars">
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+        </div>
+        <p class="review-text">"Urgencia un domingo por la noche. Resolvieron el problema enseguida y a un precio muy razonable. Diez en atención y rapidez."</p>
+        <div class="review-author">
+          <div class="review-avatar">AR</div>
+          <div>
+            <div class="review-name">Aitor R.</div>
+            <div class="review-meta">Barakaldo · hace 3 semanas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reviews-cta">
+      <div class="google-badge">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+        </svg>
+        4.9 · 7 reseñas verificadas en Google
+      </div>
+      <a href="https://g.page/r/fontaneriaintegral/review" class="btn-primary">Dejar una reseña</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ZONAS ══ -->
+<section class="zonas" id="zonas">
+  <div class="zonas-inner">
+    <div>
+      <div class="section-tag">Zona de servicio</div>
+      <h2 class="section-h2">Cubrimos todo<br><em>el Gran Bilbao</em></h2>
+      <p class="section-sub" style="margin-bottom:2rem">Sin coste de desplazamiento en toda el área metropolitana. Llegamos en menos de 30 minutos.</p>
+      <div class="zonas-pills">
+        <span class="zona-pill destacada">Bilbao</span>
+        <span class="zona-pill destacada">Barakaldo</span>
+        <span class="zona-pill destacada">Getxo</span>
+        <span class="zona-pill destacada">Basauri</span>
+        <span class="zona-pill destacada">Leioa</span>
+        <span class="zona-pill">Santurtzi</span>
+        <span class="zona-pill">Sestao</span>
+        <span class="zona-pill">Portugalete</span>
+        <span class="zona-pill">Erandio</span>
+        <span class="zona-pill">Galdakao</span>
+        <span class="zona-pill">Durango</span>
+        <span class="zona-pill">Arrigorriaga</span>
+        <span class="zona-pill">Etxebarri</span>
+        <span class="zona-pill">Muskiz</span>
+        <span class="zona-pill">Zalla</span>
+        <span class="zona-pill">Güeñes</span>
+      </div>
+      <div class="zonas-note">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        ¿No ves tu municipio? Llámanos — probablemente también llegamos.
+      </div>
+    </div>
+    <div class="zonas-right">
+      <div class="zona-stat">
+        <span class="zona-stat-label">Tiempo medio de respuesta</span>
+        <span class="zona-stat-val">30 min</span>
+      </div>
+      <div class="zona-stat">
+        <span class="zona-stat-label">Coste de desplazamiento</span>
+        <span class="zona-stat-val">0 €</span>
+      </div>
+      <div class="zona-stat">
+        <span class="zona-stat-label">Disponibilidad</span>
+        <span class="zona-stat-val">24h · 365d</span>
+      </div>
+      <div class="zona-stat">
+        <span class="zona-stat-label">Municipios cubiertos</span>
+        <span class="zona-stat-val">+30</span>
+      </div>
+      <a href="tel:+34670641530" class="btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">
+        Comprobar cobertura · 670 641 530
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="section-tag">Preguntas frecuentes</div>
+    <h2 class="section-h2">Dudas <em>resueltas</em></h2>
+    <p class="section-sub">Las preguntas más habituales de nuestros clientes.</p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">
+          ¿El presupuesto es realmente gratuito?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Sí, completamente. Nuestro técnico acude a su domicilio, evalúa el problema y le entrega un presupuesto cerrado sin ningún coste ni compromiso.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          ¿Cuánto tardan en llegar en una urgencia?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Nuestro tiempo medio de respuesta es de 30 minutos en el Gran Bilbao. Disponemos de técnicos repartidos por toda el área metropolitana para llegar lo antes posible.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          ¿En qué consiste el Club de Mantenimiento?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Por 50€/mes con permanencia incluye 2 servicios/arreglos completos al año, revisión de caldera, prioridad absoluta en urgencias y 10% de descuento en todas las reparaciones.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          ¿Trabajan en festivos y fines de semana?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Sí. Nuestro servicio de urgencias funciona los 365 días del año, incluidos domingos y festivos. Sin recargo adicional en muchos casos.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          ¿Pueden encargarse de toda la reforma del baño?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">Sí, realizamos la reforma integral: demolición, fontanería, electricidad básica, alicatado, instalación de sanitarios y acabados finales. Todo en un solo contrato.</div>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          ¿Qué pasa si el precio final es diferente al presupuesto?
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="faq-a">
+          <div class="faq-a-inner">No pasa. El presupuesto es cerrado — el precio que aceptas es el precio final. Si durante el trabajo surge algo imprevisto, te lo comunicamos antes de continuar y decides.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CITA ONLINE ══ -->
+<section class="cita" id="cita">
+  <div class="cita-inner">
+    <div class="cita-left">
+      <div class="section-tag">Reserva online</div>
+      <h2 class="section-h2">Pide tu cita<br><em>en segundos</em></h2>
+      <p class="section-sub" style="margin-bottom:2rem">Rellena el formulario y te confirmamos por WhatsApp en menos de 2 horas.</p>
+      <div class="cita-puntos">
+        <div class="cita-punto">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Sin esperas — respuesta en menos de 2 horas
+        </div>
+        <div class="cita-punto">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Confirmación por WhatsApp con todos los detalles
+        </div>
+        <div class="cita-punto">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Diagnóstico gratuito en tu domicilio
+        </div>
+        <div class="cita-punto">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          Presupuesto cerrado antes de empezar
+        </div>
+      </div>
+    </div>
+
+    <div class="cita-form">
+      <div class="form-title">Solicitar cita</div>
+      <div class="form-sub">Te llamamos nosotros · Sin compromiso</div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre</label>
+          <input type="text" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" placeholder="600 000 000">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Servicio</label>
+        <select>
+          <option value="">Selecciona un servicio...</option>
+          <option>Avería urgente</option>
+          <option>Desatasco</option>
+          <option>Caldera / Calefacción</option>
+          <option>Instalación nueva</option>
+          <option>Reforma de baño</option>
+          <option>Detección de fugas</option>
+          <option>Club de Mantenimiento</option>
+          <option>Otro</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Cuéntanos tu problema</label>
+        <textarea placeholder="Describe brevemente qué necesitas..."></textarea>
+      </div>
+
+      <button class="btn-form" onclick="window.location.href='tel:+34670641530'">
+        Enviar solicitud · Te llamamos hoy
+      </button>
+      <p class="form-nota">🔒 Tus datos están protegidos y nunca se comparten con terceros</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BANNER ══ -->
+<div class="cta-banner">
+  <div class="cta-banner-content">
+    <h2>¿Tienes una avería ahora mismo?</h2>
+    <p>No esperes. Nuestros técnicos están disponibles ahora y llegan en menos de 30 minutos al Gran Bilbao.</p>
+    <div class="cta-banner-btns">
+      <a href="tel:+34670641530" class="btn-white">📞 Llamar ahora · 670 641 530</a>
+      <a href="https://wa.me/34670641530" class="btn-white-outline">💬 WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">Fontanería <b>Integral</b></div>
+      <p class="footer-desc">Fontaneros certificados en el Gran Bilbao. Urgencias 24h, presupuesto gratuito y precio cerrado antes de empezar.</p>
+      <div class="footer-contact">
+        <a href="tel:+34670641530">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.67A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14v2.92z"/></svg>
+          670 641 530
+        </a>
+        <a href="mailto:edgarmathiasvegainsaurralde@gmail.com">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          edgarmathiasvegainsaurralde@gmail.com
+        </a>
+        <a href="#">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Jesús Galíndez 12, 48004 Bilbao
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#servicios">Averías y reparaciones</a></li>
+        <li><a href="#servicios">Desatascos</a></li>
+        <li><a href="#servicios">Calderas</a></li>
+        <li><a href="#servicios">Instalaciones</a></li>
+        <li><a href="#servicios">Reformas de baño</a></li>
+        <li><a href="#servicios">Detección de fugas</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#club">Club Mantenimiento</a></li>
+        <li><a href="#proceso">Cómo trabajamos</a></li>
+        <li><a href="#testimonios">Opiniones</a></li>
+        <li><a href="#zonas">Zonas de servicio</a></li>
+        <li><a href="#faq">Preguntas frecuentes</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <ul>
+        <li><a href="tel:+34670641530">📞 670 641 530</a></li>
+        <li><a href="https://wa.me/34670641530">💬 WhatsApp</a></li>
+        <li><a href="#cita">📋 Pedir cita</a></li>
+        <li><a href="#">⭐ Google Maps</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2024 Fontanería Integral · Gran Bilbao · Todos los derechos reservados</span>
+    <span class="footer-copy">670 641 530 · Disponible 24h · 365 días</span>
+  </div>
+</footer>
+
+
+<script>
+// FAQ accordion
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.faq-q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = this.closest('.faq-item');
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i) {
+        i.classList.remove('open');
+        i.querySelector('.faq-a').style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        item.querySelector('.faq-a').style.maxHeight = item.querySelector('.faq-a-inner').scrollHeight + 'px';
+      }
+    });
+  });
+});
+
+// Intro loader
+window.addEventListener('load', function() {
+  var intro = document.getElementById('intro');
+  if (intro) {
+    setTimeout(function() {
+      intro.classList.add('hidden');
+    }, 1600);
+  }
+});
+</script>
+</body>
+</html>
