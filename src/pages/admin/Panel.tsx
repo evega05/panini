@@ -2,8 +2,57 @@ import { useState, useEffect, useMemo } from 'react'
 import {
   Plus, Hammer, Banknote, ListChecks, CalendarDays, Users, Wallet,
   Check, X, Clock, MapPin, Phone, Trash2, ChevronLeft, ChevronRight,
-  AlertTriangle, Pencil, Sun, HardHat, UserPlus,
+  AlertTriangle, Pencil, Sun, HardHat, UserPlus, Lock,
 } from 'lucide-react'
+
+/* ---------------- contraseña del panel ---------------- */
+const PANEL_PASSWORD = 'provenza2024'
+const SESSION_KEY = 'provenza_panel_auth'
+
+function LoginGate({ onAuth }: { onAuth: () => void }) {
+  const [pwd, setPwd] = useState('')
+  const [error, setError] = useState(false)
+
+  const submit = () => {
+    if (pwd === PANEL_PASSWORD) { sessionStorage.setItem(SESSION_KEY, '1'); onAuth() }
+    else { setError(true); setPwd(''); setTimeout(() => setError(false), 1800) }
+  }
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, background: '#1B1F23', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'IBM Plex Sans', sans-serif" }}>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500&display=swap');`}</style>
+      <div style={{ width: '100%', maxWidth: 340, padding: '0 24px' }}>
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(201,162,39,0.15)', border: '1px solid #C9A227', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: '#C9A227' }}>
+            <Lock size={20} />
+          </div>
+          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: '0.18em', color: '#C9A227', marginBottom: 6 }}>MULTISERVICIOS PROVENZA</div>
+          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 20, fontWeight: 600, color: '#F2EEE4' }}>Panel de gestión</div>
+        </div>
+        <input
+          type="password"
+          value={pwd}
+          onChange={(e) => setPwd(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && submit()}
+          placeholder="Contraseña"
+          autoFocus
+          style={{
+            width: '100%', padding: '12px 14px', background: '#242A33', border: `1px solid ${error ? '#E2625A' : '#3A4250'}`,
+            borderRadius: 9, color: '#F2EEE4', fontSize: 15, fontFamily: 'inherit', marginBottom: 10,
+            outline: 'none', transition: 'border-color 0.2s',
+          }}
+        />
+        {error && <div style={{ color: '#E2625A', fontSize: 12, marginBottom: 10, textAlign: 'center' }}>Contraseña incorrecta</div>}
+        <button
+          onClick={submit}
+          style={{ width: '100%', padding: 13, background: '#C9A227', border: 'none', borderRadius: 9, color: '#1B1F23', fontWeight: 700, fontSize: 14, cursor: 'pointer' }}
+        >
+          Entrar
+        </button>
+      </div>
+    </div>
+  )
+}
 
 /* ---------------- types ---------------- */
 interface Cliente { id: string; nombre: string; telefono: string; direccion: string; frecuencia: string; notas: string }
@@ -668,10 +717,13 @@ function EmpleadosView({ empleados, pagos, jornadas, onAddEmpleado, onDeleteEmpl
 
 /* ---------------- Panel (main export) ---------------- */
 export default function Panel() {
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === '1')
   const [loaded, setLoaded] = useState(false)
   const [view, setView] = useState<'hoy' | 'semana' | 'obras' | 'clientes' | 'equipo'>('hoy')
   const [selectedDate, setSelectedDate] = useState(todayISO())
   const [addOpen, setAddOpen] = useState(false)
+
+  if (!authed) return <LoginGate onAuth={() => setAuthed(true)} />
 
   const [clientes, setClientes] = useState<Cliente[]>([])
   const [visitas, setVisitas] = useState<Visita[]>([])
