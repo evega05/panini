@@ -6,23 +6,27 @@ import BudgetWizard from './components/BudgetWizard'
 import Home from './pages/Home'
 import GremioLanding from './pages/GremioLanding'
 import Profesionales from './pages/Profesionales'
+import Panel from './pages/admin/Panel'
 import NotFound from './pages/NotFound'
 
 function InnerApp() {
   const location = useLocation()
   const isHome = location.pathname === '/'
+  const isPanel = location.pathname.startsWith('/admin')
+
+  if (isPanel) return <Panel />
 
   return (
     <>
       <Navbar />
       <main>
-        {/* Non-home pages need top padding to clear the fixed navbar */}
         {!isHome && <div style={{ height: 76 }} />}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/servicios/:slug" element={<GremioLanding />} />
           <Route path="/servicios/:slug/:municipio" element={<GremioLanding />} />
           <Route path="/profesionales" element={<Profesionales />} />
+          <Route path="/admin/*" element={null} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
