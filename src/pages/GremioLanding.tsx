@@ -98,7 +98,7 @@ export default function GremioLanding() {
 
         <div className="flex flex-wrap justify-center gap-5 text-xs text-gray-400">
           <span>✓ Respuesta en 24h</span>
-          <span>✓ Profesionales verificados</span>
+          <span>✓ Equipo verificado</span>
           <span>✓ Sin compromiso</span>
         </div>
       </section>

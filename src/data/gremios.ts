@@ -22,7 +22,7 @@ export const GREMIOS: Gremio[] = [
     ],
     faq: [
       { q: '¿Cuánto cuesta un fontanero en Bilbao?', a: 'El precio medio de un fontanero en el Gran Bilbao ronda los 45–80 € la hora según la urgencia y el tipo de trabajo. Para reformas de baño completas, los presupuestos suelen oscilar entre 2.000 y 8.000 €.' },
-      { q: '¿Cuánto tarda en llegar un fontanero de urgencia?', a: 'Nuestros fontaneros verificados responden en menos de 2 horas en Bilbao y municipios del Gran Bilbao para urgencias.' },
+      { q: '¿Cuánto tarda en llegar un fontanero de urgencia?', a: 'Nuestros fontaneros responden en menos de 2 horas en Bilbao y municipios del Gran Bilbao para urgencias.' },
       { q: '¿Qué incluye un presupuesto de fontanería?', a: 'El presupuesto detalla mano de obra, materiales estimados y desplazamiento. Si surge algo no previsto, el profesional lo comunica antes de ejecutar el trabajo.' },
     ],
   },
@@ -73,7 +73,7 @@ export const GREMIOS: Gremio[] = [
     faq: [
       { q: '¿Cuánto cuesta pintar un piso en Bilbao?', a: 'Pintar un piso de 80 m² en el Gran Bilbao cuesta entre 800 y 1.500 € con dos manos de pintura y preparación de superficies incluida. El precio varía según el estado de las paredes y acabados elegidos.' },
       { q: '¿Cuánto cuesta quitar el gotelé?', a: 'La eliminación de gotelé cuesta entre 6 y 14 € el m² según el tipo de gotelé y el acabado posterior deseado. Un piso de 80 m² puede rondar los 600–1.200 €.' },
-      { q: '¿Los pintores llevan los materiales?', a: 'Sí, los pintores de nuestra red incluyen materiales de calidad en el presupuesto. Si prefieres aportar materiales específicos, puedes acordarlo directamente.' },
+      { q: '¿Los pintores llevan los materiales?', a: 'Sí, los pintores incluyen materiales de calidad en el presupuesto. Si prefieres aportar materiales específicos, puedes acordarlo directamente.' },
     ],
   },
   {
@@ -201,26 +201,6 @@ export const GREMIOS: Gremio[] = [
     ],
   },
   {
-    id: 'aislamiento',
-    nombre: 'Aislamiento y Fachadas',
-    nombreCorto: 'Aislamiento',
-    descripcion: 'Sistema SATE, impermeabilización de cubiertas y aislamientos térmicos y acústicos.',
-    icon: '🏠',
-    slug: 'empresa-aislamiento',
-    piloto: false,
-    precios: { min: 60, max: 220, unidad: 'm²' },
-    servicios: [
-      'Sistema de Aislamiento Térmico Exterior (SATE)',
-      'Impermeabilización de tejados y cubiertas planas',
-      'Aislamiento térmico de fachadas y paredes',
-      'Aislamiento acústico entre plantas y vecinos',
-      'Rehabilitación y restauración de fachadas',
-      'Tratamiento de humedades y condensaciones',
-      'Cubierta vegetal y transitable',
-      'Diagnóstico energético previo',
-    ],
-  },
-  {
     id: 'cristaleria',
     nombre: 'Cristalería y Persianas',
     nombreCorto: 'Cristalería',
@@ -238,46 +218,6 @@ export const GREMIOS: Gremio[] = [
       'Cerramientos de terraza y balcón',
       'Espejos a medida con biselado',
       'Barandillas y pasamanos de cristal',
-    ],
-  },
-  {
-    id: 'domotica',
-    nombre: 'Domótica e Instalaciones Inteligentes',
-    nombreCorto: 'Domótica',
-    descripcion: 'Automatización del hogar, smart home, video porteros y sistemas de seguridad.',
-    icon: '🏡',
-    slug: 'instalador-domotica',
-    piloto: false,
-    precios: { min: 500, max: 6000, unidad: 'instalación' },
-    servicios: [
-      'Control de persianas, luces y climatización',
-      'Termostatos y sensores inteligentes',
-      'Video porteros IP y cámaras de seguridad',
-      'Sistemas de alarma certificados',
-      'Integración con Alexa, Google Home y Apple Home',
-      'Instalación de redes WiFi profesional',
-      'Audio multizona y altavoces empotrados',
-      'Puntos de acceso y cableado estructurado',
-    ],
-  },
-  {
-    id: 'jardineria',
-    nombre: 'Jardinería y Exteriores',
-    nombreCorto: 'Jardinería',
-    descripcion: 'Diseño y mantenimiento de jardines, riego automático y zonas exteriores.',
-    icon: '🌿',
-    slug: 'jardinero',
-    piloto: false,
-    precios: { min: 30, max: 90, unidad: 'hora' },
-    servicios: [
-      'Diseño y creación de jardines',
-      'Mantenimiento periódico de zonas verdes',
-      'Instalación de riego automático',
-      'Poda y tala de árboles con vertido',
-      'Césped natural y artificial',
-      'Diseño de terrazas y patios exteriores',
-      'Tratamientos fitosanitarios',
-      'Jardineras y mobiliario de exterior',
     ],
   },
   {
@@ -324,6 +264,6 @@ export const GREMIOS: Gremio[] = [
 
 export const GREMIOS_PILOTO = GREMIOS.filter((g) => g.piloto)
 
-export function getGremioBySlug(slug: string): Gremio | undefined {
+export function getGremioBySlug(slug: string) {
   return GREMIOS.find((g) => g.slug === slug)
 }

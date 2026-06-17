@@ -89,7 +89,7 @@ const PRICING = [
 
 export default function Profesionales() {
   const handleSignup = () => {
-    window.open('https://wa.me/34600000000?text=' + encodeURIComponent('Hola, me interesa unirme a Ofizio como profesional. ¿Cómo empiezo?'), '_blank')
+    window.open('https://wa.me/34624118284?text=' + encodeURIComponent('Hola, me interesa unirme a Multiservicios Provenza como profesional. ¿Cómo empiezo?'), '_blank')
   }
 
   return (
@@ -111,7 +111,7 @@ export default function Profesionales() {
           <em style={{ color: '#6F6F6F', fontStyle: 'italic' }}>Menos tiempo buscándolos.</em>
         </h1>
         <p className="text-base text-gray-500 max-w-xl mx-auto mb-10 m-0 leading-relaxed">
-          Únete a la red de profesionales verificados de Ofizio. Recibe leads cualificados de tu zona,
+          Únete a la red de profesionales verificados de Multiservicios Provenza. Recibe leads cualificados de tu zona,
           gestiona tu agenda y factura con cumplimiento fiscal vasco integrado.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -167,7 +167,7 @@ export default function Profesionales() {
       <section className="px-6 py-28">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <p className="text-xs tracking-[0.25em] uppercase text-gray-400 mb-4 m-0">Por qué Ofizio</p>
+            <p className="text-xs tracking-[0.25em] uppercase text-gray-400 mb-4 m-0">Por qué Multiservicios Provenza</p>
             <h2
               className="text-4xl sm:text-5xl font-normal m-0"
               style={{ fontFamily: "'Instrument Serif', serif", lineHeight: 1, letterSpacing: '-1.5px' }}
@@ -306,7 +306,7 @@ export default function Profesionales() {
           </h2>
           <p className="text-sm text-gray-500 leading-relaxed mb-6 m-0">
             Para los profesionales radicados en Bizkaia, Batuz y TicketBai son obligatorios.
-            En Ofizio generamos los tiques verificados con tu certificado digital directamente desde la plataforma,
+            En Multiservicios Provenza generamos los tiques verificados con tu certificado digital directamente desde la plataforma,
             sin que tengas que salir a otra aplicación ni depender de un gestor para cada factura.
           </p>
           <p className="text-xs text-gray-400 m-0">
@@ -323,7 +323,7 @@ export default function Profesionales() {
             style={{ fontFamily: "'Instrument Serif', serif", lineHeight: 1.05, letterSpacing: '-1px' }}
           >
             Tu próximo cliente está{' '}
-            <em style={{ color: '#9CA3AF', fontStyle: 'italic' }}>buscando en Ofizio.</em>
+            <em style={{ color: '#9CA3AF', fontStyle: 'italic' }}>buscando en Multiservicios Provenza.</em>
           </h2>
           <p className="text-sm text-gray-400 mb-8 m-0">
             Alta en 48 horas. 30 días de prueba gratis. Sin permanencia.

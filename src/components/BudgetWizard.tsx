@@ -4,7 +4,7 @@ import { MUNICIPIOS } from '../data/municipios'
 import { useWizard } from '../context/WizardContext'
 import type { WizardData } from '../types'
 
-const WHATSAPP_NUMBER = '34600000000' // REPLACE WITH REAL NUMBER
+const WHATSAPP_NUMBER = '34624118284'
 
 const STEPS = ['Servicio', 'Descripción', 'Contacto', 'Listo']
 
@@ -20,7 +20,7 @@ const EMPTY: WizardData = {
 function buildWhatsAppMessage(data: WizardData): string {
   const gremio = GREMIOS.find((g) => g.id === data.gremioId)
   return encodeURIComponent(
-    `🏠 *Nueva solicitud de presupuesto — Ofizio Gran Bilbao*\n\n` +
+    `🏠 *Nueva solicitud de presupuesto — Multiservicios Provenza*\n\n` +
     `📋 *Servicio:* ${gremio?.nombre ?? data.gremioId}\n` +
     `📝 *Descripción:* ${data.descripcion}\n` +
     `⚡ *Urgente:* ${data.urgente ? 'Sí, necesito atención rápida' : 'No'}\n` +
