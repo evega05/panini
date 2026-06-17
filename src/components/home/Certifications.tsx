@@ -14,7 +14,7 @@ const CERTS = [
   {
     icon: '🛡️',
     title: 'Seguro RC Profesional',
-    desc: 'Cobertura hasta 600.000€ por siniestro',
+    desc: 'Seguro de responsabilidad civil profesional en vigor',
   },
   {
     icon: '✅',

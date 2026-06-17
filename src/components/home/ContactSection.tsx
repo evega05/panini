@@ -221,8 +221,7 @@ export default function ContactSection({ onPresupuesto }: ContactSectionProps) {
 
               {/* Trust badges */}
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                <TrustBadge text="Seguro RC 600.000€" />
-                <TrustBadge text="Garantía 2 años" />
+                <TrustBadge text="Seguro RC Profesional" />
                 <TrustBadge text="Desde 2009" />
               </div>
             </div>

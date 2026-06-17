@@ -18,8 +18,8 @@ const STEPS = [
   },
   {
     num: '04',
-    title: 'Entrega & Garantía',
-    desc: 'Te entregamos el proyecto terminado con garantía de 2 años en todos los trabajos realizados.',
+    title: 'Entrega & Revisión',
+    desc: 'Te entregamos el proyecto terminado con revisión final y acta de conformidad firmada.',
   },
 ]
 

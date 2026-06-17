@@ -157,7 +157,7 @@ export const GREMIOS: Gremio[] = [
       'Electrodomésticos y encimeras',
       'Coordinación de fontanería, electricidad y azulejos',
       'Gestión de residuos y limpieza final',
-      'Garantía de obra de 2 años',
+      'Limpieza y gestión de residuos incluida',
     ],
   },
   {

@@ -49,7 +49,7 @@ export default function BudgetWizard() {
 
   const canProceed = [
     data.gremioId !== '',
-    data.descripcion.trim().length > 10 && data.municipio !== '',
+    data.descripcion.trim().length > 2 && data.municipio !== '',
     data.nombre.trim() !== '' && data.telefono.trim().length >= 9,
     true,
   ][step]
