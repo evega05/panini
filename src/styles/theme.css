@@ -20,3 +20,11 @@
 .animate-fade-rise-delay-2 {
   animation: fade-rise 0.8s ease-out 0.4s both;
 }
+
+/* Line clamp utility (for gremio card descriptions) */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
