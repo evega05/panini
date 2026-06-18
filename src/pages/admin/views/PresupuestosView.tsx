@@ -1,0 +1,98 @@
+import { useState, useMemo } from 'react'
+import { Plus, Users, Check, ChevronLeft, ArrowRightCircle, Tag } from 'lucide-react'
+import type { Cliente, Presupuesto, PresupuestoLinea, CatalogoItem } from '../types'
+import { GREMIOS_SUGERIDOS, ESTADOS_PRESUPUESTO, UNIDADES } from '../types'
+import { todayISO, uid, fmt } from '../utils'
+import { DeleteButton, EmptyState } from './shared'
+
+function PresupuestoEditorView({presupuesto,lineas,clientes,catalogo,onSaveAndClose,onSavePresupuesto,onAddLinea,onDeleteLinea,onClose}:{presupuesto:Presupuesto|null;lineas:PresupuestoLinea[];clientes:Cliente[];catalogo:CatalogoItem[];onSaveAndClose:(form:Record<string,unknown>,lineas:PresupuestoLinea[])=>void;onSavePresupuesto?:(id:string,d:Partial<Presupuesto>)=>void;onAddLinea:(d:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>void;onDeleteLinea:(id:string)=>void;onClose:()=>void}) {
+  const isNew=!presupuesto
+  const [form,setForm]=useState<Record<string,unknown>>(isNew?{nombre:'',clienteNombre:'',estado:'Borrador',fecha:todayISO(),notas:'',iva:false}:{nombre:presupuesto!.nombre,estado:presupuesto!.estado,fecha:presupuesto!.fecha,notas:presupuesto!.notas||'',iva:presupuesto!.iva||false})
+  const [localLineas,setLocalLineas]=useState<PresupuestoLinea[]>([])
+  const [lf,setLf]=useState({concepto:'',gremio:'',cantidad:'1',unidad:'ud',precioUnitario:''})
+  const set=(k:string,v:unknown)=>setForm(f=>({...f,[k]:v}))
+  const sl=(k:string,v:string)=>setLf(f=>({...f,[k]:v}))
+  const displayLineas=isNew?localLineas:lineas
+  const onConceptoChange=(val:string)=>{sl('concepto',val);const match=catalogo.find(c=>c.concepto.toLowerCase()===val.trim().toLowerCase());if(match)setLf(f=>({...f,concepto:val,precioUnitario:f.precioUnitario||String(match.ultimoPrecio),gremio:f.gremio||match.gremio||'',unidad:f.unidad!=='ud'?f.unidad:(match.unidad||'ud')}))}
+  const handleAddLinea=()=>{if(!lf.concepto?.trim()||!lf.precioUnitario)return;const linea={concepto:lf.concepto.trim(),gremio:lf.gremio||'',cantidad:Number(lf.cantidad)||1,unidad:lf.unidad||'ud',precioUnitario:Number(lf.precioUnitario)};if(isNew)setLocalLineas(p=>[...p,{...linea,id:uid(),presupuestoId:''}]);else onAddLinea(linea);setLf({concepto:'',gremio:lf.gremio,cantidad:'1',unidad:lf.unidad,precioUnitario:''})}
+  const handleDeleteLinea=(id:string)=>{if(isNew)setLocalLineas(p=>p.filter(l=>l.id!==id));else onDeleteLinea(id)}
+  const handleSave=()=>{if(!(form.nombre as string)?.trim())return;if(isNew){if(!(form.clienteNombre as string)?.trim())return;onSaveAndClose(form,localLineas)}else{onSavePresupuesto!(presupuesto!.id,form as Partial<Presupuesto>);onClose()}}
+  const byGremio=useMemo(()=>{const g:Record<string,PresupuestoLinea[]>={};displayLineas.forEach(l=>{const k=l.gremio||'Sin gremio';if(!g[k])g[k]=[];g[k].push(l)});return g},[displayLineas])
+  const totalByGremio=useMemo(()=>{const r:Record<string,number>={};Object.entries(byGremio).forEach(([k,ls])=>{r[k]=ls.reduce((s,l)=>s+(Number(l.cantidad)||0)*(Number(l.precioUnitario)||0),0)});return r},[byGremio])
+  const subtotal=Object.values(totalByGremio).reduce((s,v)=>s+v,0)
+  const ivaAmt=form.iva?subtotal*0.21:0
+  const grandTotal=subtotal+ivaAmt
+  const clienteNombre=isNew?String(form.clienteNombre||''):(clientes.find(c=>c.id===presupuesto!.clienteId)?.nombre||'')
+  return (
+    <div className="aa-editor-view">
+      <div className="aa-editor-header">
+        <button className="aa-iconbtn" onClick={onClose}><ChevronLeft size={18}/></button>
+        <span className="aa-editor-title">{isNew?'Nuevo presupuesto':String(form.nombre||'Presupuesto')}</span>
+        <button className="aa-addsmall aa-addsmall--brass" onClick={handleSave}><Check size={13}/> Guardar</button>
+      </div>
+      <div className="aa-editor-body">
+        <div className="aa-editor-card">
+          <div className="aa-obrablock__title">Datos del presupuesto</div>
+          <label className="aa-label">Nombre / título</label>
+          <input className="aa-input" value={String(form.nombre||'')} onChange={e=>set('nombre',e.target.value)} placeholder="Ej. Reforma baño C/ Mayor 12"/>
+          <label className="aa-label">Cliente</label>
+          {isNew?<><input className="aa-input" list="aa-edc" value={String(form.clienteNombre||'')} onChange={e=>set('clienteNombre',e.target.value)} placeholder="Nombre del cliente"/><datalist id="aa-edc">{clientes.map(c=><option key={c.id} value={c.nombre}/>)}</datalist></>:<input className="aa-input" value={clienteNombre} readOnly style={{opacity:0.65}}/>}
+          <div className="aa-row2"><div><label className="aa-label">Estado</label><select className="aa-input" value={String(form.estado||'')} onChange={e=>set('estado',e.target.value)}>{ESTADOS_PRESUPUESTO.map(s=><option key={s}>{s}</option>)}</select></div><div><label className="aa-label">Fecha</label><input type="date" className="aa-input" value={String(form.fecha||'')} onChange={e=>set('fecha',e.target.value)}/></div></div>
+          <label className="aa-label">Notas / condiciones</label>
+          <textarea className="aa-input aa-textarea" value={String(form.notas||'')} onChange={e=>set('notas',e.target.value)} placeholder="Plazo, forma de pago…"/>
+        </div>
+        <div className="aa-editor-card">
+          <div className="aa-obrablock__title">Partidas</div>
+          {displayLineas.length===0&&<div className="aa-empty aa-empty--tight">Añade la primera partida abajo.</div>}
+          {Object.entries(byGremio).map(([gremio,ls])=>(
+            <div key={gremio} className="aa-gremio-block">
+              <div className="aa-gremio-block__header"><span className="aa-tag aa-tag--gremio">{gremio}</span><span className="aa-gremio-total">{fmt(totalByGremio[gremio])} €</span></div>
+              {ls.map(l=>(<div key={l.id} className="aa-linea-row"><div className="aa-linea-main"><span className="aa-linea-concepto">{l.concepto}</span><span className="aa-linea-qty">{l.cantidad} {l.unidad} × {fmt(l.precioUnitario)} €/ud</span></div><div className="aa-linea-right"><span className="aa-linea-total">{fmt(Number(l.cantidad)*Number(l.precioUnitario))} €</span><DeleteButton onConfirm={()=>handleDeleteLinea(l.id)} label="partida"/></div></div>))}
+            </div>
+          ))}
+          <div className="aa-addlinea-form">
+            <div className="aa-obrablock__title" style={{marginTop:14}}>Añadir partida</div>
+            <input className="aa-input" list="aa-edco" value={lf.concepto} onChange={e=>onConceptoChange(e.target.value)} placeholder="Concepto, ej. Pintura interior"/>
+            <datalist id="aa-edco">{catalogo.map(c=><option key={c.concepto} value={c.concepto}/>)}</datalist>
+            <input className="aa-input" list="aa-edgr" value={lf.gremio} onChange={e=>sl('gremio',e.target.value)} placeholder="Gremio (opcional)" style={{marginTop:6}}/>
+            <datalist id="aa-edgr">{GREMIOS_SUGERIDOS.map(g=><option key={g} value={g}/>)}</datalist>
+            <div className="aa-row2" style={{marginTop:6}}>
+              <input type="number" className="aa-input" value={lf.cantidad} onChange={e=>sl('cantidad',e.target.value)} placeholder="Cant."/>
+              <select className="aa-input" value={lf.unidad} onChange={e=>sl('unidad',e.target.value)}>{UNIDADES.map(u=><option key={u}>{u}</option>)}</select>
+            </div>
+            <input type="number" className="aa-input" value={lf.precioUnitario} onChange={e=>sl('precioUnitario',e.target.value)} placeholder="Precio por unidad (€)" style={{marginTop:6}}/>
+            <button className="aa-addsmall" style={{marginTop:8}} onClick={handleAddLinea}><Plus size={13}/> Añadir partida</button>
+          </div>
+        </div>
+        {displayLineas.length>0&&<div className="aa-editor-card aa-summary-card">
+          <div className="aa-obrablock__title">Resumen económico</div>
+          <div className="aa-summary-rows">{Object.entries(totalByGremio).map(([g,t])=>(<div key={g} className="aa-summary-row"><span className="aa-summary-gremio">{g}</span><span>{fmt(t)} €</span></div>))}</div>
+          <div className="aa-summary-divider"/>
+          <div className="aa-summary-row"><span>Subtotal</span><strong>{fmt(subtotal)} €</strong></div>
+          <label className="aa-summary-row aa-summary-iva-row"><span className="aa-summary-iva-label"><input type="checkbox" checked={!!form.iva} onChange={e=>set('iva',e.target.checked)} style={{marginRight:6}}/>Aplicar IVA 21%</span><span>{fmt(ivaAmt)} €</span></label>
+          <div className="aa-summary-row aa-summary-total-row"><span>TOTAL</span><strong>{fmt(grandTotal)} €</strong></div>
+        </div>}
+        <div style={{height:32}}/>
+      </div>
+    </div>
+  )
+}
+
+export function PresupuestosView({presupuestos,presupuestolineas,clientes,onAddPresupuestoWithLineas,onUpdatePresupuesto,onAddLinea,onDeleteLinea,onConvertirObra}:{presupuestos:Presupuesto[];presupuestolineas:PresupuestoLinea[];clientes:Cliente[];onAddPresupuestoWithLineas:(form:Record<string,unknown>,lineas:PresupuestoLinea[])=>void;onUpdatePresupuesto:(id:string,d:Partial<Presupuesto>)=>void;onAddLinea:(presupuestoId:string,d:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>void;onDeleteLinea:(id:string)=>void;onConvertirObra:(p:Presupuesto)=>void}) {
+  const [subView,setSubView]=useState('presupuestos')
+  const [editingId,setEditingId]=useState<string|null>(null)
+  const catalogo=useMemo(()=>{const map:Record<string,CatalogoItem&{precios:number[]}>={};presupuestolineas.forEach(l=>{const key=(l.concepto||'').trim().toLowerCase();if(!key)return;const pres=presupuestos.find(p=>p.id===l.presupuestoId);if(!map[key])map[key]={concepto:'',gremio:'',unidad:'',ultimoPrecio:0,promedio:0,vecesUsado:0,precios:[],ultimaFecha:''};map[key].precios.push(Number(l.precioUnitario)||0);map[key].vecesUsado+=1;if(pres&&pres.fecha>=map[key].ultimaFecha){map[key].ultimaFecha=pres.fecha;map[key].concepto=l.concepto.trim();map[key].gremio=l.gremio;map[key].unidad=l.unidad;map[key].ultimoPrecio=Number(l.precioUnitario)||0}});return Object.values(map).map(c=>({...c,promedio:c.precios.reduce((s,x)=>s+x,0)/c.precios.length})).sort((a,b)=>b.vecesUsado-a.vecesUsado)},[presupuestolineas,presupuestos])
+  const totalDe=(id:string)=>{const ls=presupuestolineas.filter(l=>l.presupuestoId===id);return ls.reduce((s,l)=>s+(Number(l.cantidad)||0)*(Number(l.precioUnitario)||0),0)}
+  if(editingId==='new') return <PresupuestoEditorView presupuesto={null} lineas={[]} clientes={clientes} catalogo={catalogo} onSaveAndClose={(form,ll)=>{onAddPresupuestoWithLineas(form,ll);setEditingId(null)}} onAddLinea={()=>{}} onDeleteLinea={()=>{}} onClose={()=>setEditingId(null)}/>
+  if(editingId){const p=presupuestos.find(x=>x.id===editingId);if(!p){setEditingId(null);return null}const lineas=presupuestolineas.filter(l=>l.presupuestoId===editingId);return <PresupuestoEditorView presupuesto={p} lineas={lineas} clientes={clientes} catalogo={catalogo} onSaveAndClose={()=>{}} onSavePresupuesto={onUpdatePresupuesto} onAddLinea={d=>onAddLinea(editingId,d)} onDeleteLinea={onDeleteLinea} onClose={()=>setEditingId(null)}/>}
+  return (
+    <div className="aa-view">
+      <div className="aa-subtabs">
+        <button className={`aa-subtab${subView==='presupuestos'?' is-active':''}`} onClick={()=>setSubView('presupuestos')}>Presupuestos</button>
+        <button className={`aa-subtab${subView==='catalogo'?' is-active':''}`} onClick={()=>setSubView('catalogo')}>Catálogo de precios</button>
+      </div>
+      {subView==='presupuestos'&&<><div className="aa-viewheader"><span>Presupuestos</span><button className="aa-addsmall" onClick={()=>setEditingId('new')}><Plus size={14}/> Nuevo</button></div>{presupuestos.length===0&&<EmptyState text="Sin presupuestos todavía."/>}<div className="aa-clientlist">{[...presupuestos].sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(p=>{const sub=totalDe(p.id);const iva=p.iva?sub*0.21:0;const tot=sub+iva;const lc=presupuestolineas.filter(l=>l.presupuestoId===p.id).length;const cn=clientes.find(c=>c.id===p.clienteId)?.nombre||'Sin cliente';return(<div key={p.id} className="aa-clientcard" onClick={()=>setEditingId(p.id)} style={{cursor:'pointer'}}><div className="aa-clientcard__top"><span className="aa-clientcard__name">{p.nombre}</span><span className={`aa-tag aa-tag--estado-${(p.estado||'').toLowerCase()}`}>{p.estado}</span></div><div className="aa-clientcard__row"><span><Users size={11}/> {cn}</span><span>{p.fecha}</span></div><div className="aa-clientcard__sub"><strong>{fmt(tot)} €</strong>{p.iva?' IVA inc.':''} · {lc} {lc===1?'partida':'partidas'}</div>{p.estado==='Aceptado'&&<div style={{marginTop:8}} onClick={e=>e.stopPropagation()}><button className="aa-addsmall aa-addsmall--brass" onClick={()=>onConvertirObra(p)}><ArrowRightCircle size={13}/> Convertir en obra</button></div>}</div>)})}</div></>}
+      {subView==='catalogo'&&<><div className="aa-viewheader"><span>Catálogo de precios</span></div>{catalogo.length===0?<EmptyState text="Se llena solo al añadir partidas a los presupuestos."/>:<div className="aa-clientlist">{catalogo.map(c=>(<div key={c.concepto} className="aa-clientcard"><div className="aa-clientcard__top"><span className="aa-clientcard__name"><Tag size={13} style={{marginRight:4,verticalAlign:-2}}/>{c.concepto}</span>{c.gremio&&<span className="aa-tag aa-tag--gremio">{c.gremio}</span>}</div><div className="aa-clientcard__sub">Último: <strong>{fmt(c.ultimoPrecio)} € / {c.unidad}</strong> · Promedio: {fmt(c.promedio)} € · usado {c.vecesUsado} {c.vecesUsado===1?'vez':'veces'}</div></div>))}</div>}</>}
+    </div>
+  )
+}
