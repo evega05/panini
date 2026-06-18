@@ -167,7 +167,7 @@ function PanelInner() {
         {view==='presupuestos'&&<div className="aa-datenav__label aa-datenav__label--solo">Presupuestos</div>}
       </header>
       <main className="aa-main">
-        {isEmpty&&<div style={{margin:'16px 16px 0',padding:'12px 14px',background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'space-between',gap:8}}><span style={{fontSize:13,color:'#C9A227'}}>¿Los datos no aparecen?</span><button className="aa-addsmall aa-addsmall--brass" onClick={recoverFromCloud} disabled={recovering}>{recovering?'Recuperando…':'Recuperar de la nube'}</button></div>}
+        <div style={{margin:'16px 16px 0',padding:'10px 14px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'space-between',gap:8}}><span style={{fontSize:12,color:'#C9A227'}}>{isEmpty?'Panel vacío — ¿faltan datos?':'Sincronización activa'}</span><button className="aa-addsmall aa-addsmall--brass" onClick={recoverFromCloud} disabled={recovering}>{recovering?'Recuperando…':'Recuperar de la nube'}</button></div>
         {view==='hoy'&&(resumen.leadsNuevos>0||resumen.empleadosSinPagar>0||resumen.obrasConPendientes>0)&&(
           <div className="aa-resumen">
             {resumen.leadsNuevos>0&&<button className="aa-resumen__chip" onClick={()=>setView('clientes')}><Megaphone size={13}/> {resumen.leadsNuevos} lead{resumen.leadsNuevos===1?'':'s'} sin contactar</button>}
