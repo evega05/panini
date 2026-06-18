@@ -113,7 +113,7 @@ function PanelInner() {
   }
   const updatePresupuesto=(id:string,data:Partial<Presupuesto>)=>{const next=presupuestos.map(p=>p.id===id?{...p,...data}:p);setPresupuestos(next);persist('presupuestos',next)}
   const addLinea=(presupuestoId:string,data:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>{const next=[...presupuestolineas,{id:uid(),presupuestoId,...data}];setPresupuestolineas(next);persist('presupuestolineas',next)}
-  const addFactura=(data:Omit<Factura,'id'>)=>{const next=[...facturas,{id:uid(),...data}];setFacturas(next);persist('facturas',next)}
+  const addFactura=(data:Omit<Factura,'id'|'clienteId'>&{clienteNombre:string})=>{const{id:clienteId,list:nc}=findOrCreateCliente(data.clienteNombre,clientes);if(nc!==clientes){setClientes(nc);persist('clientes',nc)}const next=[...facturas,{id:uid(),clienteId,numero:data.numero,fecha:data.fecha,concepto:data.concepto,total:data.total,iva:data.iva,estado:data.estado,notas:data.notas}];setFacturas(next);persist('facturas',next)}
   const updateFactura=(id:string,data:Partial<Factura>)=>{const next=facturas.map(f=>f.id===id?{...f,...data}:f);setFacturas(next);persist('facturas',next)}
   const deleteFactura=(id:string)=>{const next=facturas.filter(f=>f.id!==id);setFacturas(next);persist('facturas',next)}
   const convertirObra=(p:Presupuesto)=>{const c=clientes.find(x=>x.id===p.clienteId);addObra({nombre:p.nombre,cliente:c?.nombre||'',direccion:c?.direccion||'',estado:'En curso',fechaInicio:todayISO(),notas:`Generada desde presupuesto "${p.nombre}"`})}

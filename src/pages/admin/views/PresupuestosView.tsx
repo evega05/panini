@@ -78,15 +78,16 @@ function PresupuestoEditorView({presupuesto,lineas,clientes,catalogo,onSaveAndCl
   )
 }
 
-export function PresupuestosView({presupuestos,presupuestolineas,clientes,facturas,onAddPresupuestoWithLineas,onUpdatePresupuesto,onAddLinea,onDeleteLinea,onConvertirObra,onAddFactura,onUpdateFactura,onDeleteFactura}:{presupuestos:Presupuesto[];presupuestolineas:PresupuestoLinea[];clientes:Cliente[];facturas:Factura[];onAddPresupuestoWithLineas:(form:Record<string,unknown>,lineas:PresupuestoLinea[])=>void;onUpdatePresupuesto:(id:string,d:Partial<Presupuesto>)=>void;onAddLinea:(presupuestoId:string,d:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>void;onDeleteLinea:(id:string)=>void;onConvertirObra:(p:Presupuesto)=>void;onAddFactura:(d:Omit<Factura,'id'>)=>void;onUpdateFactura:(id:string,d:Partial<Factura>)=>void;onDeleteFactura:(id:string)=>void}) {
+export function PresupuestosView({presupuestos,presupuestolineas,clientes,facturas,onAddPresupuestoWithLineas,onUpdatePresupuesto,onAddLinea,onDeleteLinea,onConvertirObra,onAddFactura,onUpdateFactura,onDeleteFactura}:{presupuestos:Presupuesto[];presupuestolineas:PresupuestoLinea[];clientes:Cliente[];facturas:Factura[];onAddPresupuestoWithLineas:(form:Record<string,unknown>,lineas:PresupuestoLinea[])=>void;onUpdatePresupuesto:(id:string,d:Partial<Presupuesto>)=>void;onAddLinea:(presupuestoId:string,d:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>void;onDeleteLinea:(id:string)=>void;onConvertirObra:(p:Presupuesto)=>void;onAddFactura:(d:Omit<Factura,'id'|'clienteId'>&{clienteNombre:string})=>void;onUpdateFactura:(id:string,d:Partial<Factura>)=>void;onDeleteFactura:(id:string)=>void}) {
   const [subView,setSubView]=useState('presupuestos')
   const [editingId,setEditingId]=useState<string|null>(null)
   const [showFacturaForm,setShowFacturaForm]=useState(false)
   const [facturaForm,setFacturaForm]=useState<Record<string,string|boolean>>({})
   const nextNumero=useMemo(()=>{const nums=facturas.map(f=>parseInt(f.numero.replace(/\D/g,''))||0);const max=nums.length?Math.max(...nums):0;return`FAC-${String(max+1).padStart(3,'0')}`},[facturas])
-  const submitFactura=()=>{if(!facturaForm.concepto||!facturaForm.total)return;const cn=clientes.find(c=>c.nombre.trim().toLowerCase()===String(facturaForm.clienteNombre||'').trim().toLowerCase());onAddFactura({numero:String(facturaForm.numero||nextNumero),clienteId:cn?.id||'',fecha:String(facturaForm.fecha||todayISO()),concepto:String(facturaForm.concepto),total:Number(facturaForm.total),iva:Boolean(facturaForm.iva),estado:'pendiente',notas:String(facturaForm.notas||'')});setFacturaForm({});setShowFacturaForm(false)}
+  const submitFactura=()=>{if(!facturaForm.concepto||!facturaForm.total)return;onAddFactura({numero:String(facturaForm.numero||nextNumero),clienteNombre:String(facturaForm.clienteNombre||''),fecha:String(facturaForm.fecha||todayISO()),concepto:String(facturaForm.concepto),total:Number(facturaForm.total),iva:Boolean(facturaForm.iva),estado:'pendiente',notas:String(facturaForm.notas||'')});setFacturaForm({});setShowFacturaForm(false)}
   const catalogo=useMemo(()=>{const map:Record<string,CatalogoItem&{precios:number[]}>={};presupuestolineas.forEach(l=>{const key=(l.concepto||'').trim().toLowerCase();if(!key)return;const pres=presupuestos.find(p=>p.id===l.presupuestoId);if(!map[key])map[key]={concepto:'',gremio:'',unidad:'',ultimoPrecio:0,promedio:0,vecesUsado:0,precios:[],ultimaFecha:''};map[key].precios.push(Number(l.precioUnitario)||0);map[key].vecesUsado+=1;if(pres&&pres.fecha>=map[key].ultimaFecha){map[key].ultimaFecha=pres.fecha;map[key].concepto=l.concepto.trim();map[key].gremio=l.gremio;map[key].unidad=l.unidad;map[key].ultimoPrecio=Number(l.precioUnitario)||0}});return Object.values(map).map(c=>({...c,promedio:c.precios.reduce((s,x)=>s+x,0)/c.precios.length})).sort((a,b)=>b.vecesUsado-a.vecesUsado)},[presupuestolineas,presupuestos])
   const totalDe=(id:string)=>{const ls=presupuestolineas.filter(l=>l.presupuestoId===id);return ls.reduce((s,l)=>s+(Number(l.cantidad)||0)*(Number(l.precioUnitario)||0),0)}
+  const facturasPorCliente=useMemo(()=>{const g:Record<string,Factura[]>={};facturas.forEach(f=>{const k=f.clienteId||'__sin__';if(!g[k])g[k]=[];g[k].push(f)});return Object.entries(g).map(([cid,cf])=>({clienteId:cid,clienteNombre:cid==='__sin__'?'Sin cliente':(clientes.find(c=>c.id===cid)?.nombre||'Sin cliente'),facturas:[...cf].sort((a,b)=>b.fecha.localeCompare(a.fecha)),total:cf.reduce((s,f)=>s+(f.iva?Number(f.total)*1.21:Number(f.total)),0),cobrado:cf.reduce((s,f)=>s+(f.estado==='cobrada'?(f.iva?Number(f.total)*1.21:Number(f.total)):0),0)}))},[facturas,clientes])
   if(editingId==='new') return <PresupuestoEditorView presupuesto={null} lineas={[]} clientes={clientes} catalogo={catalogo} onSaveAndClose={(form,ll)=>{onAddPresupuestoWithLineas(form,ll);setEditingId(null)}} onAddLinea={()=>{}} onDeleteLinea={()=>{}} onClose={()=>setEditingId(null)}/>
   if(editingId){const p=presupuestos.find(x=>x.id===editingId);if(!p){setEditingId(null);return null}const lineas=presupuestolineas.filter(l=>l.presupuestoId===editingId);return <PresupuestoEditorView presupuesto={p} lineas={lineas} clientes={clientes} catalogo={catalogo} onSaveAndClose={()=>{}} onSavePresupuesto={onUpdatePresupuesto} onAddLinea={d=>onAddLinea(editingId,d)} onDeleteLinea={onDeleteLinea} onClose={()=>setEditingId(null)}/>}
   return (
@@ -103,26 +104,29 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
           <button className="aa-addsmall" onClick={()=>{setFacturaForm({numero:nextNumero,fecha:todayISO()});setShowFacturaForm(true)}}><Plus size={14}/> Nueva</button>
         </div>
         {facturas.length===0&&<EmptyState text="Sin facturas todavía."/>}
-        <div className="aa-clientlist">{[...facturas].sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(f=>{
-          const cn=clientes.find(c=>c.id===f.clienteId)?.nombre||'Sin cliente'
-          const totalConIva=f.iva?Number(f.total)*1.21:Number(f.total)
-          return(
-            <div key={f.id} className="aa-clientcard">
-              <div className="aa-clientcard__top">
-                <span className="aa-clientcard__name"><FileText size={13} style={{marginRight:5,verticalAlign:-2}}/>{f.numero}</span>
-                <span className={`aa-tag${f.estado==='cobrada'?' aa-tag--money':' aa-tag--estado-enviado'}`}>{f.estado==='cobrada'?'Cobrada':'Pendiente'}</span>
-              </div>
-              <div className="aa-clientcard__row"><span><Users size={11}/> {cn}</span><span>{f.fecha}</span></div>
-              <div className="aa-clientcard__sub">{f.concepto}</div>
-              <div className="aa-clientcard__sub"><strong>{fmt(totalConIva)} €</strong>{f.iva?' (IVA inc.)':''}</div>
-              <div className="aa-leadactions">
-                {f.estado==='pendiente'&&<button className="aa-addsmall aa-addsmall--brass" onClick={()=>onUpdateFactura(f.id,{estado:'cobrada'})}><Check size={13}/> Marcar cobrada</button>}
-                {f.estado==='cobrada'&&<button className="aa-addsmall" onClick={()=>onUpdateFactura(f.id,{estado:'pendiente'})}>Desmarcar</button>}
-                <DeleteButton onConfirm={()=>onDeleteFactura(f.id)} label="factura"/>
-              </div>
+        <div className="aa-clientlist">{facturasPorCliente.map(({clienteId,clienteNombre,facturas:cf,total,cobrado})=>(
+          <div key={clienteId} style={{marginBottom:10}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'5px 4px 7px',borderBottom:'1px solid rgba(255,255,255,0.08)',marginBottom:6}}>
+              <span style={{fontWeight:600,fontSize:13}}><Users size={12} style={{marginRight:4,verticalAlign:-2}}/>{clienteNombre}</span>
+              <span style={{fontSize:12,color:'#9AA0AC'}}>{fmt(cobrado)} / {fmt(total)} €</span>
             </div>
-          )
-        })}</div>
+            {cf.map(f=>{const totalConIva=f.iva?Number(f.total)*1.21:Number(f.total);return(
+              <div key={f.id} className="aa-clientcard">
+                <div className="aa-clientcard__top">
+                  <span className="aa-clientcard__name"><FileText size={13} style={{marginRight:5,verticalAlign:-2}}/>{f.numero}</span>
+                  <span className={`aa-tag${f.estado==='cobrada'?' aa-tag--money':' aa-tag--estado-enviado'}`}>{f.estado==='cobrada'?'Cobrada':'Pendiente'}</span>
+                </div>
+                <div className="aa-clientcard__row"><span>{f.fecha}</span><span>{f.concepto}</span></div>
+                <div className="aa-clientcard__sub"><strong>{fmt(totalConIva)} €</strong>{f.iva?' (IVA inc.)':''}</div>
+                <div className="aa-leadactions">
+                  {f.estado==='pendiente'&&<button className="aa-addsmall aa-addsmall--brass" onClick={()=>onUpdateFactura(f.id,{estado:'cobrada'})}><Check size={13}/> Marcar cobrada</button>}
+                  {f.estado==='cobrada'&&<button className="aa-addsmall" onClick={()=>onUpdateFactura(f.id,{estado:'pendiente'})}>Desmarcar</button>}
+                  <DeleteButton onConfirm={()=>onDeleteFactura(f.id)} label="factura"/>
+                </div>
+              </div>
+            )})}
+          </div>
+        ))}</div>
         {showFacturaForm&&<div className="aa-overlay" onClick={()=>setShowFacturaForm(false)}><div className="aa-sheet" onClick={e=>e.stopPropagation()}>
           <div className="aa-sheet__handle"/>
           <div className="aa-sheet__title">Nueva factura</div>
