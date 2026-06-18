@@ -8,7 +8,7 @@ import type {
   Cliente, Visita, Cobro, Tarea, Empleado, Pago, Jornada,
   Obra, ObraItem, Asignacion, Lead, Presupuesto, PresupuestoLinea, Factura,
 } from './types'
-import { loadAll, persist } from './storage'
+import { loadAll, persist, loadFromSupabase } from './storage'
 import { uid, todayISO, addDays, weekDaysOf, dayLabel, dayNum, longLabel } from './utils'
 import { CSS } from './panelCss'
 import { DayAgenda, AddSheet } from './views/DayAgenda'
@@ -50,6 +50,7 @@ export default function Panel() {
 
 function PanelInner() {
   const [loaded,setLoaded]=useState(false)
+  const [recovering,setRecovering]=useState(false)
   const [view,setView]=useState('hoy')
   const [selectedDate,setSelectedDate]=useState(todayISO())
   const [addOpen,setAddOpen]=useState(false)
@@ -68,17 +69,25 @@ function PanelInner() {
   const [presupuestolineas,setPresupuestolineas]=useState<PresupuestoLinea[]>([])
   const [facturas,setFacturas]=useState<Factura[]>([])
 
-  useEffect(()=>{
-    loadAll().then(d=>{
-      setClientes(d.clientes as Cliente[]); setVisitas(d.visitas as Visita[]); setCobros(d.cobros as Cobro[])
-      setTareas(d.tareas as Tarea[]); setEmpleados(d.empleados as Empleado[]); setPagos(d.pagos as Pago[])
-      setJornadas(d.jornadas as Jornada[]); setObras(d.obras as Obra[]); setObraitems(d.obraitems as ObraItem[])
-      setAsignaciones(d.asignaciones as Asignacion[]); setLeads(d.leads as Lead[])
-      setPresupuestos(d.presupuestos as Presupuesto[]); setPresupuestolineas(d.presupuestolineas as PresupuestoLinea[])
-      setFacturas(d.facturas as Factura[])
-      setLoaded(true)
+  const applyData=(d:Record<string,unknown[]>)=>{
+    setClientes(d.clientes as Cliente[]); setVisitas(d.visitas as Visita[]); setCobros(d.cobros as Cobro[])
+    setTareas(d.tareas as Tarea[]); setEmpleados(d.empleados as Empleado[]); setPagos(d.pagos as Pago[])
+    setJornadas(d.jornadas as Jornada[]); setObras(d.obras as Obra[]); setObraitems(d.obraitems as ObraItem[])
+    setAsignaciones(d.asignaciones as Asignacion[]); setLeads(d.leads as Lead[])
+    setPresupuestos(d.presupuestos as Presupuesto[]); setPresupuestolineas(d.presupuestolineas as PresupuestoLinea[])
+    setFacturas(d.facturas as Factura[])
+  }
+
+  useEffect(()=>{ loadAll().then(d=>{ applyData(d); setLoaded(true) }) },[])
+
+  const recoverFromCloud=()=>{
+    setRecovering(true)
+    loadFromSupabase().then(d=>{
+      if(d){applyData(d);alert('Datos recuperados de la nube correctamente.')}
+      else{alert('No se encontraron datos en la nube.\nSi los datos estaban en este ordenador, escribe en el chat y te ayudo a recuperarlos.')}
+      setRecovering(false)
     })
-  },[])
+  }
 
   const findOrCreateCliente=(nombre:string,list:Cliente[])=>{
     const match=list.find(c=>c.nombre.trim().toLowerCase()===nombre.trim().toLowerCase())
@@ -142,6 +151,8 @@ function PanelInner() {
 
   if(!loaded) return <div className="aa-root aa-root--loading"><style>{CSS}</style><Sun className="aa-spin" size={26}/></div>
 
+  const isEmpty=clientes.length===0&&visitas.length===0&&cobros.length===0&&tareas.length===0&&empleados.length===0&&obras.length===0
+
   return (
     <div className="aa-root">
       <style>{CSS}</style>
@@ -156,6 +167,7 @@ function PanelInner() {
         {view==='presupuestos'&&<div className="aa-datenav__label aa-datenav__label--solo">Presupuestos</div>}
       </header>
       <main className="aa-main">
+        {isEmpty&&<div style={{margin:'16px 16px 0',padding:'12px 14px',background:'rgba(201,162,39,0.1)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'space-between',gap:8}}><span style={{fontSize:13,color:'#C9A227'}}>¿Los datos no aparecen?</span><button className="aa-addsmall aa-addsmall--brass" onClick={recoverFromCloud} disabled={recovering}>{recovering?'Recuperando…':'Recuperar de la nube'}</button></div>}
         {view==='hoy'&&(resumen.leadsNuevos>0||resumen.empleadosSinPagar>0||resumen.obrasConPendientes>0)&&(
           <div className="aa-resumen">
             {resumen.leadsNuevos>0&&<button className="aa-resumen__chip" onClick={()=>setView('clientes')}><Megaphone size={13}/> {resumen.leadsNuevos} lead{resumen.leadsNuevos===1?'':'s'} sin contactar</button>}

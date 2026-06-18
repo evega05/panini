@@ -43,3 +43,21 @@ export function persist(key: string, data: unknown[]) {
   try { localStorage.setItem('provenza_panel_'+key, JSON.stringify(data)) } catch(e) { console.error('storage',key,e) }
   supabase.from('panel_data').upsert({key,data}).then(({error})=>{ if(error) console.error('supabase persist',key,error) })
 }
+
+export async function loadFromSupabase(): Promise<Record<string,unknown[]>|null> {
+  try {
+    const { data, error } = await supabase.from('panel_data').select('key, data')
+    if (error) throw error
+    if (!data || data.length === 0) return null
+    const out: Record<string,unknown[]> = {}
+    KEYS.forEach(k => out[k]=[])
+    data.forEach((row:{key:string;data:unknown[]}) => {
+      out[row.key] = row.data||[]
+      try { localStorage.setItem('provenza_panel_'+row.key, JSON.stringify(row.data||[])) } catch {}
+    })
+    return out
+  } catch(e) {
+    console.error('loadFromSupabase',e)
+    return null
+  }
+}
