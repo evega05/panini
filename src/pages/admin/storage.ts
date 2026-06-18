@@ -14,26 +14,28 @@ function fromLocal(): Record<string,unknown[]> {
 }
 
 export async function loadAll(): Promise<Record<string,unknown[]>> {
-  try {
-    const { data, error } = await supabase.from('panel_data').select('key, data')
-    if (error) throw error
-    const out: Record<string,unknown[]> = {}
-    KEYS.forEach(k => out[k]=[])
-    ;(data||[]).forEach((row:{key:string;data:unknown[]}) => { out[row.key]=row.data||[] })
-    // Si Supabase está vacío, migra los datos del localStorage automáticamente
-    const hasData=(data||[]).length>0
-    if (!hasData) {
-      const local=fromLocal()
-      const hasLocal=Object.values(local).some(a=>a.length>0)
-      if (hasLocal) {
-        await Promise.all(KEYS.map(k=>supabase.from('panel_data').upsert({key:k,data:local[k]})))
-        return local
-      }
+  // Siempre carga primero desde localStorage (instantáneo y fiable)
+  const local = fromLocal()
+  // Luego intenta sincronizar con Supabase en segundo plano
+  syncFromSupabase(local).catch(e => console.error('supabase sync', e))
+  return local
+}
+
+async function syncFromSupabase(local: Record<string,unknown[]>) {
+  const { data, error } = await supabase.from('panel_data').select('key, data')
+  if (error) throw error
+  const hasRemote = (data||[]).length > 0
+  if (hasRemote) {
+    // Supabase tiene datos: guárdalos en localStorage para la próxima carga
+    ;(data||[]).forEach((row:{key:string;data:unknown[]}) => {
+      try { localStorage.setItem('provenza_panel_'+row.key, JSON.stringify(row.data||[])) } catch {}
+    })
+  } else {
+    // Supabase vacío: sube los datos locales
+    const hasLocal = Object.values(local).some(a => a.length > 0)
+    if (hasLocal) {
+      await Promise.all(KEYS.map(k => supabase.from('panel_data').upsert({key:k, data:local[k]})))
     }
-    return out
-  } catch(e) {
-    console.error('supabase loadAll',e)
-    return fromLocal()
   }
 }
 
