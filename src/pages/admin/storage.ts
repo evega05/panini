@@ -1,4 +1,4 @@
-const KEYS = ['clientes','visitas','cobros','tareas','empleados','pagos','jornadas','obras','obraitems','asignaciones','leads','presupuestos','presupuestolineas']
+const KEYS = ['clientes','visitas','cobros','tareas','empleados','pagos','jornadas','obras','obraitems','asignaciones','leads','presupuestos','presupuestolineas','facturas']
 
 export function loadAll(): Record<string,unknown[]> {
   const out: Record<string,unknown[]> = {}

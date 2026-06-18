@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
-import { Plus, Users, Check, ChevronLeft, ArrowRightCircle, Tag } from 'lucide-react'
-import type { Cliente, Presupuesto, PresupuestoLinea, CatalogoItem } from '../types'
+import { Plus, Users, Check, ChevronLeft, ArrowRightCircle, Tag, X, FileText } from 'lucide-react'
+import type { Cliente, Presupuesto, PresupuestoLinea, CatalogoItem, Factura } from '../types'
 import { GREMIOS_SUGERIDOS, ESTADOS_PRESUPUESTO, UNIDADES } from '../types'
 import { todayISO, uid, fmt } from '../utils'
 import { DeleteButton, EmptyState } from './shared'
@@ -78,9 +78,13 @@ function PresupuestoEditorView({presupuesto,lineas,clientes,catalogo,onSaveAndCl
   )
 }
 
-export function PresupuestosView({presupuestos,presupuestolineas,clientes,onAddPresupuestoWithLineas,onUpdatePresupuesto,onAddLinea,onDeleteLinea,onConvertirObra}:{presupuestos:Presupuesto[];presupuestolineas:PresupuestoLinea[];clientes:Cliente[];onAddPresupuestoWithLineas:(form:Record<string,unknown>,lineas:PresupuestoLinea[])=>void;onUpdatePresupuesto:(id:string,d:Partial<Presupuesto>)=>void;onAddLinea:(presupuestoId:string,d:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>void;onDeleteLinea:(id:string)=>void;onConvertirObra:(p:Presupuesto)=>void}) {
+export function PresupuestosView({presupuestos,presupuestolineas,clientes,facturas,onAddPresupuestoWithLineas,onUpdatePresupuesto,onAddLinea,onDeleteLinea,onConvertirObra,onAddFactura,onUpdateFactura,onDeleteFactura}:{presupuestos:Presupuesto[];presupuestolineas:PresupuestoLinea[];clientes:Cliente[];facturas:Factura[];onAddPresupuestoWithLineas:(form:Record<string,unknown>,lineas:PresupuestoLinea[])=>void;onUpdatePresupuesto:(id:string,d:Partial<Presupuesto>)=>void;onAddLinea:(presupuestoId:string,d:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>void;onDeleteLinea:(id:string)=>void;onConvertirObra:(p:Presupuesto)=>void;onAddFactura:(d:Omit<Factura,'id'>)=>void;onUpdateFactura:(id:string,d:Partial<Factura>)=>void;onDeleteFactura:(id:string)=>void}) {
   const [subView,setSubView]=useState('presupuestos')
   const [editingId,setEditingId]=useState<string|null>(null)
+  const [showFacturaForm,setShowFacturaForm]=useState(false)
+  const [facturaForm,setFacturaForm]=useState<Record<string,string|boolean>>({})
+  const nextNumero=useMemo(()=>{const nums=facturas.map(f=>parseInt(f.numero.replace(/\D/g,''))||0);const max=nums.length?Math.max(...nums):0;return`FAC-${String(max+1).padStart(3,'0')}`},[facturas])
+  const submitFactura=()=>{if(!facturaForm.concepto||!facturaForm.total)return;const cn=clientes.find(c=>c.nombre.trim().toLowerCase()===String(facturaForm.clienteNombre||'').trim().toLowerCase());onAddFactura({numero:String(facturaForm.numero||nextNumero),clienteId:cn?.id||'',fecha:String(facturaForm.fecha||todayISO()),concepto:String(facturaForm.concepto),total:Number(facturaForm.total),iva:Boolean(facturaForm.iva),estado:'pendiente',notas:String(facturaForm.notas||'')});setFacturaForm({});setShowFacturaForm(false)}
   const catalogo=useMemo(()=>{const map:Record<string,CatalogoItem&{precios:number[]}>={};presupuestolineas.forEach(l=>{const key=(l.concepto||'').trim().toLowerCase();if(!key)return;const pres=presupuestos.find(p=>p.id===l.presupuestoId);if(!map[key])map[key]={concepto:'',gremio:'',unidad:'',ultimoPrecio:0,promedio:0,vecesUsado:0,precios:[],ultimaFecha:''};map[key].precios.push(Number(l.precioUnitario)||0);map[key].vecesUsado+=1;if(pres&&pres.fecha>=map[key].ultimaFecha){map[key].ultimaFecha=pres.fecha;map[key].concepto=l.concepto.trim();map[key].gremio=l.gremio;map[key].unidad=l.unidad;map[key].ultimoPrecio=Number(l.precioUnitario)||0}});return Object.values(map).map(c=>({...c,promedio:c.precios.reduce((s,x)=>s+x,0)/c.precios.length})).sort((a,b)=>b.vecesUsado-a.vecesUsado)},[presupuestolineas,presupuestos])
   const totalDe=(id:string)=>{const ls=presupuestolineas.filter(l=>l.presupuestoId===id);return ls.reduce((s,l)=>s+(Number(l.cantidad)||0)*(Number(l.precioUnitario)||0),0)}
   if(editingId==='new') return <PresupuestoEditorView presupuesto={null} lineas={[]} clientes={clientes} catalogo={catalogo} onSaveAndClose={(form,ll)=>{onAddPresupuestoWithLineas(form,ll);setEditingId(null)}} onAddLinea={()=>{}} onDeleteLinea={()=>{}} onClose={()=>setEditingId(null)}/>
@@ -89,9 +93,60 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,onAddP
     <div className="aa-view">
       <div className="aa-subtabs">
         <button className={`aa-subtab${subView==='presupuestos'?' is-active':''}`} onClick={()=>setSubView('presupuestos')}>Presupuestos</button>
-        <button className={`aa-subtab${subView==='catalogo'?' is-active':''}`} onClick={()=>setSubView('catalogo')}>Catálogo de precios</button>
+        <button className={`aa-subtab${subView==='facturas'?' is-active':''}`} onClick={()=>setSubView('facturas')}>Facturas</button>
+        <button className={`aa-subtab${subView==='catalogo'?' is-active':''}`} onClick={()=>setSubView('catalogo')}>Catálogo</button>
       </div>
       {subView==='presupuestos'&&<><div className="aa-viewheader"><span>Presupuestos</span><button className="aa-addsmall" onClick={()=>setEditingId('new')}><Plus size={14}/> Nuevo</button></div>{presupuestos.length===0&&<EmptyState text="Sin presupuestos todavía."/>}<div className="aa-clientlist">{[...presupuestos].sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(p=>{const sub=totalDe(p.id);const iva=p.iva?sub*0.21:0;const tot=sub+iva;const lc=presupuestolineas.filter(l=>l.presupuestoId===p.id).length;const cn=clientes.find(c=>c.id===p.clienteId)?.nombre||'Sin cliente';return(<div key={p.id} className="aa-clientcard" onClick={()=>setEditingId(p.id)} style={{cursor:'pointer'}}><div className="aa-clientcard__top"><span className="aa-clientcard__name">{p.nombre}</span><span className={`aa-tag aa-tag--estado-${(p.estado||'').toLowerCase()}`}>{p.estado}</span></div><div className="aa-clientcard__row"><span><Users size={11}/> {cn}</span><span>{p.fecha}</span></div><div className="aa-clientcard__sub"><strong>{fmt(tot)} €</strong>{p.iva?' IVA inc.':''} · {lc} {lc===1?'partida':'partidas'}</div>{p.estado==='Aceptado'&&<div style={{marginTop:8}} onClick={e=>e.stopPropagation()}><button className="aa-addsmall aa-addsmall--brass" onClick={()=>onConvertirObra(p)}><ArrowRightCircle size={13}/> Convertir en obra</button></div>}</div>)})}</div></>}
+      {subView==='facturas'&&<>
+        <div className="aa-viewheader">
+          <span>Facturas <span className="aa-tag aa-tag--money">{fmt(facturas.reduce((s,f)=>s+(f.estado==='cobrada'?Number(f.total):0),0))} € cobrado</span></span>
+          <button className="aa-addsmall" onClick={()=>{setFacturaForm({numero:nextNumero,fecha:todayISO()});setShowFacturaForm(true)}}><Plus size={14}/> Nueva</button>
+        </div>
+        {facturas.length===0&&<EmptyState text="Sin facturas todavía."/>}
+        <div className="aa-clientlist">{[...facturas].sort((a,b)=>b.fecha.localeCompare(a.fecha)).map(f=>{
+          const cn=clientes.find(c=>c.id===f.clienteId)?.nombre||'Sin cliente'
+          const totalConIva=f.iva?Number(f.total)*1.21:Number(f.total)
+          return(
+            <div key={f.id} className="aa-clientcard">
+              <div className="aa-clientcard__top">
+                <span className="aa-clientcard__name"><FileText size={13} style={{marginRight:5,verticalAlign:-2}}/>{f.numero}</span>
+                <span className={`aa-tag${f.estado==='cobrada'?' aa-tag--money':' aa-tag--estado-enviado'}`}>{f.estado==='cobrada'?'Cobrada':'Pendiente'}</span>
+              </div>
+              <div className="aa-clientcard__row"><span><Users size={11}/> {cn}</span><span>{f.fecha}</span></div>
+              <div className="aa-clientcard__sub">{f.concepto}</div>
+              <div className="aa-clientcard__sub"><strong>{fmt(totalConIva)} €</strong>{f.iva?' (IVA inc.)':''}</div>
+              <div className="aa-leadactions">
+                {f.estado==='pendiente'&&<button className="aa-addsmall aa-addsmall--brass" onClick={()=>onUpdateFactura(f.id,{estado:'cobrada'})}><Check size={13}/> Marcar cobrada</button>}
+                {f.estado==='cobrada'&&<button className="aa-addsmall" onClick={()=>onUpdateFactura(f.id,{estado:'pendiente'})}>Desmarcar</button>}
+                <DeleteButton onConfirm={()=>onDeleteFactura(f.id)} label="factura"/>
+              </div>
+            </div>
+          )
+        })}</div>
+        {showFacturaForm&&<div className="aa-overlay" onClick={()=>setShowFacturaForm(false)}><div className="aa-sheet" onClick={e=>e.stopPropagation()}>
+          <div className="aa-sheet__handle"/>
+          <div className="aa-sheet__title">Nueva factura</div>
+          <div className="aa-row2">
+            <div><label className="aa-label">Número</label><input className="aa-input" value={String(facturaForm.numero||'')} onChange={e=>setFacturaForm({...facturaForm,numero:e.target.value})}/></div>
+            <div><label className="aa-label">Fecha</label><input type="date" className="aa-input" value={String(facturaForm.fecha||'')} onChange={e=>setFacturaForm({...facturaForm,fecha:e.target.value})}/></div>
+          </div>
+          <label className="aa-label">Cliente</label>
+          <input className="aa-input" list="aa-fac-cl" value={String(facturaForm.clienteNombre||'')} onChange={e=>setFacturaForm({...facturaForm,clienteNombre:e.target.value})} placeholder="Nombre del cliente"/>
+          <datalist id="aa-fac-cl">{clientes.map(c=><option key={c.id} value={c.nombre}/>)}</datalist>
+          <label className="aa-label">Concepto</label>
+          <input className="aa-input" value={String(facturaForm.concepto||'')} onChange={e=>setFacturaForm({...facturaForm,concepto:e.target.value})} placeholder="Ej. Reforma baño C/ Mayor"/>
+          <label className="aa-label">Total (€, sin IVA)</label>
+          <input type="number" className="aa-input" value={String(facturaForm.total||'')} onChange={e=>setFacturaForm({...facturaForm,total:e.target.value})}/>
+          <label className="aa-label" style={{display:'flex',alignItems:'center',gap:8,marginTop:10}}>
+            <input type="checkbox" checked={Boolean(facturaForm.iva)} onChange={e=>setFacturaForm({...facturaForm,iva:e.target.checked})}/>
+            Aplicar IVA 21%
+          </label>
+          <label className="aa-label">Notas</label>
+          <textarea className="aa-input aa-textarea" value={String(facturaForm.notas||'')} onChange={e=>setFacturaForm({...facturaForm,notas:e.target.value})}/>
+          <button className="aa-submit aa-submit--brass" onClick={submitFactura}>Guardar factura</button>
+          <button className="aa-sheet__close" onClick={()=>setShowFacturaForm(false)}><X size={16}/> Cerrar</button>
+        </div></div>}
+      </>}
       {subView==='catalogo'&&<><div className="aa-viewheader"><span>Catálogo de precios</span></div>{catalogo.length===0?<EmptyState text="Se llena solo al añadir partidas a los presupuestos."/>:<div className="aa-clientlist">{catalogo.map(c=>(<div key={c.concepto} className="aa-clientcard"><div className="aa-clientcard__top"><span className="aa-clientcard__name"><Tag size={13} style={{marginRight:4,verticalAlign:-2}}/>{c.concepto}</span>{c.gremio&&<span className="aa-tag aa-tag--gremio">{c.gremio}</span>}</div><div className="aa-clientcard__sub">Último: <strong>{fmt(c.ultimoPrecio)} € / {c.unidad}</strong> · Promedio: {fmt(c.promedio)} € · usado {c.vecesUsado} {c.vecesUsado===1?'vez':'veces'}</div></div>))}</div>}</>}
     </div>
   )

@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import type {
   Cliente, Visita, Cobro, Tarea, Empleado, Pago, Jornada,
-  Obra, ObraItem, Asignacion, Lead, Presupuesto, PresupuestoLinea,
+  Obra, ObraItem, Asignacion, Lead, Presupuesto, PresupuestoLinea, Factura,
 } from './types'
 import { loadAll, persist } from './storage'
 import { uid, todayISO, addDays, weekDaysOf, dayLabel, dayNum, longLabel } from './utils'
@@ -66,6 +66,7 @@ function PanelInner() {
   const [leads,setLeads]=useState<Lead[]>([])
   const [presupuestos,setPresupuestos]=useState<Presupuesto[]>([])
   const [presupuestolineas,setPresupuestolineas]=useState<PresupuestoLinea[]>([])
+  const [facturas,setFacturas]=useState<Factura[]>([])
 
   useEffect(()=>{
     const d=loadAll()
@@ -74,6 +75,7 @@ function PanelInner() {
     setJornadas(d.jornadas as Jornada[]); setObras(d.obras as Obra[]); setObraitems(d.obraitems as ObraItem[])
     setAsignaciones(d.asignaciones as Asignacion[]); setLeads(d.leads as Lead[])
     setPresupuestos(d.presupuestos as Presupuesto[]); setPresupuestolineas(d.presupuestolineas as PresupuestoLinea[])
+    setFacturas(d.facturas as Factura[])
     setLoaded(true)
   },[])
 
@@ -111,6 +113,9 @@ function PanelInner() {
   }
   const updatePresupuesto=(id:string,data:Partial<Presupuesto>)=>{const next=presupuestos.map(p=>p.id===id?{...p,...data}:p);setPresupuestos(next);persist('presupuestos',next)}
   const addLinea=(presupuestoId:string,data:Omit<PresupuestoLinea,'id'|'presupuestoId'>)=>{const next=[...presupuestolineas,{id:uid(),presupuestoId,...data}];setPresupuestolineas(next);persist('presupuestolineas',next)}
+  const addFactura=(data:Omit<Factura,'id'>)=>{const next=[...facturas,{id:uid(),...data}];setFacturas(next);persist('facturas',next)}
+  const updateFactura=(id:string,data:Partial<Factura>)=>{const next=facturas.map(f=>f.id===id?{...f,...data}:f);setFacturas(next);persist('facturas',next)}
+  const deleteFactura=(id:string)=>{const next=facturas.filter(f=>f.id!==id);setFacturas(next);persist('facturas',next)}
   const convertirObra=(p:Presupuesto)=>{const c=clientes.find(x=>x.id===p.clienteId);addObra({nombre:p.nombre,cliente:c?.nombre||'',direccion:c?.direccion||'',estado:'En curso',fechaInicio:todayISO(),notas:`Generada desde presupuesto "${p.nombre}"`})}
   const addObra=(data:Partial<Obra>)=>{const next=[...obras,{id:uid(),cliente:'',direccion:'',notas:'',...data} as Obra];setObras(next);persist('obras',next)}
   const updateObra=(id:string,data:Partial<Obra>)=>{const next=obras.map(o=>o.id===id?{...o,...data}:o);setObras(next);persist('obras',next)}
@@ -160,7 +165,7 @@ function PanelInner() {
         {view==='hoy'&&<DayAgenda date={selectedDate} data={dataBag} onToggleEstado={toggleEstado} onToggleTarea={toggleTarea} onDelete={deleteItem}/>}
         {view==='semana'&&<><div className="aa-weekstrip">{week.map(d=>{const vC=visitas.filter(v=>v.fecha===d).length;const cC=cobros.filter(c=>c.fecha===d).length;const tC=tareas.filter(t=>t.fecha===d).length;const isSel=d===selectedDate;const isToday=d===todayISO();return(<button key={d} className={`aa-daypill${isSel?' is-selected':''}${isToday?' is-today':''}`} onClick={()=>setSelectedDate(d)}><span className="aa-daypill__wd">{dayLabel(d)}</span><span className="aa-daypill__num">{dayNum(d)}</span><span className="aa-daypill__dots">{vC>0&&<i className="aa-dot aa-dot--water"/>}{cC>0&&<i className="aa-dot aa-dot--money"/>}{tC>0&&<i className="aa-dot aa-dot--task"/>}</span></button>)})}</div><div className="aa-weekday-title">{longLabel(selectedDate)}</div><DayAgenda date={selectedDate} data={dataBag} onToggleEstado={toggleEstado} onToggleTarea={toggleTarea} onDelete={deleteItem}/></>}
         {view==='obras'&&<ObrasView obras={obras} obraitems={obraitems} asignaciones={asignaciones} empleados={empleados} onAddObra={addObra} onUpdateObra={updateObra} onDeleteObra={deleteObra} onAddItem={addObraItem} onToggleItem={toggleObraItem} onDeleteItem={id=>deleteItem('obraitems',id)} onAddAsignacion={addAsignacion} onDeleteAsignacion={id=>deleteItem('asignaciones',id)}/>}
-        {view==='presupuestos'&&<PresupuestosView presupuestos={presupuestos} presupuestolineas={presupuestolineas} clientes={clientes} onAddPresupuestoWithLineas={addPresupuestoWithLineas} onUpdatePresupuesto={updatePresupuesto} onAddLinea={addLinea} onDeleteLinea={id=>deleteItem('presupuestolineas',id)} onConvertirObra={convertirObra}/>}
+        {view==='presupuestos'&&<PresupuestosView presupuestos={presupuestos} presupuestolineas={presupuestolineas} clientes={clientes} facturas={facturas} onAddPresupuestoWithLineas={addPresupuestoWithLineas} onUpdatePresupuesto={updatePresupuesto} onAddLinea={addLinea} onDeleteLinea={id=>deleteItem('presupuestolineas',id)} onConvertirObra={convertirObra} onAddFactura={addFactura} onUpdateFactura={updateFactura} onDeleteFactura={deleteFactura}/>}
         {view==='clientes'&&<ClientesView clientes={clientes} visitas={visitas} cobros={cobros} leads={leads} onAddCliente={addCliente} onDeleteCliente={id=>deleteItem('clientes',id)} onUpdateCliente={updateCliente} onAddCobro={addCobroCliente} onAddLead={addLead} onSetLeadEstado={setLeadEstado} onDeleteLead={id=>deleteItem('leads',id)} onConvertLead={convertLead}/>}
         {view==='equipo'&&<EmpleadosView empleados={empleados} pagos={pagos} jornadas={jornadas} obras={obras} obraitems={obraitems} asignaciones={asignaciones} onAddEmpleado={addEmpleado} onDeleteEmpleado={id=>deleteItem('empleados',id)} onAddPago={addPago} onCycleJornada={cycleJornada} onMarkAllPaid={markAllPaid}/>}
       </main>
