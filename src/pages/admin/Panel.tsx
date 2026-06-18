@@ -69,14 +69,15 @@ function PanelInner() {
   const [facturas,setFacturas]=useState<Factura[]>([])
 
   useEffect(()=>{
-    const d=loadAll()
-    setClientes(d.clientes as Cliente[]); setVisitas(d.visitas as Visita[]); setCobros(d.cobros as Cobro[])
-    setTareas(d.tareas as Tarea[]); setEmpleados(d.empleados as Empleado[]); setPagos(d.pagos as Pago[])
-    setJornadas(d.jornadas as Jornada[]); setObras(d.obras as Obra[]); setObraitems(d.obraitems as ObraItem[])
-    setAsignaciones(d.asignaciones as Asignacion[]); setLeads(d.leads as Lead[])
-    setPresupuestos(d.presupuestos as Presupuesto[]); setPresupuestolineas(d.presupuestolineas as PresupuestoLinea[])
-    setFacturas(d.facturas as Factura[])
-    setLoaded(true)
+    loadAll().then(d=>{
+      setClientes(d.clientes as Cliente[]); setVisitas(d.visitas as Visita[]); setCobros(d.cobros as Cobro[])
+      setTareas(d.tareas as Tarea[]); setEmpleados(d.empleados as Empleado[]); setPagos(d.pagos as Pago[])
+      setJornadas(d.jornadas as Jornada[]); setObras(d.obras as Obra[]); setObraitems(d.obraitems as ObraItem[])
+      setAsignaciones(d.asignaciones as Asignacion[]); setLeads(d.leads as Lead[])
+      setPresupuestos(d.presupuestos as Presupuesto[]); setPresupuestolineas(d.presupuestolineas as PresupuestoLinea[])
+      setFacturas(d.facturas as Factura[])
+      setLoaded(true)
+    })
   },[])
 
   const findOrCreateCliente=(nombre:string,list:Cliente[])=>{
