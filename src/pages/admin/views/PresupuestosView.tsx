@@ -1,5 +1,6 @@
 import { useState, useMemo, useRef } from 'react'
 import * as pdfjsLib from 'pdfjs-dist'
+import pdfjsWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 import { Plus, Users, Check, ChevronLeft, ArrowRightCircle, Tag, X, FileText } from 'lucide-react'
 import type { Cliente, Presupuesto, PresupuestoLinea, CatalogoItem, Factura } from '../types'
 import { GREMIOS_SUGERIDOS, ESTADOS_PRESUPUESTO, UNIDADES } from '../types'
@@ -92,7 +93,7 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
   const saveAiKey=(k:string)=>{const t=k.trim();setAiKey(t);localStorage.setItem('provenza_ai_key',t);setShowKeyInput(false)}
   const pdfToImageBase64=async(file:File):Promise<string>=>{
     const arrayBuffer=await file.arrayBuffer()
-    pdfjsLib.GlobalWorkerOptions.workerSrc=`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`
+    pdfjsLib.GlobalWorkerOptions.workerSrc=pdfjsWorkerUrl
     const pdf=await pdfjsLib.getDocument({data:arrayBuffer}).promise
     const page=await pdf.getPage(1)
     const viewport=page.getViewport({scale:2})
