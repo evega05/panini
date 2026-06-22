@@ -63,7 +63,7 @@ async function buscarEnBilbao(tags: string[]): Promise<Resultado[]> {
         .map(e => ({
           nombre:    e.tags?.name || e.tags?.['name:es'] || '',
           direccion: [e.tags?.['addr:street'], e.tags?.['addr:housenumber']].filter(Boolean).join(' '),
-          telefono:  (e.tags?.phone || e.tags?.['contact:phone'] || '').replace(/[\s\-()]/g, ''),
+          telefono:  (e.tags?.phone || e.tags?.['contact:phone'] || e.tags?.['contact:mobile'] || e.tags?.telephone || e.tags?.['phone:mobile'] || '').replace(/[\s\-()]/g, ''),
         }))
         .filter(n => n.nombre)
         .sort((a, b) => a.nombre.localeCompare(b.nombre))
