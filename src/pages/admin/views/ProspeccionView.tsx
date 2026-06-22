@@ -39,7 +39,7 @@ Sin llamar a varios gremios, sin coordinaciones, sin dolores de cabeza.
 
 Muchos locales en Bilbao ya confían en nosotros para mantener sus instalaciones siempre a punto.
 
-¿Le gustaría recibir una valoración *gratuita y sin compromiso*?
+¿Le gustaría recibir un presupuesto *gratuito y sin compromiso*?
 
 Responda con un 👍 y organizamos una visita esta semana 📅`)
 
