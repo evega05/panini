@@ -103,10 +103,10 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
         'https://openrouter.ai/api/v1/chat/completions',
         {method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${aiKey}`,'HTTP-Referer':'https://multiservicios-provenza.vercel.app','X-Title':'Provenza Panel'},
         body:JSON.stringify({
-          model:'google/gemini-2.0-flash-exp:free',
+          model:'meta-llama/llama-4-scout:free',
           messages:[{role:'user',content:[
             {type:'text',text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'},
-            {type:'file',file:{filename:'factura.pdf',file_data:`data:application/pdf;base64,${base64}`}}
+            {type:'image_url',image_url:{url:`data:application/pdf;base64,${base64}`}}
           ]}]
         })}
       )
