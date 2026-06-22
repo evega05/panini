@@ -105,11 +105,11 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
           {text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown, sin texto extra. Formato exacto: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El campo total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'}
         ]}]})}
       )
-      if(!res.ok)throw new Error(`API error ${res.status}`)
+      if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(`API ${res.status}: ${err?.error?.message||res.statusText}`)}
       const d=await res.json()
       const txt=d.candidates?.[0]?.content?.parts?.[0]?.text||''
       const m=txt.match(/\{[\s\S]*\}/)
-      if(!m)throw new Error('no json en respuesta')
+      if(!m)throw new Error('Gemini no devolvió datos estructurados')
       const ex=JSON.parse(m[0])
       setFacturaForm(f=>({
         ...f,
