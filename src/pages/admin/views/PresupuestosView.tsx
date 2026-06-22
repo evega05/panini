@@ -146,8 +146,20 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
       {subView==='facturas'&&<>
         <div className="aa-viewheader">
           <span>Facturas <span className="aa-tag aa-tag--money">{fmt(facturas.reduce((s,f)=>s+(f.estado==='cobrada'?Number(f.total):0),0))} € cobrado</span></span>
-          <button className="aa-addsmall" onClick={()=>{setFacturaForm({numero:nextNumero,fecha:todayISO()});setShowFacturaForm(true)}}><Plus size={14}/> Nueva</button>
+          <div style={{display:'flex',gap:6}}>
+            <button className="aa-addsmall" style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.12)'}} onClick={()=>{setKeyInput(aiKey);setShowKeyInput(true);setShowFacturaForm(false)}}>⚙ Clave IA</button>
+            <button className="aa-addsmall" onClick={()=>{setFacturaForm({numero:nextNumero,fecha:todayISO()});setShowFacturaForm(true)}}><Plus size={14}/> Nueva</button>
+          </div>
         </div>
+        {showKeyInput&&!showFacturaForm&&<div style={{margin:'0 0 12px',padding:'10px 12px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:10}}>
+          <div style={{fontSize:12,color:'#C9A227',marginBottom:8}}>Clave OpenRouter (para leer PDFs con IA)</div>
+          <div style={{display:'flex',gap:6}}>
+            <input className="aa-input" style={{flex:1,fontSize:12}} placeholder="sk-or-v1-..." value={keyInput} onChange={e=>setKeyInput(e.target.value)}/>
+            <button className="aa-addsmall aa-addsmall--brass" onClick={()=>saveAiKey(keyInput)}>Guardar</button>
+            <button className="aa-addsmall" onClick={()=>setShowKeyInput(false)}>✕</button>
+          </div>
+          {aiKey&&<div style={{fontSize:11,color:'#9AA0AC',marginTop:6}}>Clave actual: ...{aiKey.slice(-8)}</div>}
+        </div>}
         {facturas.length===0&&<EmptyState text="Sin facturas todavía."/>}
         <div className="aa-clientlist">{facturasPorCliente.map(({clienteId,clienteNombre,facturas:cf,total,cobrado})=>(
           <div key={clienteId} style={{marginBottom:10}}>
