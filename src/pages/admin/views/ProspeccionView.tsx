@@ -22,6 +22,12 @@ const CATEGORIAS = [
 // Bilbao bounding box: sur,oeste,norte,este
 const BBOX = '43.22,-2.98,43.30,-2.85'
 
+const OVERPASS_ENDPOINTS = [
+  'https://overpass-api.de/api/interpreter',
+  'https://overpass.kumi.systems/api/interpreter',
+  'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
+]
+
 const MSG = encodeURIComponent('Hola, somos Multiservicios Provenza, empresa de reformas y mantenimiento en Bilbao. ¿Les interesaría recibir un presupuesto gratuito para alguna reforma o mejora de sus instalaciones? 🔨')
 
 const ESTADO_COLOR: Record<string,string> = {pendiente:'#9AA0AC',contactado:'#C9A227',interesado:'#4CAF50',descartado:'#E2625A'}
@@ -32,17 +38,27 @@ type Resultado = {nombre:string; direccion:string; telefono:string}
 async function buscarEnBilbao(tags: string[]): Promise<Resultado[]> {
   const parts = tags.flatMap(t => [`node[${t}](${BBOX});`, `way[${t}](${BBOX});`])
   const query = `[out:json][timeout:25];\n(${parts.join('\n')});\nout center 80;`
-  const res = await fetch('https://overpass-api.de/api/interpreter', {method:'POST', body:query})
-  if (!res.ok) throw new Error('error red')
-  const data = await res.json()
-  return (data.elements as Record<string,any>[])
-    .map(e => ({
-      nombre:    e.tags?.name || e.tags?.['name:es'] || '',
-      direccion: [e.tags?.['addr:street'], e.tags?.['addr:housenumber']].filter(Boolean).join(' '),
-      telefono:  (e.tags?.phone || e.tags?.['contact:phone'] || '').replace(/[\s\-()]/g, ''),
-    }))
-    .filter(n => n.nombre)
-    .sort((a, b) => a.nombre.localeCompare(b.nombre))
+  // Overpass requiere los datos como form-urlencoded, no como texto plano
+  const body = new URLSearchParams({data: query})
+
+  for (const endpoint of OVERPASS_ENDPOINTS) {
+    try {
+      const res = await fetch(endpoint, {method:'POST', body, signal: AbortSignal.timeout(20000)})
+      if (!res.ok) continue
+      const data = await res.json()
+      return (data.elements as Record<string,any>[])
+        .map(e => ({
+          nombre:    e.tags?.name || e.tags?.['name:es'] || '',
+          direccion: [e.tags?.['addr:street'], e.tags?.['addr:housenumber']].filter(Boolean).join(' '),
+          telefono:  (e.tags?.phone || e.tags?.['contact:phone'] || '').replace(/[\s\-()]/g, ''),
+        }))
+        .filter(n => n.nombre)
+        .sort((a, b) => a.nombre.localeCompare(b.nombre))
+    } catch {
+      // intentar siguiente endpoint
+    }
+  }
+  throw new Error('No se pudo contactar con OpenStreetMap')
 }
 
 export function ProspeccionView({prospectos,onAdd,onUpdate,onDelete}:{prospectos:Prospecto[];onAdd:(d:Omit<Prospecto,'id'>)=>void;onUpdate:(id:string,d:Partial<Prospecto>)=>void;onDelete:(id:string)=>void}) {
@@ -124,7 +140,15 @@ export function ProspeccionView({prospectos,onAdd,onUpdate,onDelete}:{prospectos
           Buscando {catActual} en Bilbao…
         </div>
       )}
-      {errorBusq && <div style={{color:'#E2625A',fontSize:12,margin:'8px 0',textAlign:'center'}}>{errorBusq}</div>}
+      {errorBusq && (
+        <div style={{background:'rgba(226,98,90,0.08)',border:'1px solid rgba(226,98,90,0.25)',borderRadius:8,padding:'12px',margin:'8px 0',textAlign:'center'}}>
+          <div style={{color:'#E2625A',fontSize:12,marginBottom:8}}>{errorBusq}</div>
+          <a href={`https://www.google.com/maps/search/${encodeURIComponent(catActual+' en Bilbao')}`} target="_blank" rel="noopener noreferrer"
+            className="aa-addsmall" style={{textDecoration:'none',display:'inline-flex',alignItems:'center',gap:4}}>
+            <MapPin size={12}/> Buscar en Google Maps
+          </a>
+        </div>
+      )}
 
       {/* Lista de resultados de OpenStreetMap */}
       {resultados !== null && !buscando && (
