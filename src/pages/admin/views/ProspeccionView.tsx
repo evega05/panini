@@ -62,12 +62,14 @@ async function buscarEnBilbao(tags: string[]): Promise<Resultado[]> {
 }
 
 export function ProspeccionView({prospectos,onAdd,onUpdate,onDelete}:{prospectos:Prospecto[];onAdd:(d:Omit<Prospecto,'id'>)=>void;onUpdate:(id:string,d:Partial<Prospecto>)=>void;onDelete:(id:string)=>void}) {
-  const [showForm, setShowForm]   = useState(false)
-  const [form, setForm]           = useState({nombre:'',categoria:'',telefono:'',notas:''})
-  const [buscando, setBuscando]   = useState(false)
-  const [catActual, setCatActual] = useState('')
-  const [resultados, setResultados] = useState<Resultado[]|null>(null)
-  const [errorBusq, setErrorBusq] = useState('')
+  const [showForm, setShowForm]       = useState(false)
+  const [form, setForm]               = useState({nombre:'',categoria:'',telefono:'',notas:''})
+  const [buscando, setBuscando]       = useState(false)
+  const [catActual, setCatActual]     = useState('')
+  const [resultados, setResultados]   = useState<Resultado[]|null>(null)
+  const [errorBusq, setErrorBusq]     = useState('')
+  const [editandoTel, setEditandoTel] = useState<string|null>(null)
+  const [telInput, setTelInput]       = useState('')
 
   const sf = (k:string, v:string) => setForm(f => ({...f,[k]:v}))
   const waUrl = (tel:string) => { const n=tel.replace(/\D/g,''); return `https://wa.me/${n.startsWith('34')?n:'34'+n}?text=${MSG}` }
@@ -203,12 +205,52 @@ export function ProspeccionView({prospectos,onAdd,onUpdate,onDelete}:{prospectos
                 {p.telefono && <div className="aa-clientcard__row"><span><Phone size={11} style={{verticalAlign:-1,marginRight:3}}/>{p.telefono}</span></div>}
                 {p.notas    && <div className="aa-clientcard__sub" style={{fontSize:11,opacity:0.8}}>{p.notas}</div>}
                 <div className="aa-leadactions" style={{marginTop:8,flexWrap:'wrap'}}>
-                  {p.telefono && (
+                  {/* Con teléfono: WhatsApp + Llamar */}
+                  {p.telefono && <>
                     <a href={waUrl(p.telefono)} target="_blank" rel="noopener noreferrer"
                       className="aa-addsmall aa-addsmall--brass" style={{textDecoration:'none',display:'flex',alignItems:'center',gap:4}}>
                       <MessageCircle size={13}/> WhatsApp
                     </a>
+                    <a href={`tel:${p.telefono.replace(/\s/g,'')}`}
+                      className="aa-addsmall" style={{textDecoration:'none',display:'flex',alignItems:'center',gap:4}}>
+                      <Phone size={13}/> Llamar
+                    </a>
+                  </>}
+                  {/* Sin teléfono: buscar + añadir inline */}
+                  {!p.telefono && editandoTel !== p.id && <>
+                    <a href={`https://www.google.com/search?q=${encodeURIComponent(p.nombre+' Bilbao teléfono')}`}
+                      target="_blank" rel="noopener noreferrer"
+                      className="aa-addsmall" style={{textDecoration:'none',display:'flex',alignItems:'center',gap:4}}>
+                      <Search size={13}/> Buscar tel.
+                    </a>
+                    <button className="aa-addsmall" onClick={() => {setEditandoTel(p.id);setTelInput('')}}>
+                      <Plus size={13}/> Añadir tel.
+                    </button>
+                  </>}
+                  {/* Editor inline de teléfono */}
+                  {editandoTel === p.id && (
+                    <div style={{display:'flex',gap:4,width:'100%',marginTop:2}}>
+                      <input type="tel" value={telInput} onChange={e => setTelInput(e.target.value)}
+                        placeholder="946 123 456" autoFocus
+                        style={{flex:1,padding:'4px 8px',background:'rgba(255,255,255,0.08)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:6,color:'#F2EEE4',fontSize:12,outline:'none'}}
+                        onKeyDown={e => {
+                          if(e.key==='Enter'&&telInput.trim()){onUpdate(p.id,{telefono:telInput.trim()});setEditandoTel(null)}
+                          if(e.key==='Escape') setEditandoTel(null)
+                        }}
+                      />
+                      <button className="aa-addsmall" style={{color:'#4CAF50',borderColor:'rgba(76,175,80,0.4)'}}
+                        onClick={() => {if(telInput.trim()){onUpdate(p.id,{telefono:telInput.trim()});setEditandoTel(null)}}}>
+                        <Check size={13}/>
+                      </button>
+                      <button className="aa-addsmall" onClick={() => setEditandoTel(null)}><X size={13}/></button>
+                    </div>
                   )}
+                  {/* Google Maps para ubicar */}
+                  <a href={`https://www.google.com/maps/search/${encodeURIComponent(p.nombre+' Bilbao')}`}
+                    target="_blank" rel="noopener noreferrer"
+                    className="aa-addsmall" style={{textDecoration:'none',display:'flex',alignItems:'center',gap:4}}>
+                    <MapPin size={13}/> Maps
+                  </a>
                   {p.estado==='pendiente'   && <button className="aa-addsmall" onClick={() => onUpdate(p.id,{estado:'contactado'})}>Marcar contactado</button>}
                   {p.estado==='contactado'  && <button className="aa-addsmall" style={{color:'#4CAF50',borderColor:'rgba(76,175,80,0.4)'}} onClick={() => onUpdate(p.id,{estado:'interesado'})}><Check size={13}/> Interesado</button>}
                   {p.estado!=='descartado'  && <button className="aa-addsmall" style={{color:'#E2625A',borderColor:'rgba(226,98,90,0.3)'}} onClick={() => onUpdate(p.id,{estado:'descartado'})}>Descartar</button>}
