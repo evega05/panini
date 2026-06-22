@@ -83,13 +83,14 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
   const [editingId,setEditingId]=useState<string|null>(null)
   const [showFacturaForm,setShowFacturaForm]=useState(false)
   const [facturaForm,setFacturaForm]=useState<Record<string,string|boolean>>({})
-  const [geminiKey,setGeminiKey]=useState(()=>localStorage.getItem('provenza_gemini_key')||'')
+  const [aiKey,setAiKey]=useState(()=>localStorage.getItem('provenza_ai_key')||'')
   const [keyInput,setKeyInput]=useState('')
+  const [showKeyInput,setShowKeyInput]=useState(false)
   const [extracting,setExtracting]=useState(false)
   const uploadRef=useRef<HTMLInputElement>(null)
-  const saveGeminiKey=(k:string)=>{setGeminiKey(k);localStorage.setItem('provenza_gemini_key',k)}
+  const saveAiKey=(k:string)=>{const t=k.trim();setAiKey(t);localStorage.setItem('provenza_ai_key',t);setShowKeyInput(false)}
   const extractFromPDF=async(file:File)=>{
-    if(!geminiKey)return
+    if(!aiKey)return
     setExtracting(true)
     try{
       const base64=await new Promise<string>((resolve,reject)=>{
@@ -99,17 +100,21 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
         r.readAsDataURL(file)
       })
       const res=await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`,
-        {method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':geminiKey},body:JSON.stringify({contents:[{parts:[
-          {inlineData:{mimeType:'application/pdf',data:base64}},
-          {text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown, sin texto extra. Formato exacto: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El campo total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'}
-        ]}]})}
+        'https://openrouter.ai/api/v1/chat/completions',
+        {method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${aiKey}`,'HTTP-Referer':'https://multiservicios-provenza.vercel.app','X-Title':'Provenza Panel'},
+        body:JSON.stringify({
+          model:'google/gemini-2.0-flash-exp:free',
+          messages:[{role:'user',content:[
+            {type:'text',text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'},
+            {type:'image_url',image_url:{url:`data:application/pdf;base64,${base64}`}}
+          ]}]
+        })}
       )
-      if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(`API ${res.status}: ${err?.error?.message||res.statusText}`)}
+      if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(`${res.status}: ${err?.error?.message||res.statusText}`)}
       const d=await res.json()
-      const txt=d.candidates?.[0]?.content?.parts?.[0]?.text||''
+      const txt=d.choices?.[0]?.message?.content||''
       const m=txt.match(/\{[\s\S]*\}/)
-      if(!m)throw new Error('Gemini no devolvió datos estructurados')
+      if(!m)throw new Error('Sin datos estructurados en la respuesta')
       const ex=JSON.parse(m[0])
       setFacturaForm(f=>({
         ...f,
@@ -120,7 +125,7 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
         ...(ex.total!=null?{total:String(ex.total)}:{}),
         ...(ex.iva!=null?{iva:ex.iva}:{}),
       }))
-    }catch(e){console.error('gemini pdf',e);alert('Error al leer el PDF. Verifica tu clave de Gemini.')}
+    }catch(e){console.error('openrouter pdf',e);alert('Error al leer el PDF: '+(e instanceof Error?e.message:String(e)))}
     finally{setExtracting(false)}
   }
   const nextNumero=useMemo(()=>{const nums=facturas.map(f=>parseInt(f.numero.replace(/\D/g,''))||0);const max=nums.length?Math.max(...nums):0;return`FAC-${String(max+1).padStart(3,'0')}`},[facturas])
@@ -171,13 +176,16 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
           <div className="aa-sheet__handle"/>
           <div className="aa-sheet__title">Nueva factura</div>
           <input ref={uploadRef} type="file" accept="application/pdf" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)extractFromPDF(f);e.target.value=''}}/>
-          {geminiKey
-            ?<button className="aa-addsmall" onClick={()=>uploadRef.current?.click()} disabled={extracting} style={{width:'100%',marginBottom:14,justifyContent:'center',display:'flex',gap:6,fontSize:13}}>{extracting?'Analizando PDF…':'📄 Rellenar desde PDF'}</button>
+          {(aiKey&&!showKeyInput)
+            ?<div style={{marginBottom:14}}>
+              <button className="aa-addsmall" onClick={()=>uploadRef.current?.click()} disabled={extracting} style={{width:'100%',justifyContent:'center',display:'flex',gap:6,fontSize:13,marginBottom:4}}>{extracting?'Analizando PDF…':'📄 Rellenar desde PDF'}</button>
+              <div style={{textAlign:'center'}}><button style={{background:'none',border:'none',color:'#9AA0AC',fontSize:11,cursor:'pointer',padding:0}} onClick={()=>{setKeyInput('');setShowKeyInput(true)}}>Cambiar clave IA</button></div>
+            </div>
             :<div style={{marginBottom:14,padding:'8px 10px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:8}}>
-              <div style={{fontSize:11,color:'#C9A227',marginBottom:6}}>Clave Gemini para subir PDFs</div>
+              <div style={{fontSize:11,color:'#C9A227',marginBottom:6}}>Clave OpenRouter para subir PDFs</div>
               <div style={{display:'flex',gap:6}}>
-                <input className="aa-input" style={{flex:1,fontSize:12}} placeholder="AQ...." value={keyInput} onChange={e=>setKeyInput(e.target.value)}/>
-                <button className="aa-addsmall aa-addsmall--brass" onClick={()=>saveGeminiKey(keyInput)}>OK</button>
+                <input className="aa-input" style={{flex:1,fontSize:12}} placeholder="sk-or-v1-..." value={keyInput} onChange={e=>setKeyInput(e.target.value)}/>
+                <button className="aa-addsmall aa-addsmall--brass" onClick={()=>saveAiKey(keyInput)}>OK</button>
               </div>
             </div>
           }
