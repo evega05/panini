@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef } from 'react'
+import * as pdfjsLib from 'pdfjs-dist'
 import { Plus, Users, Check, ChevronLeft, ArrowRightCircle, Tag, X, FileText } from 'lucide-react'
 import type { Cliente, Presupuesto, PresupuestoLinea, CatalogoItem, Factura } from '../types'
 import { GREMIOS_SUGERIDOS, ESTADOS_PRESUPUESTO, UNIDADES } from '../types'
@@ -89,24 +90,31 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
   const [extracting,setExtracting]=useState(false)
   const uploadRef=useRef<HTMLInputElement>(null)
   const saveAiKey=(k:string)=>{const t=k.trim();setAiKey(t);localStorage.setItem('provenza_ai_key',t);setShowKeyInput(false)}
+  const pdfToImageBase64=async(file:File):Promise<string>=>{
+    const arrayBuffer=await file.arrayBuffer()
+    pdfjsLib.GlobalWorkerOptions.workerSrc=`https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`
+    const pdf=await pdfjsLib.getDocument({data:arrayBuffer}).promise
+    const page=await pdf.getPage(1)
+    const viewport=page.getViewport({scale:2})
+    const canvas=document.createElement('canvas')
+    canvas.width=viewport.width
+    canvas.height=viewport.height
+    await page.render({canvasContext:canvas.getContext('2d')!,viewport,canvas}).promise
+    return canvas.toDataURL('image/png').split(',')[1]
+  }
   const extractFromPDF=async(file:File)=>{
     if(!aiKey)return
     setExtracting(true)
     try{
-      const base64=await new Promise<string>((resolve,reject)=>{
-        const r=new FileReader()
-        r.onload=()=>resolve((r.result as string).split(',')[1])
-        r.onerror=reject
-        r.readAsDataURL(file)
-      })
+      const imgBase64=await pdfToImageBase64(file)
       const res=await fetch(
         'https://openrouter.ai/api/v1/chat/completions',
         {method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${aiKey}`,'HTTP-Referer':'https://multiservicios-provenza.vercel.app','X-Title':'Provenza Panel'},
         body:JSON.stringify({
-          model:'qwen/qwen2.5-vl-7b-instruct:free',
+          model:'meta-llama/llama-3.2-11b-vision-instruct:free',
           messages:[{role:'user',content:[
             {type:'text',text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'},
-            {type:'image_url',image_url:{url:`data:application/pdf;base64,${base64}`}}
+            {type:'image_url',image_url:{url:`data:image/png;base64,${imgBase64}`}}
           ]}]
         })}
       )
@@ -114,7 +122,7 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
       const d=await res.json()
       const txt=d.choices?.[0]?.message?.content||''
       const m=txt.match(/\{[\s\S]*\}/)
-      if(!m)throw new Error('Sin datos estructurados en la respuesta')
+      if(!m)throw new Error('Sin datos en la respuesta')
       const ex=JSON.parse(m[0])
       setFacturaForm(f=>({
         ...f,
