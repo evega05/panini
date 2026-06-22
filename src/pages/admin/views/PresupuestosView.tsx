@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { Plus, Users, Check, ChevronLeft, ArrowRightCircle, Tag, X, FileText } from 'lucide-react'
 import type { Cliente, Presupuesto, PresupuestoLinea, CatalogoItem, Factura } from '../types'
 import { GREMIOS_SUGERIDOS, ESTADOS_PRESUPUESTO, UNIDADES } from '../types'
@@ -83,6 +83,46 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
   const [editingId,setEditingId]=useState<string|null>(null)
   const [showFacturaForm,setShowFacturaForm]=useState(false)
   const [facturaForm,setFacturaForm]=useState<Record<string,string|boolean>>({})
+  const [geminiKey,setGeminiKey]=useState(()=>localStorage.getItem('provenza_gemini_key')||'')
+  const [keyInput,setKeyInput]=useState('')
+  const [extracting,setExtracting]=useState(false)
+  const uploadRef=useRef<HTMLInputElement>(null)
+  const saveGeminiKey=(k:string)=>{setGeminiKey(k);localStorage.setItem('provenza_gemini_key',k)}
+  const extractFromPDF=async(file:File)=>{
+    if(!geminiKey)return
+    setExtracting(true)
+    try{
+      const base64=await new Promise<string>((resolve,reject)=>{
+        const r=new FileReader()
+        r.onload=()=>resolve((r.result as string).split(',')[1])
+        r.onerror=reject
+        r.readAsDataURL(file)
+      })
+      const res=await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+        {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[
+          {inlineData:{mimeType:'application/pdf',data:base64}},
+          {text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown, sin texto extra. Formato exacto: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El campo total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'}
+        ]}]})}
+      )
+      if(!res.ok)throw new Error(`API error ${res.status}`)
+      const d=await res.json()
+      const txt=d.candidates?.[0]?.content?.parts?.[0]?.text||''
+      const m=txt.match(/\{[\s\S]*\}/)
+      if(!m)throw new Error('no json en respuesta')
+      const ex=JSON.parse(m[0])
+      setFacturaForm(f=>({
+        ...f,
+        ...(ex.numero?{numero:ex.numero}:{}),
+        ...(ex.clienteNombre?{clienteNombre:ex.clienteNombre}:{}),
+        ...(ex.fecha?{fecha:ex.fecha}:{}),
+        ...(ex.concepto?{concepto:ex.concepto}:{}),
+        ...(ex.total!=null?{total:String(ex.total)}:{}),
+        ...(ex.iva!=null?{iva:ex.iva}:{}),
+      }))
+    }catch(e){console.error('gemini pdf',e);alert('Error al leer el PDF. Verifica tu clave de Gemini.')}
+    finally{setExtracting(false)}
+  }
   const nextNumero=useMemo(()=>{const nums=facturas.map(f=>parseInt(f.numero.replace(/\D/g,''))||0);const max=nums.length?Math.max(...nums):0;return`FAC-${String(max+1).padStart(3,'0')}`},[facturas])
   const submitFactura=()=>{if(!facturaForm.concepto||!facturaForm.total)return;onAddFactura({numero:String(facturaForm.numero||nextNumero),clienteNombre:String(facturaForm.clienteNombre||''),fecha:String(facturaForm.fecha||todayISO()),concepto:String(facturaForm.concepto),total:Number(facturaForm.total),iva:Boolean(facturaForm.iva),estado:'pendiente',notas:String(facturaForm.notas||'')});setFacturaForm({});setShowFacturaForm(false)}
   const catalogo=useMemo(()=>{const map:Record<string,CatalogoItem&{precios:number[]}>={};presupuestolineas.forEach(l=>{const key=(l.concepto||'').trim().toLowerCase();if(!key)return;const pres=presupuestos.find(p=>p.id===l.presupuestoId);if(!map[key])map[key]={concepto:'',gremio:'',unidad:'',ultimoPrecio:0,promedio:0,vecesUsado:0,precios:[],ultimaFecha:''};map[key].precios.push(Number(l.precioUnitario)||0);map[key].vecesUsado+=1;if(pres&&pres.fecha>=map[key].ultimaFecha){map[key].ultimaFecha=pres.fecha;map[key].concepto=l.concepto.trim();map[key].gremio=l.gremio;map[key].unidad=l.unidad;map[key].ultimoPrecio=Number(l.precioUnitario)||0}});return Object.values(map).map(c=>({...c,promedio:c.precios.reduce((s,x)=>s+x,0)/c.precios.length})).sort((a,b)=>b.vecesUsado-a.vecesUsado)},[presupuestolineas,presupuestos])
@@ -130,6 +170,17 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
         {showFacturaForm&&<div className="aa-overlay" onClick={()=>setShowFacturaForm(false)}><div className="aa-sheet" onClick={e=>e.stopPropagation()}>
           <div className="aa-sheet__handle"/>
           <div className="aa-sheet__title">Nueva factura</div>
+          <input ref={uploadRef} type="file" accept="application/pdf" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)extractFromPDF(f);e.target.value=''}}/>
+          {geminiKey
+            ?<button className="aa-addsmall" onClick={()=>uploadRef.current?.click()} disabled={extracting} style={{width:'100%',marginBottom:14,justifyContent:'center',display:'flex',gap:6,fontSize:13}}>{extracting?'Analizando PDF…':'📄 Rellenar desde PDF'}</button>
+            :<div style={{marginBottom:14,padding:'8px 10px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:8}}>
+              <div style={{fontSize:11,color:'#C9A227',marginBottom:6}}>Clave Gemini para subir PDFs</div>
+              <div style={{display:'flex',gap:6}}>
+                <input className="aa-input" style={{flex:1,fontSize:12}} placeholder="AQ...." value={keyInput} onChange={e=>setKeyInput(e.target.value)}/>
+                <button className="aa-addsmall aa-addsmall--brass" onClick={()=>saveGeminiKey(keyInput)}>OK</button>
+              </div>
+            </div>
+          }
           <div className="aa-row2">
             <div><label className="aa-label">Número</label><input className="aa-input" value={String(facturaForm.numero||'')} onChange={e=>setFacturaForm({...facturaForm,numero:e.target.value})}/></div>
             <div><label className="aa-label">Fecha</label><input type="date" className="aa-input" value={String(facturaForm.fecha||'')} onChange={e=>setFacturaForm({...facturaForm,fecha:e.target.value})}/></div>
