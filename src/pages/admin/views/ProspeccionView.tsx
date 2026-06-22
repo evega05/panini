@@ -28,7 +28,20 @@ const OVERPASS_ENDPOINTS = [
   'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
 ]
 
-const MSG = encodeURIComponent('Hola, somos Multiservicios Provenza, empresa de reformas y mantenimiento en Bilbao. ¿Les interesaría recibir un presupuesto gratuito para alguna reforma o mejora de sus instalaciones? 🔨')
+const MSG = encodeURIComponent(`Hola 👋
+
+Le escribimos porque trabajamos con negocios como el suyo en Bilbao y sabemos que el mantenimiento de un local siempre tiene algo pendiente.
+
+Somos *Multiservicios Provenza* — un solo equipo para todo:
+🔧 Fontanería · Electricidad · Pintura · Obra · Reformas
+
+Sin llamar a varios gremios, sin coordinaciones, sin dolores de cabeza.
+
+Muchos locales en Bilbao ya confían en nosotros para mantener sus instalaciones siempre a punto.
+
+¿Le gustaría recibir una valoración *gratuita y sin compromiso*?
+
+Responda con un 👍 y organizamos una visita esta semana 📅`)
 
 const ESTADO_COLOR: Record<string,string> = {pendiente:'#9AA0AC',contactado:'#C9A227',interesado:'#4CAF50',descartado:'#E2625A'}
 const ESTADO_LABEL: Record<string,string> = {pendiente:'Sin contactar',contactado:'Contactados',interesado:'Interesados',descartado:'Descartados'}
