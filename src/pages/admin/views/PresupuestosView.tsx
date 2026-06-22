@@ -1,6 +1,4 @@
-import { useState, useMemo, useRef } from 'react'
-import * as pdfjsLib from 'pdfjs-dist'
-import pdfjsWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
+import { useState, useMemo } from 'react'
 import { Plus, Users, Check, ChevronLeft, ArrowRightCircle, Tag, X, FileText } from 'lucide-react'
 import type { Cliente, Presupuesto, PresupuestoLinea, CatalogoItem, Factura } from '../types'
 import { GREMIOS_SUGERIDOS, ESTADOS_PRESUPUESTO, UNIDADES } from '../types'
@@ -85,58 +83,6 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
   const [editingId,setEditingId]=useState<string|null>(null)
   const [showFacturaForm,setShowFacturaForm]=useState(false)
   const [facturaForm,setFacturaForm]=useState<Record<string,string|boolean>>({})
-  const [aiKey,setAiKey]=useState(()=>localStorage.getItem('provenza_ai_key')||'')
-  const [keyInput,setKeyInput]=useState('')
-  const [showKeyInput,setShowKeyInput]=useState(false)
-  const [extracting,setExtracting]=useState(false)
-  const uploadRef=useRef<HTMLInputElement>(null)
-  const saveAiKey=(k:string)=>{const t=k.trim();setAiKey(t);localStorage.setItem('provenza_ai_key',t);setShowKeyInput(false)}
-  const pdfToImageBase64=async(file:File):Promise<string>=>{
-    const arrayBuffer=await file.arrayBuffer()
-    pdfjsLib.GlobalWorkerOptions.workerSrc=pdfjsWorkerUrl
-    const pdf=await pdfjsLib.getDocument({data:arrayBuffer}).promise
-    const page=await pdf.getPage(1)
-    const viewport=page.getViewport({scale:2})
-    const canvas=document.createElement('canvas')
-    canvas.width=viewport.width
-    canvas.height=viewport.height
-    await page.render({canvasContext:canvas.getContext('2d')!,viewport,canvas}).promise
-    return canvas.toDataURL('image/png').split(',')[1]
-  }
-  const extractFromPDF=async(file:File)=>{
-    if(!aiKey)return
-    setExtracting(true)
-    try{
-      const imgBase64=await pdfToImageBase64(file)
-      const res=await fetch(
-        'https://openrouter.ai/api/v1/chat/completions',
-        {method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${aiKey}`,'HTTP-Referer':'https://multiservicios-provenza.vercel.app','X-Title':'Provenza Panel'},
-        body:JSON.stringify({
-          model:'meta-llama/llama-3.2-11b-vision-instruct',
-          messages:[{role:'user',content:[
-            {type:'text',text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'},
-            {type:'image_url',image_url:{url:`data:image/png;base64,${imgBase64}`}}
-          ]}]
-        })}
-      )
-      if(!res.ok){const err=await res.json().catch(()=>({}));throw new Error(`${res.status}: ${err?.error?.message||res.statusText}`)}
-      const d=await res.json()
-      const txt=d.choices?.[0]?.message?.content||''
-      const m=txt.match(/\{[\s\S]*\}/)
-      if(!m)throw new Error('Sin datos en la respuesta')
-      const ex=JSON.parse(m[0])
-      setFacturaForm(f=>({
-        ...f,
-        ...(ex.numero?{numero:ex.numero}:{}),
-        ...(ex.clienteNombre?{clienteNombre:ex.clienteNombre}:{}),
-        ...(ex.fecha?{fecha:ex.fecha}:{}),
-        ...(ex.concepto?{concepto:ex.concepto}:{}),
-        ...(ex.total!=null?{total:String(ex.total)}:{}),
-        ...(ex.iva!=null?{iva:ex.iva}:{}),
-      }))
-    }catch(e){console.error('openrouter pdf',e);alert('Error al leer el PDF: '+(e instanceof Error?e.message:String(e)))}
-    finally{setExtracting(false)}
-  }
   const nextNumero=useMemo(()=>{const nums=facturas.map(f=>parseInt(f.numero.replace(/\D/g,''))||0);const max=nums.length?Math.max(...nums):0;return`FAC-${String(max+1).padStart(3,'0')}`},[facturas])
   const submitFactura=()=>{if(!facturaForm.concepto||!facturaForm.total)return;onAddFactura({numero:String(facturaForm.numero||nextNumero),clienteNombre:String(facturaForm.clienteNombre||''),fecha:String(facturaForm.fecha||todayISO()),concepto:String(facturaForm.concepto),total:Number(facturaForm.total),iva:Boolean(facturaForm.iva),estado:'pendiente',notas:String(facturaForm.notas||'')});setFacturaForm({});setShowFacturaForm(false)}
   const catalogo=useMemo(()=>{const map:Record<string,CatalogoItem&{precios:number[]}>={};presupuestolineas.forEach(l=>{const key=(l.concepto||'').trim().toLowerCase();if(!key)return;const pres=presupuestos.find(p=>p.id===l.presupuestoId);if(!map[key])map[key]={concepto:'',gremio:'',unidad:'',ultimoPrecio:0,promedio:0,vecesUsado:0,precios:[],ultimaFecha:''};map[key].precios.push(Number(l.precioUnitario)||0);map[key].vecesUsado+=1;if(pres&&pres.fecha>=map[key].ultimaFecha){map[key].ultimaFecha=pres.fecha;map[key].concepto=l.concepto.trim();map[key].gremio=l.gremio;map[key].unidad=l.unidad;map[key].ultimoPrecio=Number(l.precioUnitario)||0}});return Object.values(map).map(c=>({...c,promedio:c.precios.reduce((s,x)=>s+x,0)/c.precios.length})).sort((a,b)=>b.vecesUsado-a.vecesUsado)},[presupuestolineas,presupuestos])
@@ -155,20 +101,8 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
       {subView==='facturas'&&<>
         <div className="aa-viewheader">
           <span>Facturas <span className="aa-tag aa-tag--money">{fmt(facturas.reduce((s,f)=>s+(f.estado==='cobrada'?Number(f.total):0),0))} € cobrado</span></span>
-          <div style={{display:'flex',gap:6}}>
-            <button className="aa-addsmall" style={{background:'rgba(255,255,255,0.06)',border:'1px solid rgba(255,255,255,0.12)'}} onClick={()=>{setKeyInput(aiKey);setShowKeyInput(true);setShowFacturaForm(false)}}>⚙ Clave IA</button>
-            <button className="aa-addsmall" onClick={()=>{setFacturaForm({numero:nextNumero,fecha:todayISO()});setShowFacturaForm(true)}}><Plus size={14}/> Nueva</button>
-          </div>
+          <button className="aa-addsmall" onClick={()=>{setFacturaForm({numero:nextNumero,fecha:todayISO()});setShowFacturaForm(true)}}><Plus size={14}/> Nueva</button>
         </div>
-        {showKeyInput&&!showFacturaForm&&<div style={{margin:'0 0 12px',padding:'10px 12px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.3)',borderRadius:10}}>
-          <div style={{fontSize:12,color:'#C9A227',marginBottom:8}}>Clave OpenRouter (para leer PDFs con IA)</div>
-          <div style={{display:'flex',gap:6}}>
-            <input className="aa-input" style={{flex:1,fontSize:12}} placeholder="sk-or-v1-..." value={keyInput} onChange={e=>setKeyInput(e.target.value)}/>
-            <button className="aa-addsmall aa-addsmall--brass" onClick={()=>saveAiKey(keyInput)}>Guardar</button>
-            <button className="aa-addsmall" onClick={()=>setShowKeyInput(false)}>✕</button>
-          </div>
-          {aiKey&&<div style={{fontSize:11,color:'#9AA0AC',marginTop:6}}>Clave actual: ...{aiKey.slice(-8)}</div>}
-        </div>}
         {facturas.length===0&&<EmptyState text="Sin facturas todavía."/>}
         <div className="aa-clientlist">{facturasPorCliente.map(({clienteId,clienteNombre,facturas:cf,total,cobrado})=>(
           <div key={clienteId} style={{marginBottom:10}}>
@@ -196,20 +130,6 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
         {showFacturaForm&&<div className="aa-overlay" onClick={()=>setShowFacturaForm(false)}><div className="aa-sheet" onClick={e=>e.stopPropagation()}>
           <div className="aa-sheet__handle"/>
           <div className="aa-sheet__title">Nueva factura</div>
-          <input ref={uploadRef} type="file" accept="application/pdf" style={{display:'none'}} onChange={e=>{const f=e.target.files?.[0];if(f)extractFromPDF(f);e.target.value=''}}/>
-          {(aiKey&&!showKeyInput)
-            ?<div style={{marginBottom:14}}>
-              <button className="aa-addsmall" onClick={()=>uploadRef.current?.click()} disabled={extracting} style={{width:'100%',justifyContent:'center',display:'flex',gap:6,fontSize:13,marginBottom:4}}>{extracting?'Analizando PDF…':'📄 Rellenar desde PDF'}</button>
-              <div style={{textAlign:'center'}}><button style={{background:'none',border:'none',color:'#9AA0AC',fontSize:11,cursor:'pointer',padding:0}} onClick={()=>{setKeyInput('');setShowKeyInput(true)}}>Cambiar clave IA</button></div>
-            </div>
-            :<div style={{marginBottom:14,padding:'8px 10px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:8}}>
-              <div style={{fontSize:11,color:'#C9A227',marginBottom:6}}>Clave OpenRouter para subir PDFs</div>
-              <div style={{display:'flex',gap:6}}>
-                <input className="aa-input" style={{flex:1,fontSize:12}} placeholder="sk-or-v1-..." value={keyInput} onChange={e=>setKeyInput(e.target.value)}/>
-                <button className="aa-addsmall aa-addsmall--brass" onClick={()=>saveAiKey(keyInput)}>OK</button>
-              </div>
-            </div>
-          }
           <div className="aa-row2">
             <div><label className="aa-label">Número</label><input className="aa-input" value={String(facturaForm.numero||'')} onChange={e=>setFacturaForm({...facturaForm,numero:e.target.value})}/></div>
             <div><label className="aa-label">Fecha</label><input type="date" className="aa-input" value={String(facturaForm.fecha||'')} onChange={e=>setFacturaForm({...facturaForm,fecha:e.target.value})}/></div>
