@@ -99,8 +99,8 @@ export function PresupuestosView({presupuestos,presupuestolineas,clientes,factur
         r.readAsDataURL(file)
       })
       const res=await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${geminiKey}`,
-        {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`,
+        {method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':geminiKey},body:JSON.stringify({contents:[{parts:[
           {inlineData:{mimeType:'application/pdf',data:base64}},
           {text:'Extrae datos de esta factura y responde ÚNICAMENTE con JSON sin markdown, sin texto extra. Formato exacto: {"numero":"FAC-001","clienteNombre":"Empresa SA","fecha":"2024-01-15","concepto":"Descripción del servicio","total":1000,"iva":true}. El campo total debe ser el importe sin IVA (número). Usa null para campos no encontrados.'}
         ]}]})}
