@@ -13,6 +13,7 @@ export interface Presupuesto { id:string; clienteId:string; nombre:string; estad
 export interface PresupuestoLinea { id:string; presupuestoId:string; concepto:string; gremio:string; cantidad:number; unidad:string; precioUnitario:number }
 export interface CatalogoItem { concepto:string; gremio:string; unidad:string; ultimoPrecio:number; promedio:number; vecesUsado:number; ultimaFecha:string }
 export interface Factura { id:string; numero:string; clienteId:string; fecha:string; concepto:string; total:number; iva:boolean; estado:'pendiente'|'cobrada'; notas:string }
+export interface Prospecto { id:string; nombre:string; categoria:string; telefono:string; notas:string; estado:'pendiente'|'contactado'|'interesado'|'descartado'; fecha:string }
 
 export const GREMIOS_SUGERIDOS = ['Albañilería','Electricidad','Fontanería','Pintura','Carpintería','Climatización','Cerrajería','Solados','Pladur / Yesos']
 export const ESTADOS_OBRA = ['En curso','Pausada','Terminada']

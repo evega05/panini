@@ -5,7 +5,7 @@ const supabase = createClient(
   'sb_publishable_yrDbUMS6IBvsyKvlsvDElw_RdLoozIQ'
 )
 
-const KEYS = ['clientes','visitas','cobros','tareas','empleados','pagos','jornadas','obras','obraitems','asignaciones','leads','presupuestos','presupuestolineas','facturas']
+const KEYS = ['clientes','visitas','cobros','tareas','empleados','pagos','jornadas','obras','obraitems','asignaciones','leads','presupuestos','presupuestolineas','facturas','prospectos']
 
 function fromLocal(): Record<string,unknown[]> {
   const out: Record<string,unknown[]> = {}

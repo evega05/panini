@@ -2,11 +2,11 @@ import { useState, useEffect, useMemo } from 'react'
 import {
   Plus, CalendarDays, Users, Wallet,
   ChevronLeft, ChevronRight, Clock, Sun, HardHat, Lock,
-  Megaphone, Receipt,
+  Megaphone, Receipt, MapPin,
 } from 'lucide-react'
 import type {
   Cliente, Visita, Cobro, Tarea, Empleado, Pago, Jornada,
-  Obra, ObraItem, Asignacion, Lead, Presupuesto, PresupuestoLinea, Factura,
+  Obra, ObraItem, Asignacion, Lead, Presupuesto, PresupuestoLinea, Factura, Prospecto,
 } from './types'
 import { loadAll, persist, loadFromSupabase } from './storage'
 import { uid, todayISO, addDays, weekDaysOf, dayLabel, dayNum, longLabel } from './utils'
@@ -16,6 +16,7 @@ import { ClientesView } from './views/ClientesView'
 import { ObrasView } from './views/ObrasView'
 import { PresupuestosView } from './views/PresupuestosView'
 import { EmpleadosView } from './views/EmpleadosView'
+import { ProspeccionView } from './views/ProspeccionView'
 
 const PANEL_PASSWORD = 'provenza2024'
 const SESSION_KEY = 'provenza_panel_auth'
@@ -68,6 +69,7 @@ function PanelInner() {
   const [presupuestos,setPresupuestos]=useState<Presupuesto[]>([])
   const [presupuestolineas,setPresupuestolineas]=useState<PresupuestoLinea[]>([])
   const [facturas,setFacturas]=useState<Factura[]>([])
+  const [prospectos,setProspectos]=useState<Prospecto[]>([])
 
   const applyData=(d:Record<string,unknown[]>)=>{
     setClientes(d.clientes as Cliente[]); setVisitas(d.visitas as Visita[]); setCobros(d.cobros as Cobro[])
@@ -76,6 +78,7 @@ function PanelInner() {
     setAsignaciones(d.asignaciones as Asignacion[]); setLeads(d.leads as Lead[])
     setPresupuestos(d.presupuestos as Presupuesto[]); setPresupuestolineas(d.presupuestolineas as PresupuestoLinea[])
     setFacturas(d.facturas as Factura[])
+    setProspectos((d.prospectos||[]) as Prospecto[])
   }
 
   useEffect(()=>{ loadAll().then(d=>{ applyData(d); setLoaded(true) }) },[])
@@ -140,6 +143,9 @@ function PanelInner() {
   const cycleJornada=(empleadoId:string,fecha:string)=>{const ex=jornadas.find(j=>j.empleadoId===empleadoId&&j.fecha===fecha);let next:Jornada[];if(!ex)next=[...jornadas,{id:uid(),empleadoId,fecha,pagado:false}];else if(!ex.pagado)next=jornadas.map(j=>j.id===ex.id?{...j,pagado:true}:j);else next=jornadas.filter(j=>j.id!==ex.id);setJornadas(next);persist('jornadas',next)}
   const markAllPaid=(empleadoId:string)=>{const next=jornadas.map(j=>j.empleadoId===empleadoId&&!j.pagado?{...j,pagado:true}:j);setJornadas(next);persist('jornadas',next)}
   const addPago=(empleadoId:string,data:Omit<Pago,'id'|'empleadoId'>)=>{const next=[...pagos,{id:uid(),empleadoId,...data}];setPagos(next);persist('pagos',next)}
+  const addProspecto=(data:Omit<Prospecto,'id'>)=>{const next=[...prospectos,{id:uid(),...data}];setProspectos(next);persist('prospectos',next)}
+  const updateProspecto=(id:string,data:Partial<Prospecto>)=>{const next=prospectos.map(p=>p.id===id?{...p,...data}:p);setProspectos(next);persist('prospectos',next)}
+  const deleteProspecto=(id:string)=>{const next=prospectos.filter(p=>p.id!==id);setProspectos(next);persist('prospectos',next)}
 
   const dataBag={clientes,visitas,cobros,tareas}
   const week=useMemo(()=>weekDaysOf(selectedDate),[selectedDate])
@@ -165,6 +171,7 @@ function PanelInner() {
         {view==='clientes'&&<div className="aa-datenav__label aa-datenav__label--solo">Clientes</div>}
         {view==='equipo'&&<div className="aa-datenav__label aa-datenav__label--solo">Equipo</div>}
         {view==='presupuestos'&&<div className="aa-datenav__label aa-datenav__label--solo">Presupuestos</div>}
+        {view==='prospeccion'&&<div className="aa-datenav__label aa-datenav__label--solo">Prospección</div>}
       </header>
       <main className="aa-main">
         <div style={{margin:'16px 16px 0',padding:'10px 14px',background:'rgba(201,162,39,0.08)',border:'1px solid rgba(201,162,39,0.25)',borderRadius:10,display:'flex',alignItems:'center',justifyContent:'space-between',gap:8}}><span style={{fontSize:12,color:'#C9A227'}}>{isEmpty?'Panel vacío — ¿faltan datos?':'Sincronización activa'}</span><button className="aa-addsmall aa-addsmall--brass" onClick={recoverFromCloud} disabled={recovering}>{recovering?'Recuperando…':'Recuperar de la nube'}</button></div>
@@ -181,6 +188,7 @@ function PanelInner() {
         {view==='presupuestos'&&<PresupuestosView presupuestos={presupuestos} presupuestolineas={presupuestolineas} clientes={clientes} facturas={facturas} onAddPresupuestoWithLineas={addPresupuestoWithLineas} onUpdatePresupuesto={updatePresupuesto} onAddLinea={addLinea} onDeleteLinea={id=>deleteItem('presupuestolineas',id)} onConvertirObra={convertirObra} onAddFactura={addFactura} onUpdateFactura={updateFactura} onDeleteFactura={deleteFactura}/>}
         {view==='clientes'&&<ClientesView clientes={clientes} visitas={visitas} cobros={cobros} leads={leads} onAddCliente={addCliente} onDeleteCliente={id=>deleteItem('clientes',id)} onUpdateCliente={updateCliente} onAddCobro={addCobroCliente} onAddLead={addLead} onSetLeadEstado={setLeadEstado} onDeleteLead={id=>deleteItem('leads',id)} onConvertLead={convertLead}/>}
         {view==='equipo'&&<EmpleadosView empleados={empleados} pagos={pagos} jornadas={jornadas} obras={obras} obraitems={obraitems} asignaciones={asignaciones} onAddEmpleado={addEmpleado} onDeleteEmpleado={id=>deleteItem('empleados',id)} onAddPago={addPago} onCycleJornada={cycleJornada} onMarkAllPaid={markAllPaid}/>}
+        {view==='prospeccion'&&<ProspeccionView prospectos={prospectos} onAdd={addProspecto} onUpdate={updateProspecto} onDelete={deleteProspecto}/>}
       </main>
       <button className="aa-fab" onClick={()=>setAddOpen(true)} aria-label="Añadir"><Plus size={24}/></button>
       <nav className="aa-tabbar">
@@ -190,6 +198,7 @@ function PanelInner() {
         <button className={`aa-tab${view==='presupuestos'?' is-active':''}`} onClick={()=>setView('presupuestos')}><Receipt size={18}/><span>Presup.</span></button>
         <button className={`aa-tab${view==='clientes'?' is-active':''}`} onClick={()=>setView('clientes')}><Users size={18}/><span>Clientes</span></button>
         <button className={`aa-tab${view==='equipo'?' is-active':''}`} onClick={()=>setView('equipo')}><Wallet size={18}/><span>Equipo</span></button>
+        <button className={`aa-tab${view==='prospeccion'?' is-active':''}`} onClick={()=>setView('prospeccion')}><MapPin size={18}/><span>Bilbao</span></button>
       </nav>
       <AddSheet open={addOpen} onClose={()=>setAddOpen(false)} clientes={clientes} defaultDate={selectedDate} onCreate={handleCreate}/>
     </div>
