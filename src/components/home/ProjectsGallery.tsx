@@ -40,7 +40,11 @@ const PROJECTS = [
   },
 ]
 
-export default function ProjectsGallery() {
+interface ProjectsGalleryProps {
+  onPresupuesto?: () => void
+}
+
+export default function ProjectsGallery({ onPresupuesto }: ProjectsGalleryProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
@@ -66,7 +70,7 @@ export default function ProjectsGallery() {
   const onMouseUp = useCallback(() => setIsDragging(false), [])
 
   return (
-    <section style={{ background: '#f5f4f2', paddingTop: 120 }}>
+    <section id="proyectos" style={{ background: '#f5f4f2', paddingTop: 120 }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 48px' }}>
         <Reveal>
           <p style={{
@@ -113,7 +117,7 @@ export default function ProjectsGallery() {
         className="gallery-scroll"
       >
         {PROJECTS.map((project, idx) => (
-          <ProjectCard key={project.photo} project={project} idx={idx} dragMoved={dragMoved} />
+          <ProjectCard key={project.photo} project={project} idx={idx} dragMoved={dragMoved} onPresupuesto={onPresupuesto} />
         ))}
       </div>
 
@@ -149,16 +153,19 @@ function ProjectCard({
   project,
   idx,
   dragMoved,
+  onPresupuesto,
 }: {
   project: typeof PROJECTS[0]
   idx: number
   dragMoved: React.MutableRefObject<boolean>
+  onPresupuesto?: () => void
 }) {
   return (
     <Reveal delay={idx * 0.06}>
       <div
         className="project-card"
-        onClick={() => { if (dragMoved.current) return }}
+        style={{ cursor: 'pointer' }}
+        onClick={() => { if (dragMoved.current) return; onPresupuesto?.() }}
       >
         <img
           src={project.url}

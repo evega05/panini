@@ -72,7 +72,7 @@ export default function BudgetWizard() {
   const handleSubmit = () => {
     setSubmitted(true)
     const msg = buildWhatsAppMessage(data)
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank')
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank', 'noopener')
   }
 
   if (!isOpen) return null
@@ -224,6 +224,7 @@ export default function BudgetWizard() {
               <p className="text-sm text-gray-500 m-0 mb-2">Confirma tu solicitud antes de enviar:</p>
               {[
                 { label: 'Servicio', value: GREMIOS.find((g) => g.id === data.gremioId)?.nombre },
+                { label: 'Descripción', value: data.descripcion },
                 { label: 'Municipio', value: data.municipio },
                 { label: 'Urgente', value: data.urgente ? 'Sí' : 'No' },
                 { label: 'Nombre', value: data.nombre },
