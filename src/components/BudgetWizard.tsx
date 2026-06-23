@@ -8,6 +8,21 @@ const WHATSAPP_NUMBER = '34624118284'
 
 const STEPS = ['Servicio', 'Descripción', 'Contacto', 'Listo']
 
+const PLACEHOLDERS: Record<string, string> = {
+  fontaneria:    'Ej: Tengo una fuga bajo el lavabo, lleva días goteando...',
+  electricidad:  'Ej: Se fue la luz en la cocina, los enchufes no tienen tensión...',
+  pintura:       'Ej: Quiero pintar el salón y el pasillo, unos 60m² en total...',
+  albanileria:   'Ej: Hay una grieta en la pared del dormitorio que ha ido creciendo...',
+  carpinteria:   'Ej: La puerta de entrada está deteriorada, necesito cambiarla...',
+  climatizacion: 'Ej: Quiero instalar un split en el salón, unos 25m²...',
+  'cocinas-banos': 'Ej: Reforma completa del baño, cambiar bañera por ducha...',
+  suelos:        'Ej: Quiero cambiar el suelo del salón, unos 40m²...',
+  cerrajeria:    'Ej: Se me ha quedado la llave dentro y no puedo abrir...',
+  cristaleria:   'Ej: Se rompió el cristal de una ventana, necesito reemplazarlo...',
+  limpieza:      'Ej: Necesito limpieza a fondo de un piso después de una reforma...',
+  arquitectura:  'Ej: Quiero reformar toda la vivienda y necesito proyecto técnico...',
+}
+
 const EMPTY: WizardData = {
   gremioId: '',
   descripcion: '',
@@ -135,7 +150,7 @@ export default function BudgetWizard() {
                 <textarea
                   value={data.descripcion}
                   onChange={(e) => update('descripcion', e.target.value)}
-                  placeholder="Ej: Tengo una fuga de agua bajo el lavabo del baño, lleva varios días goteando..."
+                  placeholder={PLACEHOLDERS[data.gremioId] ?? 'Cuéntanos qué necesitas...'}
                   rows={4}
                   className="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm resize-none outline-none focus:border-black transition-colors"
                   style={{ fontFamily: "'Inter', sans-serif" }}
