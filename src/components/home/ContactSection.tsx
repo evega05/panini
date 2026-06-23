@@ -65,6 +65,7 @@ interface ContactSectionProps {
 export default function ContactSection({ onPresupuesto: _onPresupuesto }: ContactSectionProps) {
   const [activeTab, setActiveTab] = useState<'consulta' | 'visita'>('consulta')
   const [open, setOpen] = useState(isOpenNow())
+  const today = new Date().toISOString().split('T')[0]
 
   // Form states
   const [consulta, setConsulta] = useState({
@@ -95,6 +96,7 @@ export default function ContactSection({ onPresupuesto: _onPresupuesto }: Contac
 
   const handleVisitaSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    if (!visita.nombre || !visita.telefono || !visita.fecha || !visita.hora) return
     const msg = encodeURIComponent(
       `Hola! Quiero reservar una visita.\nNombre: ${visita.nombre}\nTeléfono: ${visita.telefono}\nFecha: ${visita.fecha}\nHora: ${visita.hora}`
     )
@@ -343,6 +345,7 @@ export default function ContactSection({ onPresupuesto: _onPresupuesto }: Contac
                 <form onSubmit={handleVisitaSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <input
                     type="date"
+                    min={today}
                     style={{ ...inputStyle, colorScheme: 'dark' }}
                     value={visita.fecha}
                     onChange={e => setVisita(p => ({ ...p, fecha: e.target.value }))}

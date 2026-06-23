@@ -36,7 +36,7 @@ export default function Home() {
       <FAQSection />
       <CoverageSection />
       <ContactSection onPresupuesto={openWizard} />
-      <FloatingButtons />
+      <FloatingButtons onPresupuesto={openWizard} />
       <ExitPopup />
       <SurveyWidget onPresupuesto={openWizard} />
     </div>
