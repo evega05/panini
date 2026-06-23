@@ -124,7 +124,7 @@ export default function Testimonials() {
                 }}
               >
                 {/* Stars */}
-                <p style={{ color: '#FBBC05', fontSize: '.85rem', marginBottom: 18, margin: '0 0 18px' }}>★★★★★</p>
+                <p style={{ color: '#FBBC05', fontSize: '.85rem', margin: '0 0 18px' }}>★★★★★</p>
 
                 {/* Quote */}
                 <blockquote style={{
