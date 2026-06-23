@@ -4,6 +4,14 @@ interface FloatingButtonsProps {
   onPresupuesto?: () => void
 }
 
+function isOpenNow(): boolean {
+  const now = new Date()
+  const day = now.getDay()
+  if (day === 0 || day === 6) return false
+  const h = now.getHours()
+  return h >= 8 && h < 19
+}
+
 type ChatMessage = { from: 'bot' | 'user'; text: string }
 
 const INITIAL_MESSAGES: ChatMessage[] = [
@@ -15,6 +23,12 @@ export default function FloatingButtons({ onPresupuesto }: FloatingButtonsProps)
   const [chatOpen, setChatOpen] = useState(false)
   const [badgeVisible, setBadgeVisible] = useState(true)
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES)
+  const [online, setOnline] = useState(isOpenNow())
+
+  useEffect(() => {
+    const interval = setInterval(() => setOnline(isOpenNow()), 60000)
+    return () => clearInterval(interval)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => setShowTop(window.scrollY > 600)
@@ -179,9 +193,9 @@ export default function FloatingButtons({ onPresupuesto }: FloatingButtonsProps)
               <p style={{ margin: 0, color: '#fff', fontSize: '.88rem', fontWeight: 500, fontFamily: 'Inter, sans-serif' }}>
                 Equipo Provenza
               </p>
-              <p style={{ margin: 0, fontSize: '.72rem', color: '#22c55e', fontFamily: 'Inter, sans-serif', display: 'flex', alignItems: 'center', gap: 5 }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
-                En línea
+              <p style={{ margin: 0, fontSize: '.72rem', color: online ? '#22c55e' : '#9ca3af', fontFamily: 'Inter, sans-serif', display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: online ? '#22c55e' : '#9ca3af', display: 'inline-block' }} />
+                {online ? 'En línea' : 'Lun–Vie 8–19h'}
               </p>
             </div>
             <button
