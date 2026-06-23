@@ -26,7 +26,7 @@ export default function Home() {
       <ServiceMarquee />
       <Stories />
       <ServicesSection onPresupuesto={openWizard} />
-      <ProjectsGallery />
+      <ProjectsGallery onPresupuesto={openWizard} />
       <StatsSection />
       <ProgressSection />
       <Testimonials />

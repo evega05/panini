@@ -2,7 +2,7 @@ import { Reveal } from '../../hooks/useReveal'
 
 export default function AboutSection() {
   return (
-    <section style={{ background: '#fff', padding: '120px 0' }}>
+    <section id="nosotros" style={{ background: '#fff', padding: '120px 0' }}>
       <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 48px' }}>
         <div
           className="about-grid"

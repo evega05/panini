@@ -267,16 +267,18 @@ export default function ContactSection({ onPresupuesto: _onPresupuesto }: Contac
                 <form onSubmit={handleConsultaSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
                     <input
+                      required
                       style={inputStyle}
-                      placeholder="Nombre"
+                      placeholder="Nombre *"
                       value={consulta.nombre}
                       onChange={e => setConsulta(p => ({ ...p, nombre: e.target.value }))}
                       onFocus={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,.38)')}
                       onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,.1)')}
                     />
                     <input
+                      required
                       style={inputStyle}
-                      placeholder="Teléfono"
+                      placeholder="Teléfono *"
                       type="tel"
                       value={consulta.telefono}
                       onChange={e => setConsulta(p => ({ ...p, telefono: e.target.value }))}
@@ -372,16 +374,18 @@ export default function ContactSection({ onPresupuesto: _onPresupuesto }: Contac
                     </optgroup>
                   </select>
                   <input
+                    required
                     style={inputStyle}
-                    placeholder="Nombre"
+                    placeholder="Nombre *"
                     value={visita.nombre}
                     onChange={e => setVisita(p => ({ ...p, nombre: e.target.value }))}
                     onFocus={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,.38)')}
                     onBlur={e => (e.currentTarget.style.borderColor = 'rgba(255,255,255,.1)')}
                   />
                   <input
+                    required
                     style={inputStyle}
-                    placeholder="Teléfono"
+                    placeholder="Teléfono *"
                     type="tel"
                     value={visita.telefono}
                     onChange={e => setVisita(p => ({ ...p, telefono: e.target.value }))}
