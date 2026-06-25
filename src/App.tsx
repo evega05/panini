@@ -3,10 +3,14 @@ import { WizardProvider } from './context/WizardContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import BudgetWizard from './components/BudgetWizard'
+import CookieBanner from './components/CookieBanner'
 import Home from './pages/Home'
 import GremioLanding from './pages/GremioLanding'
 import Profesionales from './pages/Profesionales'
 import Panel from './pages/admin/Panel'
+import AvisoLegal from './pages/AvisoLegal'
+import Privacidad from './pages/Privacidad'
+import Cookies from './pages/Cookies'
 import NotFound from './pages/NotFound'
 
 function InnerApp() {
@@ -26,12 +30,16 @@ function InnerApp() {
           <Route path="/servicios/:slug" element={<GremioLanding />} />
           <Route path="/servicios/:slug/:municipio" element={<GremioLanding />} />
           <Route path="/profesionales" element={<Profesionales />} />
+          <Route path="/aviso-legal" element={<AvisoLegal />} />
+          <Route path="/privacidad" element={<Privacidad />} />
+          <Route path="/cookies" element={<Cookies />} />
           <Route path="/admin/*" element={null} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
       <BudgetWizard />
+      <CookieBanner />
     </>
   )
 }
